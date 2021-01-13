@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Purchase_Sell_Stock.MVC.ProcurementFunction
+namespace Purchase_Sell_Stock.MVC.Models.ProcurementFunction
 {
     /// <summary>
     /// 采购表
