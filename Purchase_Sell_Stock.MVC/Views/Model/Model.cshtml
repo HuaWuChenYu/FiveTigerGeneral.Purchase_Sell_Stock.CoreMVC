@@ -31,7 +31,9 @@
                 </li>
             </ul>
             <ul class="layui-nav layui-layout-right">
-                <li class="layui-nav-item"><a href="">退了</a></li>
+                <li class="layui-nav-item"><a href="">文本框查询</a></li>
+                <li class="layui-nav-item"><a href="">图片1</a></li>
+                <li class="layui-nav-item"><a href="">图片2</a></li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">
                         <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
@@ -83,13 +85,20 @@
             © layui.com - 底部固定区域
         </div>
     </div>
-    <script src="../src/layui.js"></script>
-    <script>
-        //JavaScript代码区域
-        layui.use('element', function () {
-            var element = layui.element;
-
-        });
-    </script>
+    
 </body>
 </html>
+<script>
+    layui.use('element', function () {
+        var element = layui.element;
+        var $ = layui.$;
+        $.ajax({
+            url: "",
+            data: "",
+            contentType: "application/json",
+            success: function (d) {
+
+            }
+        })
+    });
+</script>
