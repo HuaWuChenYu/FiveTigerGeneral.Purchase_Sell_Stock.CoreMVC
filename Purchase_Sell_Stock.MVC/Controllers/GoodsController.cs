@@ -25,11 +25,6 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         #region 商品模块功能
         public IActionResult ShowGood(int pageIndex=1, int pageSize=2, string goodsName=null, string goodsType = null, string goodsClassify = null, int storeId=1)
         {
-            string url = "http://localhost:49760/api/GetGoodsList" + $"/{ pageIndex}/{ pageSize}/{ goodsName}/{ goodsType}/{ goodsClassify}/{ storeId}";
-            var by = new WebClient().DownloadData(url);
-            var result2 = System.Text.Encoding.UTF8.GetString(by);
-            GoodsPaging<Goods> ss = JsonConvert.DeserializeObject<GoodsPaging<Goods>>(result2);//把json转成对象
-            //pageIndex, pageSize, goodsName, goodsType, goodsClassify, storeId
             return View();
         }
         #endregion
