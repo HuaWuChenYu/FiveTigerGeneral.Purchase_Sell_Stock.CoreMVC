@@ -1,0 +1,93 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+</head>
+<body>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">验证手机</label>
+                <div class="layui-input-inline">
+                    <input type="tel" id="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">验证码</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="yzm" lay-verify="yzm" autocomplete="off" class="layui-input">
+                    <input id="btn" type="button" value="获取验证码" onclick="settimes()" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-submit="" id="demo1">登录</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        layui.use(['form','layer'], function () {
+            var form = layui.form
+                , layer = layui.layer;
+            var $ = layui.$;
+            //获取验证码点击事件
+            function settimes() {
+                //获取手机号
+                var phone = $("#Text1").val();
+                var partten = /^1[3,5,8,9,7]\d{9}$/;
+                //判断手机号格式是否合格
+                if (partten.test(phone)) {
+
+                    $("#tishi").text(" ");
+                    //使用ajax发送数据
+                    $.ajax({
+                        url: "/default/Page_Load?mobile=" + phone,
+                        type: "get",
+                        dataType: "text",
+                        success: function (d) {
+                            //将返回的验证码放入隐藏域
+                            $("#ss").val(d);
+                        }
+                    })
+                }
+                else {
+                    $("#tishi").text("手机格式不正确");
+                    return;
+                }
+            }
+            //监听提交
+            //表单取值
+            $('#demo1').on('click', function () {
+                $.ajax({
+                    url: "http://localhost:49760/api/Logins/" + $("#phone").val(),
+                    //data: {},
+                    type: "get",
+                    contentType: 'application/json',
+                    success: function (d) {
+                        if (d > 0) {
+                            alert('验证通过');
+                            location.href = '/Login/';
+                        }
+                        else {
+                            alert('验证失败');
+                        }
+                    }
+                })
+            });
+        });
+        
+
+    </script>
+</body>
+</html>
