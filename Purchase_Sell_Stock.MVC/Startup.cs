@@ -22,6 +22,16 @@ namespace Purchase_Sell_Stock.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //配置跨域处理，允许所有来源：
+            services.AddCors(options =>
+            {
+                options.AddPolicy("any", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()   //必须写AllowAnyHeader否则前端掉不了 
+                    //.AllowCredentials()//指定处理cookie
+                .AllowAnyOrigin(); //允许任何来源的主机访问
+                });
+            });
             services.AddControllersWithViews();
         }
 
@@ -37,7 +47,7 @@ namespace Purchase_Sell_Stock.MVC
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
+            app.UseCors("any");//跨域配置
             app.UseRouting();
 
             app.UseAuthorization();
