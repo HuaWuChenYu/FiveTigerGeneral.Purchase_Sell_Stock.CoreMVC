@@ -13,7 +13,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
     public class GoodsController : Controller
     {
         #region 商品模块页面
-        [HttpPost]
+        [HttpGet]
         public IActionResult ShowGood()//商品页面
         {
             return View();
@@ -21,7 +21,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         #endregion
 
         //=================================================================//
-        [HttpGet]
+        [HttpPost]
         #region 商品模块功能
         public IActionResult ShowGood(int pageIndex=1, int pageSize=2, string goodsName=null, string goodsType = null, string goodsClassify = null, int storeId=1)
         {

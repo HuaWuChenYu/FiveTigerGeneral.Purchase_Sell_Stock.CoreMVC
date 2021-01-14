@@ -13,7 +13,120 @@
     <link href="~/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
-
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品分类</label>
+            <div class="layui-input-block">
+                <select id="type" lay-filter="aihao">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品类型</label>
+            <div class="layui-input-block">
+                <select name="Classify" lay-filter="aihao">
+                    <option value="">全部</option>
+                    <option value="成品">成品</option>
+                    <option value="原料">原料</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">查询</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+    <table class="layui-hide" id="test"></table>
 </body>
 </html>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="AddGood">创建档案</button>
+    </div>
+</script>
 
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="showOne">明细</a>
+</script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        var $ = layui.$;
+        //商品分类
+        $.ajax({
+            url: 'http://localhost:49760/api/GetGoodsTypeList/0/" "',
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                $("#type").append('<option values="-1">=全部=</option>');
+                $(d).each(function () {
+                    var str = '<option values="' + this.GoodsTypeId + '">' + this.GoodsTypeName + '</option>';
+                    $("#type").append(str);
+                })
+                layui.form.render("select");
+            }
+        })
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:49760/api/GetGoodsList/' + 1 + '/' + 10 + '/' + " " + '/' + " " + '/' + " " + '/1'
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , title: '用户数据表'
+            , cols: [[
+                , { field: 'GoodsId', title: '编号', width: 50, fixed: 'left', unresize: true, sort: true }
+                , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
+                , { field: 'GoodsPhoto', title: '商品图片', width: 150 }
+                , { field: 'GoodsSize', title: '规格', width: 150, sort: true }
+                , { field: 'Price', title: '商品价格', width: 150 }
+                , { field: 'GoodsState', title: '商品上下架状态', width: 150 }
+                , { field: 'Goodsclassify', title: '商品类型', width: 150 }
+                , { field: 'GoodsTypeName', title: '商品分类名称', width: 150, sort: true }
+                , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
+                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+            ]]
+            //, page: true
+            , id: 'testReload'
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'AddGood':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.prompt({
+                    formType: 2
+                    , value: data.email
+                }, function (value, index) {
+                    obj.update({
+                        email: value
+                    });
+                    layer.close(index);
+                });
+            }
+        });
+    });
+</script>
