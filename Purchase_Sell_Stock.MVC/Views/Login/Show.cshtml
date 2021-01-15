@@ -8,7 +8,9 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Show</title>
+    <script src="~/layui/layui.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <title>账号登陆</title>
 </head>
 <body>
     <form class="layui-form" action="">
@@ -23,7 +25,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-block">
-                <input type="text" id="pwd" name="pwd" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入密码（8-12位，包含数字及字母）" autocomplete="off" class="layui-input">
+                <input type="text" id="userpassword" name="userpassword" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入密码（8-12位，包含数字及字母）" autocomplete="off" class="layui-input">
             </div>
             <div id="msg" style="margin-left: 40px"></div>
         </div>
@@ -31,36 +33,34 @@
             <div class="layui-input-block">
                 <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">登录</button>
             </div>
-            <div>
-                <a>忘记密码</a>
-                <a class="layui-btn layui-btn-normal" href="/Login/Index">前去 layer 官网</a>
-            </div>
+
         </div>
-        <script>
-            layui.use(['form', 'layer', 'table'], function () {
-                var form = layui.form
-                    , layer = layui.layer
-                var $ = layui.$;
-                //监听提交
-                form.on('submit(demo1)', function (data) {
-                    $.ajax({
-                        url: 'http://localhost:49760/api/Login',
-                        type: 'post',
-                        data: { name: data.name, pwd: data.pwd },
-                        success: function (d) {
-                            if (d>0) {
-                                layer.alert("登录成功", { icon: 6, time: 2000 });
-                                location.href = '/Goods/XS';
-                            }
-                            else {
-                                layer.msg("登录失败");
-                            }
-                        }
-                    })
-                    return false;
-                });
-            });
-        </script>
+
     </form>
+    <script>
+        layui.use(['form', 'layer', 'table'], function () {
+            var form = layui.form
+                , layer = layui.layer
+            var $ = layui.$;
+            //监听提交
+            form.on('submit(demo1)', function (data) {
+                $.ajax({
+                    url: 'http://localhost:49760/api/Login',
+                    type: 'get',
+                    data: { name: data.name, pwd: data.pwd },
+                    success: function (d) {
+                        if (d > 0) {
+                            layer.alert("登录成功", { icon: 6, time: 2000 });
+                            location.href = '/Goods/Index';
+                        }
+                        else {
+                            layer.msg("登录失败");
+                        }
+                    }
+                })
+                return false;
+            });
+        });
+    </script>
 </body>
 </html>

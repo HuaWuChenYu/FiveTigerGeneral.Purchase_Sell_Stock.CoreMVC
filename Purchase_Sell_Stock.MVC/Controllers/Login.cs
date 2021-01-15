@@ -79,6 +79,11 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
+        [Route("/Login/ForgetPwd")]
+        public ActionResult ForgetPwd()
+        {
+            return View();
+        }
         public ActionResult XS()
         {
             return View();

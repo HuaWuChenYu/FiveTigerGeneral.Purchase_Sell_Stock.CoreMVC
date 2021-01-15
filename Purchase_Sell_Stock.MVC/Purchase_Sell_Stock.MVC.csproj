@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <Reference Include="AopSdk">
-      <HintPath>C:\Users\31566\.nuget\packages\newtonsoft.json\11.0.2\lib\netstandard2.0\AopSdk.dll</HintPath>
+      <HintPath>bin\Debug\netcoreapp3.1\AopSdk.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\辅助文件\Newtonsoft.Json.dll</HintPath>
