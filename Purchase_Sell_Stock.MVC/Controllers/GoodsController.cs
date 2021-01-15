@@ -13,20 +13,20 @@ namespace Purchase_Sell_Stock.MVC.Controllers
     public class GoodsController : Controller
     {
         #region 商品模块页面
-        [HttpGet]
         public IActionResult ShowGood()//商品页面
+        {
+            return View();
+        }
+        public IActionResult AddGood()//添加商品页面
         {
             return View();
         }
         #endregion
 
         //=================================================================//
-        [HttpPost]
+
         #region 商品模块功能
-        public IActionResult ShowGood(int pageIndex=1, int pageSize=2, string goodsName=null, string goodsType = null, string goodsClassify = null, int storeId=1)
-        {
-            return View();
-        }
+
         #endregion
     }
 }
