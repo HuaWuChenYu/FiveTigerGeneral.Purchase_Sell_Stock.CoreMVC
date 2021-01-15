@@ -11,18 +11,7 @@
     <title>ShowGood</title>
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
-    <style type="text/css">
-        body {
-            background-image: url('../../img/1119687681748af67ao.jpg');
-            background-size: 100%;
-        }
 
-        .layui-table-cell {
-            text-align: center;
-            height: auto;
-            white-space: normal;
-        }
-    </style>
 </head>
 <body>
     <form class="layui-form" action="">
@@ -56,8 +45,25 @@
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+        <div>
+            <a href="#" id="First">首页</a>
+            <a href="#" id="Prev">上一页</a>
+            <a href="#" id="Next">下一页</a>
+            <a href="#" id="Last">尾页</a>
+            当前第<span id="dq"></span>页
+            共<span id="gy"></span>页
+            共<span id="gt"></span>条
+            每页<span id="my"></span>条
+        </div>
     </form>
-    <table class="layui-hide" id="test" lay-filter="test"></table>
+
+
+    <div>
+        <input id="pageIndexH" value="1" type="hidden" />
+        <input id="pageSizeH" type="hidden" value="5" />
+        <input id="countH" type="hidden" />
+    </div>
 </body>
 </html>
 <script type="text/html" id="toolbarDemo">
@@ -98,9 +104,10 @@
             }
         })
 
+        //表格初次加载
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/GetGoodsList/' + 1 + '/' + 10 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
+            , url: 'http://localhost:49760/api/GetGoodsList/' + 1 + '/' + 1 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , title: '用户数据表'
             , cols: [[
@@ -116,21 +123,25 @@
                 , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
                 , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
             ]]
-            , page: true
             , done: function (res) {
                 //如果是异步请求数据方式，res即为你接口返回的信息。
                 //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
                 $("#name").val(" ");
+                $("#countH").val(res.count);
+                $("#dq").text(1);
+                $("#gy").text(Math.ceil( res.count * 1.0 / 1));
+                $("#gt").text(res.count);
+                $("#my").text(1);
             }
             , id:'testReload'
         });
 
-        //表单取值
+        //查询
         $('#sel').on('click', function () {
             //执行重载
             table.render({
                 elem: '#test'
-                , url: 'http://localhost:49760/api/GetGoodsList/' + 1 + '/' + 10 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
+                , url: 'http://localhost:49760/api/GetGoodsList/' + $("#pageIndexH").val() + '/' + 1 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
                 , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
                 , title: '用户数据表'
                 , cols: [[
@@ -146,15 +157,172 @@
                     , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
                     , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
                 ]]
-                , page: true
+                //, page: true
                 , done: function (res) {
                     //如果是异步请求数据方式，res即为你接口返回的信息。
                     //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
                     $("#name").val(" ");
+                    $("#countH").val(res.count);
+                    $("#dq").text(1);
+                    $("#gy").text(Math.ceil(res.count * 1.0 / 1));
+                    $("#gt").text(res.count);
+                    $("#my").text(1);
                 }
                 , id: 'testReload'
             });
         });
+
+        //$("#dq").text();//当前
+        //$("#gy").text();//共页
+        //$("#gt").text();//共条
+        //$("#my").text();//每页条
+
+        //首页
+        $("#First").on('click', function (d) {
+            table.render({
+                elem: '#test'
+                , url: 'http://localhost:49760/api/GetGoodsList/' + 1 + '/' + 1 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
+                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                , title: '用户数据表'
+                , cols: [[
+                    { type: 'checkbox' }
+                    , { field: 'GoodsId', title: '编号', width: 150, sort: true }
+                    , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
+                    , { field: 'GoodsPhoto', title: '商品图片', width: 150, unresize: true, templet: '<div><img src = "{{ d.GoodsPhoto}}" alt = "" /></div>' }
+                    , { field: 'GoodsSize', title: '规格', width: 150 }
+                    , { field: 'Price', title: '商品价格', width: 150 }
+                    , { field: 'GoodsState', title: '商品上下架状态', width: 150, templet: '#state' }
+                    , { field: 'Goodsclassify', title: '商品类型', width: 150 }
+                    , { field: 'GoodsTypeName', title: '商品分类名称', width: 150 }
+                    , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
+                    , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                ]]
+                , done: function (res) {
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    $("#name").val(" ");
+                    $("#countH").val(res.count);
+                    $("#dq").text(1);
+                    $("#gy").text(Math.ceil(res.count * 1.0 / 1));
+                    $("#gt").text(res.count);
+                    $("#my").text(1);
+                }
+                , id: 'testReload'
+            });
+        })
+
+        //上一页
+        $("#Prev").on('click', function (d) {
+            if (Number($("#dq").text()) > 1) {
+                $("#dq").text(Number($("#dq").text()) - 1)
+            }
+            else {
+                alert("已经是第一页了");
+                return;
+            }
+            table.render({
+                elem: '#test'
+                , url: 'http://localhost:49760/api/GetGoodsList/' + $("#dq").text() + '/' + 1 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
+                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                , title: '用户数据表'
+                , cols: [[
+                    { type: 'checkbox' }
+                    , { field: 'GoodsId', title: '编号', width: 150, sort: true }
+                    , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
+                    , { field: 'GoodsPhoto', title: '商品图片', width: 150, unresize: true, templet: '<div><img src = "{{ d.GoodsPhoto}}" alt = "" /></div>' }
+                    , { field: 'GoodsSize', title: '规格', width: 150 }
+                    , { field: 'Price', title: '商品价格', width: 150 }
+                    , { field: 'GoodsState', title: '商品上下架状态', width: 150, templet: '#state' }
+                    , { field: 'Goodsclassify', title: '商品类型', width: 150 }
+                    , { field: 'GoodsTypeName', title: '商品分类名称', width: 150 }
+                    , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
+                    , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                ]]
+                , done: function (res) {
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    $("#name").val(" ");
+                    $("#countH").val(res.count);
+                    $("#gy").text(Math.ceil(res.count * 1.0 / 1));
+                    $("#my").text(1);
+                }
+                , id: 'testReload'
+            });
+        })
+
+        //下一页
+        $("#Next").on('click', function (d) {
+            var a = $("#dq").text();
+            if (Number($("#dq").text()) < Number($("#gy").text())) {
+                $("#dq").text(Number(a) + 1)
+            }
+            else {
+                alert("已经是最后一页了");
+                return;
+            }
+            table.render({
+                elem: '#test'
+                , url: 'http://localhost:49760/api/GetGoodsList/' + $("#dq").text() + '/' + 1 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
+                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                , title: '用户数据表'
+                , cols: [[
+                    { type: 'checkbox' }
+                    , { field: 'GoodsId', title: '编号', width: 150, sort: true }
+                    , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
+                    , { field: 'GoodsPhoto', title: '商品图片', width: 150, unresize: true, templet: '<div><img src = "{{ d.GoodsPhoto}}" alt = "" /></div>' }
+                    , { field: 'GoodsSize', title: '规格', width: 150 }
+                    , { field: 'Price', title: '商品价格', width: 150 }
+                    , { field: 'GoodsState', title: '商品上下架状态', width: 150, templet: '#state' }
+                    , { field: 'Goodsclassify', title: '商品类型', width: 150 }
+                    , { field: 'GoodsTypeName', title: '商品分类名称', width: 150 }
+                    , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
+                    , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                ]]
+                , done: function (res) {
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    $("#name").val(" ");
+                    $("#countH").val(res.count);
+                    $("#gy").text(Math.ceil(res.count * 1.0 / 1));
+                    $("#my").text(1);
+                }
+                , id: 'testReload'
+            });
+        })
+
+        //尾页
+        $("#Last").on('click', function (d) {
+            table.render({
+                elem: '#test'
+                , url: 'http://localhost:49760/api/GetGoodsList/' + $("#gy").text() + '/' + 1 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
+                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                , title: '用户数据表'
+                , cols: [[
+                    { type: 'checkbox' }
+                    , { field: 'GoodsId', title: '编号', width: 150, sort: true }
+                    , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
+                    , { field: 'GoodsPhoto', title: '商品图片', width: 150, unresize: true, templet: '<div><img src = "{{ d.GoodsPhoto}}" alt = "" /></div>' }
+                    , { field: 'GoodsSize', title: '规格', width: 150 }
+                    , { field: 'Price', title: '商品价格', width: 150 }
+                    , { field: 'GoodsState', title: '商品上下架状态', width: 150, templet: '#state' }
+                    , { field: 'Goodsclassify', title: '商品类型', width: 150 }
+                    , { field: 'GoodsTypeName', title: '商品分类名称', width: 150 }
+                    , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
+                    , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                ]]
+                , done: function (res) {
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    $("#name").val(" ");
+                    $("#countH").val(res.count);
+                    $("#dq").text(1);
+                    $("#gy").text(Math.ceil(res.count * 1.0 / 1));
+                    $("#gt").text(res.count);
+                    $("#my").text(1);
+                }
+                , id: 'testReload'
+            });
+        })
 
         //头工具栏事件
         table.on('toolbar(test)', function (obj) {
