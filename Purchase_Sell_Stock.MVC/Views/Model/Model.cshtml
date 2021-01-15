@@ -38,7 +38,7 @@
                 </li>
                 <li class="layui-nav-item">
                     <button type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
-                        <i class="layui-icon">&#xe607;</i>
+                        <i class="layui-icon">&#xe607;</i>🔍
                     </button>
                 </li>
                 <li class="layui-nav-item">
@@ -150,8 +150,7 @@
                         contentType: "application/json",
                         success: function (d) {
                             $(d).each(function () {
-                                var url = "/Model/Test";
-                                var str2 = "<dd><a onclick='changeIFrame(\""+url+"\")'>" + this.powersName + "</a></dd>";
+                                var str2 = "<dd><a onclick='changeIFrame(\""+this.powersURL+"\")'>" + this.powersName + "</a></dd>";
                                 $(idstr).append(str2);
                             })
                         }
