@@ -12,7 +12,6 @@
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
-    
 </head>
 <body class="layui-layout-body ">
     <div class="layui-layout layui-layout-admin">
@@ -34,11 +33,16 @@
             </ul>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
-                    
+                    <div class="layui-input-inline">
+                        <input type="text" style="color:black" autocomplete="off" placeholder="请输入关键字全站搜索" class="layui-input">
+                    </div>
+                </li>
+                <li class="layui-nav-item">
+                    <button type="button" class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
                 </li>
                 <li class="layui-nav-item">
                     <button type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
-                        <i class="layui-icon">&#xe607;</i>🔍
+                        <i class="layui-icon">&#xe607;</i>
                     </button>
                 </li>
                 <li class="layui-nav-item">
@@ -115,8 +119,12 @@
     layui.use('element', function () {
         var element = layui.element;
         var $ = layui.$;
+        var id = @ViewBag.id;
+        if (id<=0) {
+            id = 1;
+        }
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetPowers?employeeId=1&powersParentId=0",
+            url: "http://localhost:49760/api/Setting/GetPowers?employeeId="+id+"&powersParentId=0",
             contentType: "application/json",
             success: function (d) {
                 $(d).each(function () {
@@ -136,6 +144,7 @@
             document.getElementById("Side").hidden = false;
             document.getElementById("Body").style.left = "200px";
         }
+        
         $.ajax({
             url: "http://localhost:49760/api/Setting/GetPowers?employeeId=" + eid + "&powersParentId=" + pid,
             contentType: "application/json",

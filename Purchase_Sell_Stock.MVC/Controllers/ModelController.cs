@@ -9,8 +9,9 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class ModelController : Controller
     {
-        public IActionResult Model()
+        public IActionResult Model(int eid)
         {
+            ViewBag.id = eid;
             return View();
         }
         public IActionResult Test()
@@ -18,6 +19,10 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             return View();
         }
         public IActionResult First()
+        {
+            return View();
+        }
+        public IActionResult ChoseStore()
         {
             return View();
         }
