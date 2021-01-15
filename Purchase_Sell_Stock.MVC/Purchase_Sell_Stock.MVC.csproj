@@ -10,9 +10,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="AopSdk">
+      <HintPath>bin\Debug\netcoreapp3.1\AopSdk.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\辅助文件\Newtonsoft.Json.dll</HintPath>
     </Reference>

@@ -1,0 +1,34 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/layui/layui.js"></script>
+    <title>Index</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td><input id="Text1" type="text" placeholder="请输入充值金额" /></td>
+        </tr>
+        <tr>
+            <td><input id="sdk"  type="button" value="提交" /></td>
+        </tr>
+    </table>
+</body>
+</html>
+<script>
+    $('#sdk').on('click', function () {
+        $.get('/Property/alipay', function (date) {
+            $('body').append(date);
+        });
+    });
+    
+</script>
