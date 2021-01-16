@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Purchase_Sell_Stock.MVC.Models.CustomerFunction;
+
 
 namespace Purchase_Sell_Stock.MVC.Controllers
 {

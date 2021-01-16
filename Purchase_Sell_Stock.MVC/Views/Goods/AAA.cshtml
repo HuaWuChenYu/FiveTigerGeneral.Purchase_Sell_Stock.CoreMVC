@@ -1,0 +1,29 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AAA</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</head>
+<body>
+    <input id="Text1" value="5" type="text" />
+</body>
+</html>
+<script>
+    $(function () {
+        $.ajax({
+            url: 'http://localhost:49760/api/AAA/' + $("#Text1").val(),
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                alert(d);
+            }
+        })
+    })
+</script>
