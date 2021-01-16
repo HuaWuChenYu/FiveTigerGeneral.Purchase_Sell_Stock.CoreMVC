@@ -25,9 +25,15 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">商品规格</label>
+            <div class="layui-input-block">
+                <input type="text" id="goodsSize" style="width:400px" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">商品类型</label>
             <div class="layui-input-block" style="width:400px">
-                <select id="goodsclassify" name="goodsclassify" >
+                <select id="goodsclassify" name="goodsclassify">
                     <option value="">全部</option>
                     <option value="成品">成品</option>
                     <option value="原料">原料</option>
@@ -37,21 +43,21 @@
         <div class="layui-form-item">
             <label class="layui-form-label">商品分类</label>
             <div class="layui-input-block" style="width:400px">
-                <select id="goodsTypeName" name="goodsTypeName" >
+                <select id="goodsTypeName" name="goodsTypeName">
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">库存单位</label>
             <div class="layui-input-block" style="width:400px">
-                <select name="goodsUnitName" id="goodsUnitName" >
+                <select name="goodsUnitName" id="goodsUnitName">
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">品牌</label>
             <div class="layui-input-block" style="width:400px">
-                <select name="goodsBrandName" id="goodsBrandName" >
+                <select name="goodsBrandName" id="goodsBrandName">
                 </select>
             </div>
         </div>
@@ -69,7 +75,7 @@
         </div>
         <div class="layui-upload">
             <button type="button" class="layui-btn" id="photo">商品图片</button>
-            <img class="layui-upload-img" id="goodsPhoto" style="width:198px;height:130px" lay-reqtext="请上传图片">
+            <img class="layui-upload-img" id="goodsPhoto" style="width:198px;height:130px">
             <input id="hidPic" type="hidden" />
         </div>
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -181,7 +187,8 @@
             obj.price = Number( $("#price").val());
             obj.goodsBrandName = $("#goodsBrandName option:selected").text(); 
             obj.goodsPhoto = $("#hidPic").val();
-            if (obj.goodsName == "" || obj.goodsName == "" || obj.goodsTypeName == "" || obj.goodsclassify == "" || obj.goodsUnitName == "" || obj.procurementPrice == "" || obj.price == "" || obj.goodsPhoto == "") {
+            obj.goodsSize = $("#goodsSize").val();
+            if (obj.goodsSize == "" || obj.goodsName == "" || obj.goodsName == "" || obj.goodsTypeName == "" || obj.goodsclassify == "" || obj.goodsUnitName == "" || obj.procurementPrice == "" || obj.price == "" || obj.goodsPhoto == "") {
                 return layer.msg("请填写完整信息");
             }
             $.ajax({
@@ -198,6 +205,8 @@
                                 txts[i].value = "";
                             }
                         }
+                        var file = document.getElementById('hidPic');
+                        file.value = ''; //file的value值只能设置为空字符串
                     }
                     else {
                         alert("添加失败");
