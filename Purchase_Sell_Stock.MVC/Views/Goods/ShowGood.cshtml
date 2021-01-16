@@ -18,7 +18,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">商品名称</label>
             <div class="layui-input-block">
-                <input type="text" id="name" value=" " lay-verify="title" style="width:200px" autocomplete="off" placeholder="请输入商品名" class="layui-input">
+                <input type="text" id="name" value="空" lay-verify="title" style="width:200px" autocomplete="off" placeholder="请输入商品名" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -71,7 +71,7 @@
 </html>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="AddGood">创建档案</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="AddGood">创建档案</button>
     </div>
 </script>
 
@@ -87,8 +87,10 @@
     {{#  } }}
 </script>
 <script>
-    layui.use('table', function () {
-        var table = layui.table;
+    layui.use(['table','layer','form'], function () {
+        var table = layui.table
+            , layer = layui.layer
+            , form = layui.form;
         var $ = layui.$;
 
         //商品分类
@@ -332,8 +334,22 @@
             var checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
                 case 'AddGood':
-                    var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
+                    layer.open({
+                        type: 2 //此处以iframe举例
+                        , title: '添加商品档案'
+                        , area: ['600px', '600px']
+                        , shade: 0
+                        , maxmin: false
+                        , content:'/Goods/AddGood'
+                        , btn: ['关闭'] //只是为了演示
+                        , btn2: function () {
+                            layer.closeAll();
+                        }
+                        , zIndex: layer.zIndex //重点1
+                        , success: function (layero) {
+                            layer.setTop(layero); //重点2
+                        }
+                    });
                     break;
             };
         });
