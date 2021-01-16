@@ -18,7 +18,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">商品名称</label>
             <div class="layui-input-block">
-                <input type="text" id="name" value="空" lay-verify="title" style="width:200px" autocomplete="off" placeholder="请输入商品名" class="layui-input">
+                <input type="text" id="name" value="空" style="width:200px" autocomplete="off" placeholder="请输入商品名" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -41,8 +41,8 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="button" class="layui-btn" lay-submit="" id="sel">查询</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button type="button" class="layui-btn" lay-submit="" id="sel" style="background-color:pink">查询</button>
+                <button type="reset" class="layui-btn layui-btn-primary" style="background-color:pink">重置</button>
             </div>
         </div>
         <table class="layui-hide" id="test" lay-filter="test"></table>
@@ -60,10 +60,10 @@
                 <div class="layui-form-mid layui-word-aux">每页</div>
                 <div class="layui-form-mid layui-word-aux" id="my"></div>
                 <div class="layui-form-mid layui-word-aux">条</div>
-                <button type="button" class="layui-btn" lay-submit="" id="First">首页</button>
-                <button type="button" class="layui-btn" lay-submit="" id="Prev">上一页</button>
-                <button type="button" class="layui-btn" lay-submit="" id="Next">下一页</button>
-                <button type="button" class="layui-btn" lay-submit="" id="Last">尾页</button>
+                <button type="button" class="layui-btn" lay-submit="" id="First" style="background-color:pink">首页</button>
+                <button type="button" class="layui-btn" lay-submit="" id="Prev" style="background-color:pink">上一页</button>
+                <button type="button" class="layui-btn" lay-submit="" id="Next" style="background-color:pink">下一页</button>
+                <button type="button" class="layui-btn" lay-submit="" id="Last" style="background-color:pink">尾页</button>
             </div>
         </div>
     </form>
@@ -71,13 +71,14 @@
 </html>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="AddGood">创建档案</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="AddGood" style="background-color:pink">创建档案</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="refresh" onclick="location.href='/Goods/ShowGood'" style="background-color:pink">刷新</button>
     </div>
 </script>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="showOne">明细</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit" style="background-color:pink">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="showOne" style="background-color:pink">明细</a>
 </script>
 <script type="text/html" id="state">
     {{#  if(d.GoodsState === 'true'){ }}
@@ -337,8 +338,13 @@
                     layer.open({
                         type: 2 //此处以iframe举例
                         , title: '添加商品档案'
-                        , area: ['600px', '600px']
+                        , area: ['600px', '800px']
                         , shade: 0
+                        , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                        , offset: [ //为了演示，随机坐标
+                            Math.random() * ($(window).height() - 300)
+                            , Math.random() * ($(window).width() - 390)
+                        ] 
                         , maxmin: false
                         , content:'/Goods/AddGood'
                         , btn: ['关闭'] //只是为了演示
