@@ -1,0 +1,154 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ChoseStore</title>
+    <script src="~/layui/layui.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <style>
+        .bigdiv {
+            padding-left: 100px;
+            padding-top: 150px;
+        }
+        .changjiandianpu {
+            margin-left: 30px;
+            margin-top: 30px;
+            width: 400px;
+            height: 300px;
+            float: left;
+            border: 3px dashed gray;
+        }
+
+            .changjiandianpu:hover {
+                border-color: dodgerblue;
+                color: dodgerblue;
+            }
+        .dianpu {
+            margin-left: 30px;
+            margin-top: 30px;
+            width: 400px;
+            height: 300px;
+            border: 3px solid gray;
+            float: left;
+        }
+            .dianpu:hover {
+                border-color: dodgerblue;
+            }
+        .leftdianpu {
+            width: 100px;
+            height: 300px;
+            float: left
+        }
+        .rightdianpu {
+            width: 300px;
+            height: 300px;
+            float: left
+        }
+        .imgstyle{
+            width:70px;
+            height:70px;
+            border-radius:35px;
+            margin:15px;
+            border:2px solid white;
+            
+        }
+            .imgstyle:hover {
+                border-color: dodgerblue
+            }
+    </style>
+</head>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header" style="background-color:lightpink">
+            <div class="layui-logo" style="color:white"><img style="width:40px;height:40px" src="~/Img/TigerNew.png" />&nbsp;&nbsp;五虎上將</div>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="layui-icon">&#xe66f;</i>
+                        <label id="username"></label>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">返回首页</a></dd>
+                        <dd><a href="">退出登录</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+
+        <div id="Body" class="layui-body bigdiv">
+            <div class="changjiandianpu">
+                <div style="margin-left:160px;margin-top:140px">
+                    <i style="font-weight:600" class="layui-icon layui-icon-home"></i>
+                    <label style="font-weight:600">创建店铺</label>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © layui.com - 底部固定区域
+        </div>
+    </div>
+
+</body>
+</html>
+<script>
+    document.getElementById("Body").style.left = 0;
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+        var $ = layui.$;
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetStoresFromLogin?userPhone=18312345671",
+            contentType: "application/json",
+            success: function (d) {
+                $(d).each(function () {
+                    var str = '<div class="dianpu" onclick="choseStore(' + this.employeeId+')">'
+                        + '<div class="leftdianpu" >'
+                        + '<img class="imgstyle" src="' + this.storeLogo+'" />'
+                        + '</div>'
+                        + '<div class="rightdianpu">'
+                        + '<table style="line-height:37px;margin:20px;">'
+                        + '<tr>'
+                        + '<td><label style="font-weight:600;font-size:20px">' + this.storeName + '</label>&nbsp;&nbsp;&nbsp;&nbsp;<label style="background-color:' + (this.storeStates == 1 ? 'green' : 'orange') +';padding:5px;border-radius:5px;color:white">' + (this.storeStates==1?'运营中':'试用中')+'</label></td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<td style="color:gray;font-weight:600">店铺ID:&nbsp;&nbsp;' + this.storeCoding+'</td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<td><label style="color:gray;font-weight:600">行业:</label>&nbsp;&nbsp; ' + this.industryName+'</td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<td><label style="color:gray;font-weight:600">分类:</label>&nbsp;&nbsp; ' + this.classifyName+'</td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<td><label style="color:gray;font-weight:600">有效期剩余:</label>&nbsp;&nbsp; ' + this.storeTimeOut+'天</td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<td><label style="color:gray;font-weight:600">创建时间:</label>&nbsp;&nbsp;' + this.storeCreateDate+'</td>'
+                        + '</tr>'
+                        + '<tr>'
+                        + '<td><label style="color:gray;font-weight:600">主体:</label>&nbsp;&nbsp;<label style="color:' + (this.storeCompanyId > 0 ? 'black' : 'orange') + '">' + (this.storeCompanyId >0 ? '已认证' : '未认证') +'</label></td>'
+                        + '</tr>'
+                        + '</table>'
+                        + '</div>'
+                        + '</div >';
+                    var str2 = "<label>" + this.employeeName+"</label>";
+                    $("#username").html(str2);
+                    $("#Body").append(str);
+                })
+            }
+        })
+
+    });
+        function choseStore(id) {
+            location.href = '/Model/Model?eid='+id;
+        }
+</script>
