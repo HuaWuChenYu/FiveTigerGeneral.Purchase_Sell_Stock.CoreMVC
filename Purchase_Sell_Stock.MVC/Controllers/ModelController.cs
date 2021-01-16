@@ -18,6 +18,10 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
+        public IActionResult Test2()
+        {
+            return View();
+        }
         public IActionResult First()
         {
             return View();

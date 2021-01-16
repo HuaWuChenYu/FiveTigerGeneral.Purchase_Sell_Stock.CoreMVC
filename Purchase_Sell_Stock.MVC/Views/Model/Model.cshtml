@@ -12,11 +12,12 @@
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
+
 </head>
 <body class="layui-layout-body ">
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header" style="background-color:lightpink">
-            <div class="layui-logo" style="color:white"><img style="width:40px;height:40px" src="~/Img/TigerNew.png" />&nbsp;&nbsp;五虎上將</div>
+            <div class="layui-logo" style="color:white"><img style="width:40px;height:40px" src="~/Img/TigerLogo2.png" />&nbsp;&nbsp;五虎上將</div>
             <!-- 头部区域（可配合layui已有的水平导航） -->
             <ul id="upNavigation" class="layui-nav layui-layout-left">
                 @*<li class="layui-nav-item"><a href="">控制台</a></li>
@@ -38,7 +39,7 @@
                     </div>
                 </li>
                 <li class="layui-nav-item">
-                    <button type="button" class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+                    <button type="button" style="background-color:hotpink" class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
                 </li>
                 <li class="layui-nav-item">
                     <button type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
@@ -65,9 +66,9 @@
             </ul>
         </div>
 
-        <div id="Side" class="layui-side">
+        <div id="Side" class="layui-side layui-bg-black">
             <div style="background-color:lightpink" class="layui-side-scroll">
-                <ul id="LeftNavigation" style="background-color:lightpink" class="layui-nav layui-nav-tree" lay-filter="test">
+                <ul id="LeftNavigation" class="layui-nav layui-nav-tree" lay-filter="test"  style="background-color:lightpink">
                     <li class="layui-nav-item layui-nav-itemed">
                         <a class="" id="hhhh" href="javascript:;">所有商品</a>
                         <dl class="layui-nav-child">
@@ -93,8 +94,7 @@
 
         <div id="Body" class="layui-body">
             <!-- 内容主体区域 -->
-            <iframe id="iframe1" style="width:1669px;height:779px" src="/Model/First" frameborder="0"></iframe>
-            <div style="padding: 15px;">内容主体区域</div>
+            <iframe id="iframe1"  scrolling="auto" style="width:1325px;height:779px;padding-top:20px;padding-left:20px" src="/Model/First" frameborder="0"></iframe>
         </div>
 
         <div class="layui-footer">
@@ -116,8 +116,9 @@
     //    document.getElementById("Body").style.height = "700px";
     //    count += 1;
     //}
-    layui.use('element', function () {
+    layui.use(['element'], function () {
         var element = layui.element;
+        var div = layui.div;
         var $ = layui.$;
         var id = @ViewBag.id;
         if (id<=0) {
@@ -133,6 +134,7 @@
                 })
             }
         });
+        element.init(); //这行代码就是关键
     });
     function ChangeLeft(pid, eid) {
         if (pid == 1) {
@@ -176,4 +178,9 @@
     function changeIFrame(thisurl) {
         document.getElementById("iframe1").src = thisurl;
     }
+    layui.use(['element', 'layer'], function () {
+        var element = layui.element;
+        var layer = layui.layer;
+        element.init(); //这行代码就是关键
+    });
 </script>
