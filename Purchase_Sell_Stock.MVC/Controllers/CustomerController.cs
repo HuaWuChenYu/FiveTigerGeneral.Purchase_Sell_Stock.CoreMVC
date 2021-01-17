@@ -31,8 +31,9 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <param name="customerIdentity"></param>
         /// <param name="whetherEnable"></param>
         /// <returns></returns>
-        [HttpGet]
-        public IActionResult Allusers(int customerId = 1, int lableId = 1, int pageIndex = 1, int pageSize = 2, string customerName = null, string customerPhone = null, string customerIdentity = null, string whetherEnable = null)
+        
+        [HttpPost]
+        public IActionResult GetLableIndex()
         {
             return View();
         }
