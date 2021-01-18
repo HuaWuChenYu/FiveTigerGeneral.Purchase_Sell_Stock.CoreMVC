@@ -14,7 +14,7 @@ namespace Purchase_Sell_Stock.MVC.Models.LoginFunction
         {
         }
         public static string _Linkstring = null;
-
+        //063778
         public RegisterHelper(string Linkstring)
         {
             _Linkstring = Linkstring;
