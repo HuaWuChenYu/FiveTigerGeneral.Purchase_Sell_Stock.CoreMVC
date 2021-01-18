@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>AddGood</title>
+    <title>ModifyGood</title>
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
 </head>
@@ -91,13 +91,13 @@
 </body>
 </html>
 <script>
-    layui.use(['form', 'layer', 'table','upload'], function () {
+    layui.use(['form', 'layer', 'table', 'upload'], function () {
         var form = layui.form
             , layer = layui.layer
             , table = layui.table
             , upload = layui.upload
             , $ = layui.$;
-
+        
         //商品分类
         $.ajax({
             url: 'http://localhost:49760/api/GetGoodsTypeList/0' + '/' + " " + '/1',
@@ -144,11 +144,51 @@
             }
         })
 
+        //反填信息
+        $.ajax({
+            url: 'http://localhost:49760/api/GetGoodsById/'+@ViewBag.Id,
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                $("#goodsName").val(d.goodsName);
+                $("#storeId").val(d.storeId);
+                $("#goodsTypeName").text(d.goodsTypeName);
+                $("#goodsclassify option").each(function () {
+                    if (this.text == d.goodsclassify) {
+                        this.checked = true;
+                    }
+                })
+                $("#goodsUnitName option").each(function () {
+                    if (this.text == d.goodsUnitName) {
+                        this.checked = true;
+                    }
+                })
+                $("#goodsBrandName option").each(function () {
+                    if (this.text == d.goodsBrandName) {
+                        this.checked = true;
+                    }
+                })
+                $("#goodsTypeName option").each(function () {
+                    if (this.text == d.goodsTypeName) {
+                        this.checked = true;
+                    }
+                })
+                //$("#goodsclassify option:selected").text(d.goodsclassify);
+                //$("#goodsUnitName option:selected").text(d.goodsUnitName);
+                //$("#goodsBrandName option:selected").text(d.goodsBrandName);
+                $("#procurementPrice").val(d.procurementPrice);
+                $("#price").val(d.price);
+                $("#goodsPhoto").prop("src", d.goodsPhoto);
+                $("#goodsSize").val(d.goodsSize);
+            }
+        })
+
+
         //普通图片上传
         var uploadInst = upload.render({
             elem: '#photo'
             , url: '/Goods/AddImgInMvc' //改成您自己的上传接口
-            , method:'post'
+            , method: 'post'
             , before: function (obj) {
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {
@@ -175,17 +215,17 @@
             }
         });
 
-        //保存
+        //修改
         $('#save').on('click', function () {
             var obj = {};
             obj.goodsName = $("#goodsName").val();
-            obj.storeId = Number( $("#storeId").val()); 
-            obj.goodsTypeName = $("#goodsTypeName option:selected").text(); 
-            obj.goodsclassify = $("#goodsclassify option:selected").text(); 
+            obj.storeId = Number($("#storeId").val());
+            obj.goodsTypeName = $("#goodsTypeName option:selected").text();
+            obj.goodsclassify = $("#goodsclassify option:selected").text();
             obj.goodsUnitName = $("#goodsUnitName option:selected").text();
-            obj.procurementPrice = Number( $("#procurementPrice").val()); 
-            obj.price = Number( $("#price").val());
-            obj.goodsBrandName = $("#goodsBrandName option:selected").text(); 
+            obj.procurementPrice = Number($("#procurementPrice").val());
+            obj.price = Number($("#price").val());
+            obj.goodsBrandName = $("#goodsBrandName option:selected").text();
             obj.goodsPhoto = $("#hidPic").val();
             obj.goodsSize = $("#goodsSize").val();
             if (obj.goodsSize == "" || obj.goodsName == "" || obj.goodsName == "" || obj.goodsTypeName == "" || obj.goodsclassify == "" || obj.goodsUnitName == "" || obj.procurementPrice == "" || obj.price == "" || obj.goodsPhoto == "") {
@@ -205,7 +245,7 @@
                                 txts[i].value = "";
                             }
                         }
-                        $("#goodsPhoto").prop("src","");
+                        $("#goodsPhoto").prop("src", "");
                     }
                     else {
                         alert("添加失败");
