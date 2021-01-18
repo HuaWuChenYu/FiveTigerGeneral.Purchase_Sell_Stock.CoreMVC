@@ -8,6 +8,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace Purchase_Sell_Stock.MVC.Controllers
 {
