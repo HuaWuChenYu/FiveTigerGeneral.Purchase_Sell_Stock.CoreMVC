@@ -8,6 +8,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace Purchase_Sell_Stock.MVC.Controllers
 {
@@ -32,38 +33,40 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             string password = "互亿无线注册的密码";//密码可以使用明文密码或使用32位MD5加密
 
             //获取Ajax传输过来的手机号码
-            string mobile = Request.QueryString["mobile"];
+            //string mobile = Request.QueryString["mobile"];
 
             //在1000-10000之间随机获取一个数值 作为你的 手机验证码
             Random rad = new Random();
             int mobile_code = rad.Next(1000, 10000);
-
             //定义发送至手机中显示的信息
             string content = "您的验证码是：" + mobile_code + " 。请不要把验证码泄露给其他人。";
-
+            byte[] a=new byte[] { 1, 5 };
             //将你的手机号码存入Session中
-            Session["mobile"] = mobile;
+            //HttpContext.Session.SetString("mobile", mobile);
+
+            //HttpContext.Session.SetString("code", "123456");存
+            //HttpContext.Session.GetString("code");取
 
             //将你的手机验证码存入Session中
-            Session["mobile_code"] = mobile_code;
-
+            HttpContext.Session.SetInt32("mobile_code", mobile_code);
+            HttpContext.Session.GetInt32("mobile_code");
             string postStrTpl = "account={0}&password={1}&mobile={2}&content={3}";
 
             //将账号，密码，手机号码，手机验证码等字符串进行编码，并将它们存储在字节数组postData中
             UTF8Encoding encoding = new UTF8Encoding();
-            byte[] postData = encoding.GetBytes(string.Format(postStrTpl, account, password, mobile, content));
+            //byte[] postData = encoding.GetBytes(string.Format(postStrTpl, account, password, mobile, content));
 
             //设置发送请求报文
             HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(PostUrl);//PostUrl在Web.config中定义
             myRequest.Method = "POST";
             myRequest.ContentType = "application/x-www-form-urlencoded";
-            myRequest.ContentLength = postData.Length;
+            //myRequest.ContentLength = postData.Length;
 
             //创建流
             Stream newStream = myRequest.GetRequestStream();
 
             //发送数据
-            newStream.Write(postData, 0, postData.Length);
+            //newStream.Write(postData, 0, postData.Length);
             newStream.Flush();
             newStream.Close();
 
@@ -85,16 +88,16 @@ namespace Purchase_Sell_Stock.MVC.Controllers
                 int len3 = res.IndexOf("</msg>");
                 int len4 = res.IndexOf("<msg>");
                 string msg = res.Substring((len4 + 5), (len3 - len4 - 5));
-                Response.Write(msg);
-
-                Response.End();
+                HttpContext.Response.WriteAsync("");
+                //Response.End();
 
             }
             else
             {
                 //访问失败
-                Response.Write("err");
+                //Response.Write("err");
             }
+            return View();
         }
         //public static string PostUrl = "https://106.ihuyi.com/webservice/sms.php?method=Submit";
         public int Page_Load(string mobile/*,object sender, EventArgs e*/)

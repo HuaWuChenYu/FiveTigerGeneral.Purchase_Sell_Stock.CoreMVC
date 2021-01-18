@@ -46,6 +46,10 @@
                 <button type="reset" class="layui-btn layui-btn-primary" style="background-color:deepskyblue;color:white">重置</button>
             </div>
         </div>
+        <div class="layui-form-item">
+            <div class="layui-form-mid layui-word-aux">创建/编辑后请刷新</div>
+        </div>
+        
         <table class="layui-hide" id="test" lay-filter="test"></table>
     </form>
 </body>
@@ -160,7 +164,7 @@
                 case 'AddGood':
                     layer.open({
                         type: 2 //此处以iframe举例
-                        , title: '添加商品档案'
+                        , title: '创建商品档案'
                         , area: ['600px', '800px']
                         , shade: 0
                         , id: 'LAY_layuipro' //设定一个id，防止重复弹出
@@ -177,6 +181,7 @@
                     });
                     break;
             };
+            
         });
 
         //监听行工具事件
@@ -210,7 +215,23 @@
                 });
             }
             else if (obj.event === 'edit') {  //编辑
-                location.href = '/Goods/ModifyGood?id=' + data.GoodsId;
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '编辑商品档案'
+                    , area: ['600px', '800px']
+                    , shade: 0
+                    , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    , maxmin: false
+                    , content: '/Goods/ModifyGood?id=' + data.GoodsId
+                    , btn: ['关闭'] //只是为了演示
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+                    , zIndex: layer.zIndex //重点1
+                    , success: function (layero) {
+                        layer.setTop(layero); //重点2
+                    }
+                });
             }
             else if (obj.event === 'up') {  //上下架
                 $.ajax({
@@ -234,7 +255,23 @@
                 })
             }
             else if (obj.event === 'showOne') {  //明细
-                
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '商品明细'
+                    , area: ['600px', '800px']
+                    , shade: 0
+                    , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    , maxmin: false
+                    , content: '/Goods/ShowOne?id=' + data.GoodsId
+                    , btn: ['关闭'] //只是为了演示
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+                    , zIndex: layer.zIndex //重点1
+                    , success: function (layero) {
+                        layer.setTop(layero); //重点2
+                    }
+                });
             }
         });
     });

@@ -28,6 +28,11 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             ViewBag.Id = id;
             return View();
         }
+        public IActionResult ShowOne(int id)//明细
+        {
+            ViewBag.Id = id;
+            return View();
+        }
         #endregion
 
         //=================================================================//
