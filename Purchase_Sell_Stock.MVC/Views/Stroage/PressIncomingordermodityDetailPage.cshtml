@@ -19,7 +19,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" id="ChuKu" style="background-color:lightpink" class="layui-btn" lay-submit="">出库</button>
+        <button type="button" id="ChuKu" style="background-color:lightpink" class="layui-btn" lay-submit="">入库</button>
         <div class="layui-form-item" style="">
             <div id="dl">
                 <label hidden="hidden" class="layui-form-label">@ViewBag.incomingorderid</label>
@@ -115,7 +115,7 @@
 
             };
             $.ajax({                                                                                            //来源单号                   //出库的数量 /*'/' + arr3.toString() +*/
-                url: 'http://localhost:49760/api/GoodsAmend/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#procurementNum").val() + '/' + @ViewBag.incomingorderid,   //出库订单id
+                url: 'http://localhost:49760/api/Storage/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#procurementNum").val() + '/' + @ViewBag.incomingorderid,   //出库订单id
                 type: 'get',
                 contentType: 'application/json',
                 success:
