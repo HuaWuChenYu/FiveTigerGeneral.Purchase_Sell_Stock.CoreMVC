@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>commodityStocksandGoodsShow</title>
+</head>
+<body>
+    <table class="layui-hide" id="test" lay-filter="test"></table>
+</body>
+</html>
+<script type="text/html" id="barDemo">
+    <a style="background-color:pink;color:bisque" class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a style="background-color:antiquewhite;color:pink" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:49760/api/commodityStocksandGoodsShow'
+             
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }]
+            , title: '用户数据表'
+            , cols: [[
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'commodityStocksId', title: '库存id', width: 80, fixed: 'left', unresize: true, sort: true }
+                , { field: 'goodsId', title: '商品编号', width: 120, edit: 'text' }
+                , { field: 'goodsName', title: '商品名称', width: 80, edit: 'text', sort: true }
+                , { field: 'goodsSize', title: '商品规格', width: 100 }
+                , { field: 'goodsUnitName', title: '商品单位名称' }
+                , { field: 'inventory', title: '库存数量'  , width: 80, sort: true }
+                , { field: 'vendibilityInventory', title: '可售库存数量', width: 120 }
+                , { field: 'warehouseName', title: '仓库名', width: 120 }
+                , { field: 'warehousePrincipal', title: '执行人', width: 120 }
+                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+            ]]
+            , page: true
+            
+        });
+    })
+</script>
