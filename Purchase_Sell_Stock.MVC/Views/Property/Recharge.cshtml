@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/layui/layui.all.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <title>Recharge</title>
+</head>
+<body>
+    <div style="margin-top:40px">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="color:darkgrey">店铺ID：</label>
+                <div class="layui-form-mid layui-word-aux"><span style="color:black">10000222</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="color:darkgrey">店铺名称：</label>
+                <div class="layui-form-mid layui-word-aux"><span style="color:black">五虎科技</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="color:darkgrey">可用余额：</label>
+                <div class="layui-form-mid layui-word-aux">￥<span style="color:black">122.5</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="color:darkgrey">充值金额：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="RMB" required lay-verify="required" placeholder="请输入充值金额" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    //Demo
+    layui.use('form', function () {
+        var form = layui.form,
+        $ = layui.$;
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+
+            $.ajax({
+                url: "/Property/alipay",
+                type: "get",
+                dataType: 'json',
+                data: {
+                    Money: data.field.RMB,
+                },
+
+                success: function (data) {
+                    if (data > 0) {
+                        layer.msg('添加成功', {
+                            icon: 2,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function () {
+                            location.href = '/Stu/Index';
+                        })
+                    } else {
+                        layer.msg("添加失败");
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>

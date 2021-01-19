@@ -1,0 +1,33 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+@using Model;
+@model Roless
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Update</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("UpdateInfos", "Roles", FormMethod.Get))
+        {
+            <table>
+                <tr>
+                    <td>角色</td>
+                    <td><input id="Text1" name="RId" value="@Model.RId"  type="hidden" /></td>
+                    <td><input id="Text1" name="RName" value="@Model.RName" type="text" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input id="Submit1" type="submit" value="submit" />
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</body>
+</html>
