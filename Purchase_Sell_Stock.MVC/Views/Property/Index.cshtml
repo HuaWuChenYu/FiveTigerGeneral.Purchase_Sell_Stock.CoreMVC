@@ -2,33 +2,31 @@
 @{
     Layout = null;
 }
-
+@using Purchase_Sell_Stock.MVC.Models.Property
+@model Query
 <!DOCTYPE html>
-
+<script src="~/Scripts/jquery-3.3.1.js"></script>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link href="~/layui/css/layui.css" rel="stylesheet" />
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/layui/layui.js"></script>
-    <title>Index</title>
+    <title>TransToaccount</title>
 </head>
 <body>
     <table>
         <tr>
-            <td><input id="Text1" type="text" placeholder="请输入充值金额" /></td>
+            <td><input id="Text1" type="text"  value="@Model.buyer_logon_id" placeholder="请输入充值金额" /></td>
         </tr>
         <tr>
-            <td><input id="sdk"  type="button" value="提交" /></td>
+            <td><input id="sdk" type="button" value="提交" /></td>
         </tr>
     </table>
 </body>
 </html>
 <script>
-    $('#sdk').on('click', function () {
-        $.get('/Property/alipay', function (date) {
-            $('body').append(date);
+        $('#sdk').on('click', function () {
+            $.get('/Property/Query', function (date) {
+                $('body').append(date);
+            });
         });
-    });
-    
+
 </script>
