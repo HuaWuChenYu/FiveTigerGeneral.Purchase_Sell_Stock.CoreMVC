@@ -1,0 +1,173 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<script src="~/layui/layui.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PressIncomingordermodityDetailPage</title>
+</head>
+<body>
+    <form class="layui-form" action="">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" id="ChuKu" style="background-color:lightpink" class="layui-btn" lay-submit="">出库</button>
+        <div class="layui-form-item" style="">
+            <div id="dl">
+                <label hidden="hidden" class="layui-form-label">@ViewBag.incomingorderid</label>
+                <table>
+                    <tr>
+                        <td><label class="layui-form-span">出库订单</label></td>
+                        <td><input type="text" readonly="readonly" name="incomingorderOrderNumber" lay-verify="title" id="incomingorderOrderNumber" autocomplete="off" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">来源单号</label></td>
+                        <td><input type="text" readonly="readonly" name="procurementNum" lay-verify="title" autocomplete="off" id="procurementNum" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">状态</label></td>
+                        <td><input type="text" readonly="readonly" name="incomingorderState" lay-verify="title" autocomplete="off" id="incomingorderState" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td> <label class="layui-form-label">发货方</label></td>
+                        <td><input type="text" readonly="readonly" name="providerName" lay-verify="title" autocomplete="off" id="providerName" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">收货方</label></td>
+                        <td><input type="text" readonly="readonly" name="warehouseName" lay-verify="title" autocomplete="off" id="warehouseName" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">收货方联系电话</label></td>
+                        <td><input type="text" readonly="readonly" name="providersPhone" lay-verify="title" autocomplete="off" id="providersPhone" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">收货地址</label></td>
+                        <td><input type="text" readonly="readonly" name="wrovidersAddress" lay-verify="title" autocomplete="off" id="wrovidersAddress" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">出库类型</label></td>
+                        <td><input type="text" readonly="readonly" name="storageTypeName" lay-verify="title" autocomplete="off" id="storageTypeName" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">入库时间</label></td>
+                        <td><input type="text" readonly="readonly" name="incomingorderTime" lay-verify="title" autocomplete="off" id="incomingorderTime" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">创建时间</label></td>
+                        <td><input type="text" readonly="readonly" name="incomingordercreationTime" lay-verify="title" autocomplete="off" id="incomingordercreationTime" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">备注</label></td>
+                        <td><input type="text" readonly="readonly" name="incomingorderRemark" lay-verify="title" autocomplete="off" id="incomingorderRemark" class="layui-input"></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="dr">
+                <table class="layui-hide" id="test" lay-filter="test"></table>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+<style>
+    .dl {
+        float: left;
+        margin: 10px 0 0 20px;
+    }
+
+    .dr {
+        float: right;
+        margin: 10px 20px 0 0;
+    }
+</style>
+<script>
+     layui.use(['form', 'layedit', 'laydate','table'], function () {
+        var table = layui.table;
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        var $ = layui.$;
+        $("#ChuKu").on('click', function () {
+            var data=table.cache["testReload"];
+            var arr1 = [];//用于存编号
+            var arr2 = [];//用于存名称
+            var arr3 = [];//用于存入库数量
+            var arr4 = [];//用于存需要入库的数量
+            for (var i = 0; i < data.length; i++) {
+                arr1.push(data[i].goodsId);
+                arr2.push(data[i].goodsName);
+                arr3.push(data[i].ordersGoodsNum);
+                //arr3[i] - arr4[i] == data[i].Differences
+
+            }
+            var pname = $("input[name='IncomingorderNuming']");
+            for (var i = 0; i < pname.length; i++) {
+                arr4.push(pname[i].value)
+
+            };
+            $.ajax({                                                                                            //来源单号                   //出库的数量 /*'/' + arr3.toString() +*/
+                url: 'http://localhost:49760/api/GoodsAmend/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#procurementNum").val() + '/' + @ViewBag.incomingorderid,   //出库订单id
+                type: 'get',
+                contentType: 'application/json',
+                success:
+                    function (d) {
+                        if (d) {
+
+                            alert("入库成功");
+                            location.href = '/Stroage/PressIncomingorderShow';
+                        }
+                        else {
+                            alert("入库失败");
+                        }
+                    }
+            })
+        })
+        $.ajax({
+            url: 'http://localhost:49760/api/IncomingordermodityDetail/'+@ViewBag.incomingorderid,
+            contentType: 'application/json',
+            type:'get',
+            success:
+                function (d) {
+                    $("#incomingorderOrderNumber").val(d.incomingorderOrderNumber); //出库订单
+                    $("#procurementNum").val(d.procurementNum); //来源单号
+                    $("#incomingorderState").val(d.incomingorderState); //状态
+                    $("#providerName").val(d.providerName); //发货方
+                    $("#warehouseName").val(d.warehouseName);  //收货方
+                    $("#providersPhone").val(d.providersPhone);//收货方联系电话
+                    $("#wrovidersAddress").val(d.wrovidersAddress);//收货地址
+                    $("#storageTypeName").val(d.storageTypeName);//出库类型
+                    $("#incomingorderTime").val(d.incomingorderTime);//出库时间
+                    $("#incomingordercreationTime").val(d.incomingordercreationTime);//创建时间
+                    $("#incomingorderRemark").val(d.incomingorderRemark);//备注
+                }
+        })
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:49760/api/IncomingordermodityGoods/'+@ViewBag.incomingorderid,
+              cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                { field: 'goodsId', width: 80, title: '商品编号', sort: true }
+                , { field: 'goodsName', width: 80, title: '商品名称' }
+                , { field: 'goodsSize', width: 80, title: '规格', sort: true }
+                , { field: 'goodsUnitName', width: 80, title: '单位' }
+                , { field: 'ordersGoodsNum', title: '总数量', width: '30%', minWidth: 100 } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , { field: 'incomingorderNuming', title: '入库数量', sort: true, templet: '#switchTpl' }
+                , { field: 'incomingorderNuming', title: '已入库数量', sort: true,  }
+            ]]
+            ,id:'testReload'
+        });
+
+    })
+</script>
+<script type="text/html" id="switchTpl">
+    <input name="IncomingorderNuming" type="text" />
+</script>
