@@ -1,0 +1,190 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OutboundorderCombinebackfillPage</title>
+</head>
+<body>
+    <form class="layui-form" action="">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        @*<button type="button" id="ChuKu" style="background-color:lightpink" class="layui-btn" lay-submit="">出库</button>*@
+        <div class="layui-form-item" style="">
+            <div id="dl">
+                <label hidden="hidden" class="layui-form-label">@ViewBag.outboundorderId</label>
+                <table>
+                    <tr>
+                        <td><label class="layui-form-span">出库订单</label></td>
+                        <td><input type="text" readonly="readonly" name="OutboundorderOrderNumber" lay-verify="title" id="OutboundorderOrderNumber" autocomplete="off" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">来源单号</label></td>
+                        <td><input type="text" readonly="readonly" name="OrdersNum" lay-verify="title" autocomplete="off" id="OrdersNum" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">状态</label></td>
+                        <td><input type="text" readonly="readonly" name="OutboundorderState" lay-verify="title" autocomplete="off" id="OutboundorderState" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td> <label class="layui-form-label">发货方</label></td>
+                        <td><input type="text" readonly="readonly" name="WarehouseName" lay-verify="title" autocomplete="off" id="WarehouseName" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">收货方</label></td>
+                        <td><input type="text" readonly="readonly" name="CustomerName" lay-verify="title" autocomplete="off" id="CustomerName" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">收货方联系电话</label></td>
+                        <td><input type="text" readonly="readonly" name="CustomerPhone" lay-verify="title" autocomplete="off" id="CustomerPhone" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">收货地址</label></td>
+                        <td><input type="text" readonly="readonly" name="Adress" lay-verify="title" autocomplete="off" id="Adress" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">出库类型</label></td>
+                        <td><input type="text" readonly="readonly" name="title" lay-verify="title" autocomplete="off" id="StorageTypeName" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">出库时间</label></td>
+                        <td><input type="text" readonly="readonly" name="OutboundorderTime" lay-verify="title" autocomplete="off" id="OutboundorderTime" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">创建时间</label></td>
+                        <td><input type="text" readonly="readonly" name="OutboundordercreationTime" lay-verify="title" autocomplete="off" id="OutboundordercreationTime" class="layui-input"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="layui-form-label">备注</label></td>
+                        <td><input type="text" readonly="readonly" name="OutboundorderRemark" lay-verify="title" autocomplete="off" id="OutboundorderRemark" class="layui-input"></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="dr">
+                <table class="layui-hide" id="test" lay-filter="test"></table>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+<style>
+    .dl {
+      float:left;
+     margin:10px 0 0 20px;
+    }
+    .dr {
+    float:right;
+      margin:10px 20px 0 0;
+    }
+</style>
+<script>
+
+    layui.use(['form', 'layedit', 'laydate','table'], function () {
+        var table = layui.table;
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        var $ = layui.$;
+        @*$("#ChuKu").on('click', function () {
+            var data=table.cache["testReload"];
+            var arr1 = [];//用于存编号
+            var arr2 = [];//用于存名称
+            var arr3 = [];//用于存出库数量
+            var arr4 = [];//用于存需要出库的数量
+            for (var i = 0; i < data.length; i++) {
+                arr1.push(data[i].goodsId);
+                arr2.push(data[i].goodsName);
+                arr3.push(data[i].ordersGoodsNum);
+                //arr3[i] - arr4[i] == data[i].Differences
+              
+            }
+            var pname = $("input[name='OutboundorderNumber']");
+            for (var i = 0; i < pname.length; i++) {
+                arr4.push(pname[i].value)
+                //if (arr3[i] < arr4[i] && arr3[i] < arr4[i]) {
+
+                //    $.ajax({
+                //        url: '',
+                //        data: '',
+                //        contentType: '',
+                //        success:
+                //            function (d) {
+                //                if (d > 0) {
+                //                    alert("此账单有异常 请在差异表中检查");
+                //                    return;
+                //                }
+                //            }
+                //    })
+                //}
+            };
+            $.ajax({                                                                                            //来源单号                   //出库的数量 /*'/' + arr3.toString() +*/
+                url: 'http://localhost:49760/api/GoodsAmend/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#OrdersNum").val() + '/' + @ViewBag.outboundorderId,   //出库订单id
+                type: 'get',
+                contentType: 'application/json',
+                success:
+                    function (d) {
+                        if (d) {
+                            
+                            //for (var i = 0; i < data.length; i++) {
+                            //    data[i].outboundorderNumber += new Number(arr4[i]); //已出库的数量
+                            //}
+                            alert("出库成功");
+                        }
+                        else {
+                            alert("出库失败");
+                        }
+                    }
+            })
+        })*@
+        $.ajax({
+            url: 'http://localhost:49760/api/OutboundorderCombinebackfill/'+@ViewBag.outboundorderId,
+            contentType: 'application/json',
+            type:'post',
+            success:
+                function (d) {
+                    $("#OutboundorderOrderNumber").val(d.outboundorderOrderNumber); //出库订单
+                    $("#OrdersNum").val(d.ordersNum); //来源单号
+                    $("#OutboundorderState").val(d.outboundorderState); //状态
+                    $("#WarehouseName").val(d.warehouseName); //发货方
+                    $("#CustomerName").val(d.customerName);  //收货方
+                    $("#CustomerPhone").val(d.customerPhone);//收货方联系电话
+                    $("#Adress").val(d.adress);//收货地址
+                    $("#StorageTypeName").val(d.storageTypeName);//出库类型
+                    $("#OutboundorderTime").val(d.outboundorderTime);//出库时间
+                    $("#OutboundordercreationTime").val(d.outboundordercreationTime);//创建时间
+                    $("#OutboundorderRemark").val(d.outboundorderRemark);//备注
+                }
+        })
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:49760/api/Outboundordercommoditybackfill/'+@ViewBag.outboundorderId,
+              cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                { field: 'goodsId', width: 80, title: '商品编号', sort: true }
+                , { field: 'goodsName', width: 80, title: '商品名称' }
+                , { field: 'goodsSize', width: 80, title: '规格', sort: true }
+                , { field: 'goodsUnitName', width: 80, title: '单位' }
+                , { field: 'ordersGoodsNum', title: '总数量', width: '30%', minWidth: 100 } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , { field: 'outboundorderNumbers', title: '出库数量', sort: true, templet: '#switchTpl' }
+                , { field: 'outboundorderNumber', title: '已出库', sort: true,   }
+            ]]
+            ,id:'testReload'
+        });
+
+    })
+</script>
+<script type="text/html" id="switchTpl">
+    <input  name="OutboundorderNumber"  type="text" />
+</script>
+
