@@ -35,5 +35,9 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
+        public IActionResult GetDenomination()
+        {
+            return View();
+        }
     }
 }
