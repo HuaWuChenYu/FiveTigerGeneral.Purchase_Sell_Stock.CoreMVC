@@ -1,0 +1,227 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StoreInfo</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <style>
+        .logodiv {
+            width: 126px;
+            height: 96px;
+            float: left;
+            background-color: whitesmoke;
+            border: 1px solid pink;
+            color: pink
+        }
+
+            .logodiv:hover {
+                border: 1px solid hotpink;
+                color: hotpink
+            }
+
+        .logodiv2 {
+            width: 126px;
+            height: 126px;
+            float: left;
+            background-color: whitesmoke;
+            border: 1px solid pink;
+            color: pink
+        }
+    </style>
+</head>
+<body style="padding-left:100px;padding:20px">
+    <form class="layui-form" action="" lay-filter="example">
+        <table style="line-height:50px">
+            <tr>
+                <td>店铺编码:</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="storeCoding" readonly autocomplete="off" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>店铺名称</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="storeName" lay-verify="storeName" autocomplete="off" placeholder="请输入店铺名称" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>店铺简介:</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="storeIntroduction" lay-verify="title" autocomplete="off" placeholder="请输入店铺简介" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>创建时间:</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="storeCreateDate" lay-verify="title" autocomplete="off" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>负责人电话</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="storePrincipalPhone" lay-verify="title" autocomplete="off" placeholder="请输入负责人电话" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>联系人</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="storeLinkman" lay-verify="title" autocomplete="off" placeholder="请输入联系人" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>联系人电话</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="storeLinkmanPhone" lay-verify="title" autocomplete="off" placeholder="请输入联系人电话" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>店铺Logo</td>
+                <td>
+                    <div class="layui-upload">
+                        <div id="test1" class="logodiv" style="padding-top:30px">
+                            <i class="layui-icon" style="font-size:30px;margin-top:50px;margin-left:50px">&#xe654;</i><br /><label style="margin-left:35px">上传图片</label>
+                        </div>
+                        <div class="logodiv2" id="imgdiv" style="margin-left:10px">
+                            <p style="margin: 35px"><i class="layui-icon" style="font-size:50px">&#xe64a;</i></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button type="submit" class="layui-btn" lay-submit="" style="background-color:deeppink" lay-filter="demo1">保存</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layedit', 'laydate', 'upload'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        var $ = layui.jquery
+            , upload = layui.upload;
+        //反填
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetStoresForUpdate?storeId=1",
+            contentType: "application/json",
+            success: function (d) {
+                $(d).each(function () {
+                    form.val('example', {
+                        "storeCoding": d.storeCoding
+                        , "storeName": d.storeName
+                        , "storeCreateDate": d.storeCreateDate
+                        , "storePrincipalPhone": d.storePrincipalPhone
+                        , "storeLinkman": d.storeLinkman
+                        , "storeLinkmanPhone": d.storeLinkmanPhone
+                    });
+                })
+            }
+        });
+        var imgUrl;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            , url: '/Setting/GetImg' //改成您自己的上传接口
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $("#imgdiv").empty();
+                    var str = '<img src=""  style="width:126px;height:126px" id="demo1" alt="加载中..." />';
+                    $("#imgdiv").append(str);
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+                //如果上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                imgUrl = res.result;
+                //上传成功
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+        //自定义验证规则
+        form.verify({
+            storeName: function (value) {
+                if (value.length < 3) {
+                    return '店铺名称至少得3个字!!!';
+                }
+            }
+            //, pass: [
+            //    /^[\S]{6,12}$/
+            //    , '密码必须6到12位，且不能出现空格'
+            //]
+        });
+
+
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            data.field.StoreLogo = imgUrl;
+            //layer.alert(JSON.stringify(data.field), {
+            //    title: '最终的提交信息'
+            //})
+            $.ajax({
+                url: "http://localhost:49760/api/Setting/UpdateStore",
+                contentType: "application/json",
+                data: JSON.stringify(data.field),
+                type:"post",
+                success: function (d) {
+                    if (d>0) {
+                        alert('保存成功');
+                    }
+                    else {
+                        alert('保存失败');
+                    }
+                }
+            });
+            
+            return false;
+        });
+
+    });
+</script>
+

@@ -1,0 +1,127 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LoginIndex</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <style>
+        h3 {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            text-align: center
+        }
+
+        table {
+            width: 400px;
+            margin: 10px auto;
+        }
+
+        #codeInput {
+            width: 90px;
+        }
+
+        .la {
+            text-align: right
+        }
+
+        .control {
+            line-height: 50px;
+        }
+    </style>
+    <script language="javascript">
+        function get_mobile_code() {
+
+            var mobile = $("#mobile").val();
+            if (!isMobile(mobile)) {
+                alert("手机号码格式错误，请重新输入");
+            }
+            else {
+                $.get("Post.aspx", { mobile: jQuery.trim($("#mobile").val()) }, function (msg) {
+                    //alert(jQuery.trim(unescape(msg)));//unescape:对已经使用escape()函数编码的字符串msg 进行解码
+                    if (msg == "提交成功") {
+                        RemainTime();
+                    }
+                    else {
+                        alert("手机验证码发送失败");
+                    }
+                });
+            }
+
+        };
+
+
+        var iTime = 59;
+        var Account;
+        function RemainTime() {
+            document.getElementById("zphone").disabled = true;
+            var iSecond, sSecond = "", sTime = "";
+            if (iTime >= 0) {
+                iSecond = parseInt(iTime % 60);
+                iMinute = parseInt(iTime / 60)
+                if (iSecond >= 0) {
+                    if (iMinute > 0) {
+                        sSecond = iMinute + "分" + iSecond + "秒";
+                    } else {
+                        sSecond = iSecond + "秒";
+                    }
+                }
+                sTime = sSecond;
+                if (iTime == 0) {
+                    clearTimeout(Account);
+                    sTime = "获取手机验证码";
+                    iTime = 59;
+                    document.getElementById("zphone").disabled = false;
+                } else {
+                    Account = setTimeout("RemainTime()", 1000);
+                    iTime = iTime - 1;
+                }
+            } else {
+                sTime = "没有倒计时";
+            }
+            document.getElementById("zphone").value = sTime + "后重新获取";
+        }
+
+        //手机号码验证
+        function isMobile(s) {
+            var reg = /^((13[0-9])|(15[^4,\D])|(18[0-9]))\d{8}$/;
+            if (!reg.exec(s)) {
+                return false;
+            }
+            return true;
+
+        }
+    </script>
+</head>
+<body>
+    <form method="post" action="judgeData.aspx">
+        <h3>发送手机验证码</h3>
+        <table>
+            <tr>
+                <td class="la"><label>手机:</label></td>
+                <td>
+                    <input id="mobile" name="phone" type="text" required="required" /><span style="color:#FF0000"> *</span>
+                    <input id="zphone" type="button" value=" 发送手机验证码 " onclick="get_mobile_code();">
+                </td>
+            </tr>
+            <tr class="control">
+                <td class="la"><label>验证码:</label></td>
+                <td><input type="text" name="captcha" id="codeInput" required="required" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="reset" value="重置" />
+                    <input type="submit" value="提交" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

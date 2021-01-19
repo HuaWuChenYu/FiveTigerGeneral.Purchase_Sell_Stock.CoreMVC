@@ -18,14 +18,15 @@
         <div class="layui-form-item">
             <label class="layui-form-label">商品名称</label>
             <div class="layui-input-block">
-                <input type="text" id="name" value="空" style="width:200px" autocomplete="off" placeholder="请输入商品名" class="layui-input">
+                <input id="storeId-Hid" type="hidden" value="1" />
+                <input type="text" id="name" style="width:200px" autocomplete="off" placeholder="请输入商品名" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">商品分类</label>
             <div class="layui-input-block" style="width:200px">
                 <select id="type" lay-filter="aihao">
-                    <option value="空" selected>全部</option>
+                    <option value="" selected>全部</option>
                 </select>
             </div>
         </div>
@@ -33,7 +34,7 @@
             <label class="layui-form-label">商品类型</label>
             <div class="layui-input-block" style="width:200px">
                 <select id="classify" lay-filter="aihao" style="width:200px">
-                    <option value="空" selected>全部</option>
+                    <option value="" selected>全部</option>
                     <option value="成品">成品</option>
                     <option value="原料">原料</option>
                 </select>
@@ -42,53 +43,54 @@
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button type="button" class="layui-btn" lay-submit="" id="sel" style="background-color:pink">查询</button>
-                <button type="reset" class="layui-btn layui-btn-primary" style="background-color:pink">重置</button>
+                <button type="reset" class="layui-btn layui-btn-primary" style="background-color:deepskyblue;color:white">重置</button>
             </div>
         </div>
-        <table class="layui-hide" id="test" lay-filter="test"></table>
         <div class="layui-form-item">
-            <div class="layui-input-block">
-                <div class="layui-form-mid layui-word-aux">当前第</div>
-                <div class="layui-form-mid layui-word-aux" id="dq"></div>
-                <div class="layui-form-mid layui-word-aux">页/</div>
-                <div class="layui-form-mid layui-word-aux">共</div>
-                <div class="layui-form-mid layui-word-aux" id="gy"></div>
-                <div class="layui-form-mid layui-word-aux">页/</div>
-                <div class="layui-form-mid layui-word-aux">共</div>
-                <div class="layui-form-mid layui-word-aux" id="gt"></div>
-                <div class="layui-form-mid layui-word-aux">条/</div>
-                <div class="layui-form-mid layui-word-aux">每页</div>
-                <div class="layui-form-mid layui-word-aux" id="my"></div>
-                <div class="layui-form-mid layui-word-aux">条</div>
-                <button type="button" class="layui-btn" lay-submit="" id="First" style="background-color:pink">首页</button>
-                <button type="button" class="layui-btn" lay-submit="" id="Prev" style="background-color:pink">上一页</button>
-                <button type="button" class="layui-btn" lay-submit="" id="Next" style="background-color:pink">下一页</button>
-                <button type="button" class="layui-btn" lay-submit="" id="Last" style="background-color:pink">尾页</button>
-            </div>
+            <div class="layui-form-mid layui-word-aux">创建/编辑后请刷新</div>
         </div>
+        
+        <table class="layui-hide" id="test" lay-filter="test"></table>
     </form>
 </body>
 </html>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button type="button" class="layui-btn layui-btn-sm" lay-event="AddGood" style="background-color:pink">创建档案</button>
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="refresh" onclick="location.href='/Goods/ShowGood'" style="background-color:pink">刷新</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="refresh" onclick="location.href='/Goods/ShowGood'" style="background-color:deepskyblue">刷新</button>
     </div>
 </script>
-
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit" style="background-color:pink">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="showOne" style="background-color:pink">明细</a>
-</script>
 <script type="text/html" id="state">
-    {{#  if(d.GoodsState === 'true'){ }}
-    <span style="color: palevioletred;font-weight:700">下架</span>
+    {{#  if(d.GoodsState === true){ }}
+    <span style="color: deepskyblue ; font-weight:700">上架</span>
     {{#  } else { }}
-    <span style="color: lightseagreen;font-weight:700">上架</span>
+    <span style="color: palevioletred ;font-weight:700">下架</span>
     {{#  } }}
 </script>
+<script type="text/html" id="operation">
+    {{#  if(d.GoodsState === true){ }}
+    <div>
+        <a class="layui-btn layui-btn-xs" lay-event="up" style="background-color:palevioletred" id="up">下架</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit" style="background-color:deepskyblue">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="showOne" style="background-color:deepskyblue">明细</a>
+        <a class="layui-btn layui-btn-xs" lay-event="delOne" style="background-color:palevioletred">删除</a>
+    </div>
+    {{#  } else { }}
+    <div>
+        <a class="layui-btn layui-btn-xs" lay-event="up" style="background-color:palevioletred" id="up">上架</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit" style="background-color:deepskyblue">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="showOne" style="background-color:deepskyblue">明细</a>
+        <a class="layui-btn layui-btn-xs" lay-event="delOne" style="background-color:palevioletred">删除</a>
+    </div>
+    {{#  } }}
+</script>
+<script type="text/html" id="img">
+    <div>
+        <img src="{{d.GoodsPhoto}}" alt="" />
+    </div>
+</script>
 <script>
-    layui.use(['table','layer','form'], function () {
+    layui.use(['table', 'layer', 'form'], function () {
         var table = layui.table
             , layer = layui.layer
             , form = layui.form;
@@ -96,7 +98,7 @@
 
         //商品分类
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsTypeList/0'+'/'+" "+'/1',
+            url: 'http://localhost:49760/api/GetGoodsTypeList/0' + '/' + " " + '/1',
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -110,225 +112,50 @@
             }
         })
 
-        //表格初次加载
+        //表格加载
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/GetGoodsList/' + 1 + '/' + 10 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
+            , url: 'http://localhost:49760/api/GetGoodsList/' + $("#storeId-Hid").val()
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , title: '用户数据表'
             , cols: [[
                 { type: 'checkbox' }
-                , { field: 'GoodsId', title: '编号', width: 150,sort: true }
+                , { field: 'GoodsId', title: '编号', width: 150, sort: true }
                 , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
-                , { field: 'GoodsPhoto', title: '商品图片', width: 150, unresize: true, templet: '<div><img src = "{{ d.GoodsPhoto}}" alt = "" /></div>' }
-                , { field: 'GoodsSize', title: '规格', width: 150}
+                , { field: 'GoodsPhoto', title: '商品图片', width: 150, unresize: true, templet: "#img" }
+                , { field: 'GoodsSize', title: '规格', width: 150 }
                 , { field: 'Price', title: '商品价格', width: 150 }
-                , { field: 'GoodsState', title: '商品上下架状态', width: 150 ,templet: '#state'}
+                , { field: 'GoodsState', title: '商品上下架状态', width: 150, templet: '#state' }
                 , { field: 'Goodsclassify', title: '商品类型', width: 150 }
-                , { field: 'GoodsTypeName', title: '商品分类名称', width: 150}
+                , { field: 'GoodsTypeName', title: '商品分类名称', width: 150 }
                 , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
-                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                , { fixed: 'right', title: '操作', templet: "#operation", width: 200 }
             ]]
-            , done: function (res) {
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                $("#name").val(" ");
-                $("#countH").val(res.count);
-                $("#dq").text(1);
-                $("#gy").text(Math.ceil( res.count * 1.0 / 10));
-                $("#gt").text(res.count);
-                $("#my").text(10);
+            , page: true
+            , limit: 5
+            , limits: [5, 10, 50]
+            , request: {
+                pageName: 'pageIndex' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limit
             }
-            , id:'testReload'
+            , id: 'testReload'
         });
 
         //查询
         $('#sel').on('click', function () {
             //执行重载
-            table.render({
-                elem: '#test'
-                , url: 'http://localhost:49760/api/GetGoodsList/' + 1 + '/' + 10 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
-                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-                , title: '用户数据表'
-                , cols: [[
-                    { type: 'checkbox', fixed: 'left' }
-                    , { field: 'GoodsId', title: '编号', width: 150, fixed: 'left', unresize: true, sort: true }
-                    , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
-                    , { field: 'GoodsPhoto', title: '商品图片', width: 150, templet: '<div><img src = "{{ d.GoodsPhoto}}" alt = "" /></div>' }
-                    , { field: 'GoodsSize', title: '规格', width: 150 }
-                    , { field: 'Price', title: '商品价格', width: 150 }
-                    , { field: 'GoodsState', title: '商品上下架状态', width: 150, templet: '#state' }
-                    , { field: 'Goodsclassify', title: '商品类型', width: 150 }
-                    , { field: 'GoodsTypeName', title: '商品分类名称', width: 150 }
-                    , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
-                    , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
-                ]]
-                //, page: true
-                , done: function (res) {
-                    //如果是异步请求数据方式，res即为你接口返回的信息。
-                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                    $("#name").val(" ");
-                    $("#countH").val(res.count);
-                    $("#dq").text(1);
-                    $("#gy").text(Math.ceil(res.count * 1.0 / 10));
-                    $("#gt").text(res.count);
-                    $("#my").text(10);
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
                 }
-                , id: 'testReload'
-            });
+                , where: {
+                    storeId: $("#storeId-Hid").val(),
+                    goodsName: $("#name").val(),
+                    goodsType: $("#type option:selected").text(),
+                    goodsClassify: $("#classify option:selected").val()
+                }
+            }, 'data');
         });
-
-        //$("#dq").text();//当前
-        //$("#gy").text();//共页
-        //$("#gt").text();//共条
-        //$("#my").text();//每页条
-
-        //首页
-        $("#First").on('click', function (d) {
-            table.render({
-                elem: '#test'
-                , url: 'http://localhost:49760/api/GetGoodsList/' + 1 + '/' + 10 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
-                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-                , title: '用户数据表'
-                , cols: [[
-                    { type: 'checkbox' }
-                    , { field: 'GoodsId', title: '编号', width: 150, sort: true }
-                    , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
-                    , { field: 'GoodsPhoto', title: '商品图片', width: 150, unresize: true, templet: '<div><img src = "{{ d.GoodsPhoto}}" alt = "" /></div>' }
-                    , { field: 'GoodsSize', title: '规格', width: 150 }
-                    , { field: 'Price', title: '商品价格', width: 150 }
-                    , { field: 'GoodsState', title: '商品上下架状态', width: 150, templet: '#state' }
-                    , { field: 'Goodsclassify', title: '商品类型', width: 150 }
-                    , { field: 'GoodsTypeName', title: '商品分类名称', width: 150 }
-                    , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
-                    , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
-                ]]
-                , done: function (res) {
-                    //如果是异步请求数据方式，res即为你接口返回的信息。
-                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                    $("#name").val(" ");
-                    $("#countH").val(res.count);
-                    $("#dq").text(1);
-                    $("#gy").text(Math.ceil(res.count * 1.0 / 10));
-                    $("#gt").text(res.count);
-                    $("#my").text(10);
-                }
-                , id: 'testReload'
-            });
-        })
-
-        //上一页
-        $("#Prev").on('click', function (d) {
-            if (Number($("#dq").text()) > 1) {
-                $("#dq").text(Number($("#dq").text()) - 1)
-            }
-            else {
-                alert("已经是第一页了");
-                return;
-            }
-            table.render({
-                elem: '#test'
-                , url: 'http://localhost:49760/api/GetGoodsList/' + $("#dq").text() + '/' + 10 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
-                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-                , title: '用户数据表'
-                , cols: [[
-                    { type: 'checkbox' }
-                    , { field: 'GoodsId', title: '编号', width: 150, sort: true }
-                    , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
-                    , { field: 'GoodsPhoto', title: '商品图片', width: 150, unresize: true, templet: '<div><img src = "{{ d.GoodsPhoto}}" alt = "" /></div>' }
-                    , { field: 'GoodsSize', title: '规格', width: 150 }
-                    , { field: 'Price', title: '商品价格', width: 150 }
-                    , { field: 'GoodsState', title: '商品上下架状态', width: 150, templet: '#state' }
-                    , { field: 'Goodsclassify', title: '商品类型', width: 150 }
-                    , { field: 'GoodsTypeName', title: '商品分类名称', width: 150 }
-                    , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
-                    , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
-                ]]
-                , done: function (res) {
-                    //如果是异步请求数据方式，res即为你接口返回的信息。
-                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                    $("#name").val(" ");
-                    $("#countH").val(res.count);
-                    $("#gy").text(Math.ceil(res.count * 1.0 / 10));
-                    $("#my").text(10);
-                }
-                , id: 'testReload'
-            });
-        })
-
-        //下一页
-        $("#Next").on('click', function (d) {
-            var a = $("#dq").text();
-            if (Number($("#dq").text()) < Number($("#gy").text())) {
-                $("#dq").text(Number(a) + 1)
-            }
-            else {
-                alert("已经是最后一页了");
-                return;
-            }
-            table.render({
-                elem: '#test'
-                , url: 'http://localhost:49760/api/GetGoodsList/' + $("#dq").text() + '/' + 10 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
-                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-                , title: '用户数据表'
-                , cols: [[
-                    { type: 'checkbox' }
-                    , { field: 'GoodsId', title: '编号', width: 150, sort: true }
-                    , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
-                    , { field: 'GoodsPhoto', title: '商品图片', width: 150, unresize: true, templet: '<div><img src = "{{ d.GoodsPhoto}}" alt = "" /></div>' }
-                    , { field: 'GoodsSize', title: '规格', width: 150 }
-                    , { field: 'Price', title: '商品价格', width: 150 }
-                    , { field: 'GoodsState', title: '商品上下架状态', width: 150, templet: '#state' }
-                    , { field: 'Goodsclassify', title: '商品类型', width: 150 }
-                    , { field: 'GoodsTypeName', title: '商品分类名称', width: 150 }
-                    , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
-                    , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
-                ]]
-                , done: function (res) {
-                    //如果是异步请求数据方式，res即为你接口返回的信息。
-                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                    $("#name").val(" ");
-                    $("#countH").val(res.count);
-                    $("#gy").text(Math.ceil(res.count * 1.0 / 10));
-                    $("#my").text(10);
-                }
-                , id: 'testReload'
-            });
-        })
-
-        //尾页
-        $("#Last").on('click', function (d) {
-            table.render({
-                elem: '#test'
-                , url: 'http://localhost:49760/api/GetGoodsList/' + $("#gy").text() + '/' + 10 + '/' + $("#name").val() + '/' + $("#type option:selected").text() + '/' + $("#classify option:selected").val() + '/1'
-                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-                , title: '用户数据表'
-                , cols: [[
-                    { type: 'checkbox' }
-                    , { field: 'GoodsId', title: '编号', width: 150, sort: true }
-                    , { field: 'GoodsName', title: '商品名称', width: 150, edit: 'text' }
-                    , { field: 'GoodsPhoto', title: '商品图片', width: 150, unresize: true, templet: '<div><img src = "{{ d.GoodsPhoto}}" alt = "" /></div>' }
-                    , { field: 'GoodsSize', title: '规格', width: 150 }
-                    , { field: 'Price', title: '商品价格', width: 150 }
-                    , { field: 'GoodsState', title: '商品上下架状态', width: 150, templet: '#state' }
-                    , { field: 'Goodsclassify', title: '商品类型', width: 150 }
-                    , { field: 'GoodsTypeName', title: '商品分类名称', width: 150 }
-                    , { field: 'GoodsUnitName', title: '商品单位名称', width: 150 }
-                    , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
-                ]]
-                , done: function (res) {
-                    //如果是异步请求数据方式，res即为你接口返回的信息。
-                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                    $("#name").val(" ");
-                    $("#countH").val(res.count);
-                    $("#dq").text(1);
-                    $("#gy").text(Math.ceil(res.count * 1.0 / 10));
-                    $("#gt").text(res.count);
-                    $("#my").text(10);
-                }
-                , id: 'testReload'
-            });
-        })
 
         //头工具栏事件
         table.on('toolbar(test)', function (obj) {
@@ -337,16 +164,12 @@
                 case 'AddGood':
                     layer.open({
                         type: 2 //此处以iframe举例
-                        , title: '添加商品档案'
+                        , title: '创建商品档案'
                         , area: ['600px', '800px']
                         , shade: 0
                         , id: 'LAY_layuipro' //设定一个id，防止重复弹出
-                        , offset: [ //为了演示，随机坐标
-                            Math.random() * ($(window).height() - 300)
-                            , Math.random() * ($(window).width() - 390)
-                        ] 
                         , maxmin: false
-                        , content:'/Goods/AddGood'
+                        , content: '/Goods/AddGood'
                         , btn: ['关闭'] //只是为了演示
                         , btn2: function () {
                             layer.closeAll();
@@ -358,26 +181,96 @@
                     });
                     break;
             };
+            
         });
 
         //监听行工具事件
         table.on('tool(test)', function (obj) {
+            //data.GoodsId
             var data = obj.data;
             //console.log(obj)
-            if (obj.event === 'del') {
-                layer.confirm('真的删除行么', function (index) {
-                    obj.del();
+            if (obj.event === 'delOne') {  //删除
+                layer.confirm('真的删除咩?~~~', function (index) {
                     layer.close(index);
+                    $.ajax({
+                        url: 'http://localhost:49760/api/DeleteGoods/' + data.GoodsId + '/' + $("#storeId-Hid").val(),
+                        type: 'post',
+                        contentType: 'application/json',
+                        success: function (d) {
+                            if (d > 0) {
+                                alert("删除成功咯~~~");
+                                //执行重载
+                                table.reload('testReload', {
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                }, 'data');
+
+                            }
+                            else {
+                                alert("删除失败了~~~");
+                            }
+                        }
+                    })
                 });
-            } else if (obj.event === 'edit') {
-                layer.prompt({
-                    formType: 2
-                    , value: data.email
-                }, function (value, index) {
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
+            }
+            else if (obj.event === 'edit') {  //编辑
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '编辑商品档案'
+                    , area: ['600px', '800px']
+                    , shade: 0
+                    , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    , maxmin: false
+                    , content: '/Goods/ModifyGood?id=' + data.GoodsId
+                    , btn: ['关闭'] //只是为了演示
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+                    , zIndex: layer.zIndex //重点1
+                    , success: function (layero) {
+                        layer.setTop(layero); //重点2
+                    }
+                });
+            }
+            else if (obj.event === 'up') {  //上下架
+                $.ajax({
+                    url: 'http://localhost:49760/api/ModifyState/' + data.GoodsId + '/' + $("#storeId-Hid").val(),
+                    type: 'post',
+                    contentType: 'application/json',
+                    success: function (d) {
+                        if (d > 0) {
+                            alert("上架 / 下架成功咯~~~");
+                            //执行重载
+                            table.reload('testReload', {
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            }, 'data');
+                        }
+                        else {
+                            alert("上架 / 下架失败了~~~");
+                        }
+                    }
+                })
+            }
+            else if (obj.event === 'showOne') {  //明细
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '商品明细'
+                    , area: ['600px', '800px']
+                    , shade: 0
+                    , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    , maxmin: false
+                    , content: '/Goods/ShowOne?id=' + data.GoodsId
+                    , btn: ['关闭'] //只是为了演示
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+                    , zIndex: layer.zIndex //重点1
+                    , success: function (layero) {
+                        layer.setTop(layero); //重点2
+                    }
                 });
             }
         });
