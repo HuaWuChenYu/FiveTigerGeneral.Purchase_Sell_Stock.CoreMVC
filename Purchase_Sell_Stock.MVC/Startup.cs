@@ -22,6 +22,7 @@ namespace Purchase_Sell_Stock.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession();//ÅäÖÃSession
             //ÅäÖÃ¿çÓò´¦Àí£¬ÔÊÐíËùÓÐÀ´Ô´£º
             services.AddCors(options =>
             {
@@ -49,7 +50,7 @@ namespace Purchase_Sell_Stock.MVC
             app.UseStaticFiles();
             app.UseCors("any");//¿çÓòÅäÖÃ
             app.UseRouting();
-
+            app.UseSession();//ÅäÖÃSession
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

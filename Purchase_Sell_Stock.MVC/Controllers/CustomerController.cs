@@ -14,7 +14,6 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// 全部用户页面
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
         public IActionResult Allusers()
         {
             return View();
@@ -32,7 +31,6 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <param name="whetherEnable"></param>
         /// <returns></returns>
         
-        [HttpPost]
         public IActionResult GetLableIndex()
         {
             return View();
