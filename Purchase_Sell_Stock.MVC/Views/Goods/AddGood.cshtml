@@ -20,7 +20,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">商品名称</label>
             <div class="layui-input-block">
-                <input id="storeId" value="1" type="hidden" />
+                <input id="storeId" value="@ViewBag.StoreId" type="hidden" />
                 <input type="text" id="goodsName" style="width:400px" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
             </div>
         </div>
@@ -88,6 +88,9 @@
             </div>
         </div>
     </form>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend></legend>
+    </fieldset>
 </body>
 </html>
 <script>
@@ -100,7 +103,7 @@
 
         //商品分类
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsTypeList/0' + '/' + " " + '/1',
+            url: 'http://localhost:49760/api/GetGoodsTypeList/0' + '/' + " " + '/' + Number($("#storeId").val()),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -115,7 +118,7 @@
         })
         //商品品牌
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsBrandList/0' + '/' + " " + '/1',
+            url: 'http://localhost:49760/api/GetGoodsBrandList/0' + '/' + " " + '/' + Number( $("#storeId").val()),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -130,7 +133,7 @@
         })
         //商品单位
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsUnitList/0' + '/' + " " + '/1',
+            url: 'http://localhost:49760/api/GetGoodsUnitList/0' + '/' + " " + '/' + Number($("#storeId").val()),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {

@@ -15,16 +15,19 @@ namespace Purchase_Sell_Stock.MVC.Controllers
     public class GoodsController : Controller
     {
         #region 商品模块页面
-        public IActionResult ShowGood()//商品页面
+        public IActionResult ShowGood(int storeId=1)//商品页面
         {
+            ViewBag.StoreId = storeId;
             return View();
         }
-        public IActionResult AddGood()//添加商品页面
+        public IActionResult AddGood(int storeId)//添加商品页面
         {
+            ViewBag.StoreId = storeId;
             return View();
         }
-        public IActionResult ModifyGood(int id)//编辑商品页面
+        public IActionResult ModifyGood(int id,int storeId)//编辑商品页面
         {
+            ViewBag.StoreId = storeId;
             ViewBag.Id = id;
             return View();
         }
