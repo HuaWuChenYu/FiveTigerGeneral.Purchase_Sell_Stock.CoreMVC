@@ -22,58 +22,39 @@
     </div>
     <div style="float:left;width:850px;margin-left:20px;margin-top:10px">
         <table id="setPower" class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>主菜单</th>
-                    <th>页面主菜单</th>
-                    <th>页面副菜单</th>
-                </tr>
-            </thead>
-            <tbody id="tb">
-                <tr>
-                    <td></td>
-                </tr>
-            </tbody>
+            <tr>
+                <td>主菜单</td>
+                <td>页面主菜单</td>
+                <td>页面副菜单</td>
+            </tr>
         </table>
     </div>
-    <table class="table table-bordered">
-            <tr>
-                <td>一级</td>
-                <td>二级</td>
-                <td>三级</td>
-            </tr>
-            <tr>
-                <td rowspan="3">hhh3</td>
-                <td rowspan="2">hhh4</td>
-                <td>hhh7</td>
-            </tr>
-            <tr>
-                <td>hhh5</td>
-            </tr>
-            <tr>
-                <td>hhh6</td>
-                <td>hhh6</td>
-            </tr>
-
-        </table>
-    <table class="table table-bordered">
+    <table width="100%" border="1">
         <tr>
-            <td>一级</td>
-            <td>二级</td>
-            <td>三级</td>
+            <td rowspan="7">hhh1</td>
+            <td rowspan="3">hhh5</td>
+            <td>hhh5</td>
         </tr>
         <tr>
-            <td rowspan="4">hhh3</td>
-            <td rowspan="2">hhh4</td>
-            <td>hhh7</td>
+            <td>hhh5</td>
         </tr>
         <tr>
-            <td rowspan="2">hhh5</td>
+            <td>hhh5</td>
         </tr>
         <tr>
-            <td>hhh6</td>
+            <td rowspan="3">hhh5</td>
+            <td>hhh5</td>
         </tr>
-
+        <tr>
+            <td>hhh5</td>
+        </tr>
+        <tr>
+            <td>hhh5</td>
+        </tr>
+        <tr>
+            <td>hhh5</td>
+            <td>hhh5</td>
+        </tr>
     </table>
 </body>
 </html>
@@ -101,10 +82,37 @@
             contentType: "application/json",
             async: false,
             success: function (d) {
-                //$(d).each(function () {
-                //    var str = "";
-                //})
-                //$("#tb")
+                $(d).each(function () {
+                    var trid = 'trid' + this.powersId;
+                    var str = '<tr id="' + trid + '">'
+                        + '<td>' + this.powersName + '</td>'
+                        + '</tr>';
+                    $("#setPower").append(str);
+                    $.ajax({
+                        url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=" + this.powersId+"&rolesId=1",
+                        contentType: "application/json",
+                        async: false,
+                        success: function (d2) {
+                            $(d2).each(function () {
+                                var str2 = '<td>' + this.powersName + '</td>';
+                                $("#" + trid).append(str2);
+                                $.ajax({
+                                    url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=" + this.powersId + "&rolesId=1",
+                                    contentType: "application/json",
+                                    async: false,
+                                    success: function (d3) {
+                                        $(d3).each(function () {
+                                            var str3 = '<td>' + this.powersName+'</td>';
+                                            $("#" + trid).append(str3);
+                                        })
+                                    }
+                                });
+                            })
+                            
+                        }
+                    });
+                });
+                
             }
         });
         
