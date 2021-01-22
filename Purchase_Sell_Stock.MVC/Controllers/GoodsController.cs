@@ -44,7 +44,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         [HttpPost]
         public string AddImgInMvc()//MVC添加图片供能
         {
-
+            var s= System.Environment.CurrentDirectory;
             var uploadfile = Request.Form.Files[0];
             String name = uploadfile.FileName;//文件名称
             var path = Directory.GetCurrentDirectory();//文件夹绝对路径

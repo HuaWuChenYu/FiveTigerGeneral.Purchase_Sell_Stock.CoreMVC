@@ -83,6 +83,7 @@
 </body>
 </html>
 <script>
+    
     layui.use(['form', 'layer', 'table'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -144,8 +145,23 @@
             }
         })
 
-        $("#send").on('click', function () {
-            alert("kj ");
+        $("#send").on('click', function () {//api/ModifyOrderState/
+            $.ajax({
+                url: 'http://localhost:49760/api/ModifyOrderState/' + $("#orderId").val(),
+                type: 'post',
+                contentType: 'application/json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert("已发货");
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                        parent.layer.close(index);//关闭当前页
+                    }
+                    else {
+                        alert("操作失败");
+                    }
+                }
+            })
         })
     })
 

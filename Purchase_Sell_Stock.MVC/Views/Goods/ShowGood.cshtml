@@ -168,6 +168,7 @@
                         , title: '创建商品档案'
                         , area: ['600px', '800px']
                         , shade: 0
+                        , anim: 2
                         , id: 'LAY_layuipro' //设定一个id，防止重复弹出
                         , maxmin: false
                         , content: '/Goods/AddGood?storeId='+$("#storeId-Hid").val()
@@ -221,6 +222,7 @@
                     , title: '编辑商品档案'
                     , area: ['600px', '800px']
                     , shade: 0
+                    , anim: 2
                     , id: 'LAY_layuipro' //设定一个id，防止重复弹出
                     , maxmin: false
                     , content: '/Goods/ModifyGood?id=' + data.GoodsId + '&storeId=' + $("#storeId-Hid").val()
@@ -261,6 +263,8 @@
                     , title: '商品明细'
                     , area: ['600px', '800px']
                     , shade: 0
+                    , offset: 'rb'
+                    , anim: 2
                     , id: 'LAY_layuipro' //设定一个id，防止重复弹出
                     , maxmin: false
                     , content: '/Goods/ShowOne?id=' + data.GoodsId
