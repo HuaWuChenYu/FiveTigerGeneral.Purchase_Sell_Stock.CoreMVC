@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="AopSdk">
+      <HintPath>bin\Debug\AopSdk.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\辅助文件\Newtonsoft.Json.dll</HintPath>
     </Reference>
