@@ -15,28 +15,30 @@ namespace Purchase_Sell_Stock.MVC.Controllers
     public class LoginController : Controller
     {
         RegisterHelper rh = new RegisterHelper();
-        [Route("/Login/index")]
+
         public IActionResult Index()
         {
-            
             return View();
         }
-        public static string PostUrl = ConfigurationManager.AppSettings["WebReference.Service.PostUrl"];
         public IActionResult LoginIndex()
         {
             return View();
         }
-       [Route("/Login/Show")]
         public ActionResult Show()
         {
             return View();
         }
-        [Route("/Login/ForgetPwd")]
         public ActionResult ForgetPwd()
         {
             return View();
         }
-        public ActionResult XS()
+
+        public ActionResult XS(string pnoe=null)
+        {
+            
+            return View();
+        }
+        public IActionResult Register()
         {
             return View();
         }

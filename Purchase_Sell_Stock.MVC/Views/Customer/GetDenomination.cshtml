@@ -20,6 +20,10 @@
             <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
         </div>
     </script>
+    <script type="text/html" id="switchTpl">
+        <!-- 这里的 checked 的状态只是演示 -->
+        <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="sexDemo" {{ d.id == 10003 ? 'checked' : '' }}>
+    </script>
 </body>
 </html>
 <script>
@@ -38,15 +42,15 @@
             , title: '用户数据表'
             , cols: [[
                 { type: 'checkbox', fixed: 'left' }
-                , { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true }
-                , { field: 'username', title: '面额标签', width: 120, edit: 'text' }
-                , { field: 'username', title: '充值金额', width: 120, edit: 'text' }
-                , { field: 'username', title: '实付金额', width: 120, edit: 'text' }
-                , { field: 'username', title: '赠送金额', width: 120, edit: 'text' }
-                , { field: 'username', title: '说明', width: 120, edit: 'text' }
-                , { field: 'logins', title: '已充值数量', width: 100, sort: true }
-                , { field: 'joinTime', title: '有效期', width: 120 }
-                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                , { field: 'DenominationLable', title: '面额标签', width: 120,  }
+                , { field: 'DenominationMoney', title: '充值金额', width: 120, }
+                , { field: 'ActuallyMoney', title: '实付金额', width: 120,  }
+                , { field: 'GivenMoney', title: '赠送金额', width: 120, }
+                , { field: 'username', title: '说明', width: 120, }
+                , { field: 'Recgargenumber', title: '已充值数量', width: 100, sort: true }
+                , { field: 'PeriodValidity', title: '有效期', width: 120 }
+                , { field: 'WhetherEnable', title: '是否启用', width: 120, templet: '#switchTpl', unresize: true }
+               
             ]]
             , page: true
             , limit: 5
@@ -56,6 +60,10 @@
                 pageName: 'pageIndex',
             }
             , id: 'testReload'
+        });
+        //监听性别操作
+        form.on('switch(sexDemo)', function (obj) {
+            layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
         });
     });
 </script>

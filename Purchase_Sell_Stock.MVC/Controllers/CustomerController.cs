@@ -18,24 +18,51 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
-        /// <summary>
-        /// 全部用户功能
-        /// </summary>
-        /// <param name="customerId"></param>
-        /// <param name="lableId"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="customerName"></param>
-        /// <param name="customerPhone"></param>
-        /// <param name="customerIdentity"></param>
-        /// <param name="whetherEnable"></param>
-        /// <returns></returns>
-        
+        public IActionResult ShowGet()
+        {
+            return View();
+        }
+       /// <summary>
+       /// 用户标签
+       /// </summary>
+       /// <returns></returns>
         public IActionResult GetLableIndex()
         {
             return View();
         }
+        /// <summary>
+        /// 添加标签
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult AddLable()
+        {
+            return View();
+        }
+        public IActionResult Modify()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 充值面额
+        /// </summary>
+        /// <returns></returns>
         public IActionResult GetDenomination()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 新建面额
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult AddDenomination()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 充值记录
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult GetRechargeRecordIndex()
         {
             return View();
         }
