@@ -1,0 +1,194 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EmployeeShow</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <form class="layui-form">
+        <div class="demoTable">
+            员工工号:
+            <div class="layui-inline">
+                <input class="layui-input" id="EmployeeNumber" name="EmployeeId" autocomplete="off">
+            </div>
+            员工姓名:
+            <div class="layui-inline">
+                <input class="layui-input" id="EmployeeName" name="EmployeeName" autocomplete="off">
+            </div>
+            联系电话:
+            <div class="layui-inline">
+                <input class="layui-input" id="EmployeeContact" name="EmployeeContact" autocomplete="off">
+            </div>
+            所属部门:
+            <div class="layui-input-inline">
+                <select name="EmployeeDepartmentId" id="EmployeeDepartmentId" lay-filter="aihao">
+                    <option value="-1"></option>
+                </select>
+            </div>
+            所属角色:
+            <div class="layui-input-inline">
+                <select name="EmployeeRolesId" id="EmployeeRolesId" lay-filter="aihao">
+                    <option value="-1"></option>
+                </select>
+            </div>
+            <button class="layui-btn" data-type="reload"  type="submit" lay-submit="" lay-filter="demo1">查询</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </form>
+    <table class="layui-hide" id="test" lay-filter="test"></table>
+
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" id="createEmp" >创建员工</button>
+        </div>
+    </script>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" id="updateA" lay-event="edit">编辑</a>
+    </script>
+    <script type="text/html" id="titleTpl">
+        {{#  if(d.employeeStates ==true ){ }}
+        <label>正常</label>
+        {{#  } else { }}
+        <label>禁用</label>
+        {{#  } }}
+    </script>
+</body>
+</html>
+<script>
+    layui.use(['table', 'form'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var $ = layui.$;
+
+        LoadDept();
+        LoadRole();
+        
+        layui.form.render("select");
+
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:49760/api/Setting/GetEmployeesForShow'
+            , method: 'get'
+            , toolbar: '#toolbarDemo'
+            , title: '用户数据表'
+            , cols: [[
+                { field: 'employeeNumber', title: '员工工号', width: 80, fixed: 'left', unresize: true, sort: true, totalRowText: '合计' }
+                , { field: 'employeeName', title: '员工姓名', width: 120, edit: 'text' }
+                , { field: 'employeeContact', title: '联系电话', width: 150, edit: 'text', }
+                , { field: 'departmentName', title: '所属部门', width: 80, sort: true, totalRow: true }
+                , { field: 'rolesName', title: '所属角色', width: 80, edit: 'text', sort: true }
+                , { field: 'employeeCreateTime', title: '添加时间', width: 100, sort: true, totalRow: true }
+                , { field: 'employeeStates', title: '状态', templet: '#titleTpl' }
+                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+            ]]
+            , page: true
+            , request: {
+                limitName: 'pageSize',
+                pageName: 'pageIndex'
+            }
+            , limit: 3
+            , limits: [3, 6, 9]
+            , id: 'testReload'
+        });
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            return false;
+        });
+        var $ = layui.$, active = {
+            reload: function () {
+                var eNumber = $('#EmployeeNumber').val();
+                var eName = $('#EmployeeName').val();
+                var ePhone = $('#EmployeeContact').val();
+                var eDepartId = $('#EmployeeDepartmentId').val();
+                var eRoleId = $('#EmployeeRolesId').val();
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        eNumber: eNumber,
+                        eName: eName,
+                        ePhone: ePhone,
+                        eDepartId: eDepartId,
+                        eRoleId: eRoleId
+                    }
+                }, 'data');
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $("#createEmp").on('click', function () {
+            layer.open({
+                type: 2,
+                title: '创建员工',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '500px'], //宽高
+                content: '/Setting/AddEmployee',
+                btn: ['关闭'], //只是为了演示
+                yes: function () {
+                    layer.closeAll();
+                }
+
+            });
+        });
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'edit') {
+                layer.open({
+                    type: 2,
+                    title: '修改员工',
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['420px', '500px'], //宽高
+                    content: '/Setting/UpdateEmployee?id=' + data.employeeId,
+                    btn: ['关闭'], //只是为了演示
+                    yes: function () {
+                        layer.closeAll();
+                    }
+
+                });
+            }
+        });
+    });
+    function LoadDept() {
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetDepartments",
+            contentType: "application/json",
+            async: false,
+            success: function (d) {
+                $(d).each(function () {
+                    var str = "<option value='" + this.departmentId + "'>" + this.departmentName + "</option>";
+                    $("#EmployeeDepartmentId").append(str);
+                })
+            }
+        });
+        
+    }
+    function LoadRole() {
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetRolesForSelect",
+            contentType: "application/json",
+            async: false,
+            success: function (d) {
+                $(d).each(function () {
+                    var str = "<option value='" + this.rolesId + "'>" + this.rolesName + "</option>";
+                    $("#EmployeeRolesId").append(str);
+                })
+            }
+        });
+    }
+</script>

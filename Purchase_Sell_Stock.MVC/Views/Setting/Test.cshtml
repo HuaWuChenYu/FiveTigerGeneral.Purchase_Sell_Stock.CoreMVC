@@ -12,6 +12,7 @@
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <link href="~/css/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
 </head>
 <body>
     <div style="float:left;width:340px;margin-left:10px;margin-top:10px">
@@ -27,35 +28,9 @@
                 <td>页面主菜单</td>
                 <td>页面副菜单</td>
             </tr>
+            
         </table>
     </div>
-    <table width="100%" border="1">
-        <tr>
-            <td rowspan="7">hhh1</td>
-            <td rowspan="3">hhh5</td>
-            <td>hhh5</td>
-        </tr>
-        <tr>
-            <td>hhh5</td>
-        </tr>
-        <tr>
-            <td>hhh5</td>
-        </tr>
-        <tr>
-            <td rowspan="3">hhh5</td>
-            <td>hhh5</td>
-        </tr>
-        <tr>
-            <td>hhh5</td>
-        </tr>
-        <tr>
-            <td>hhh5</td>
-        </tr>
-        <tr>
-            <td>hhh5</td>
-            <td>hhh5</td>
-        </tr>
-    </table>
 </body>
 </html>
 <script>
@@ -66,9 +41,11 @@
             , $ = layui.$;
         //模拟数据1
         var rowspan1=0;
-        var rowspan2=0;
-        var rowspan3=0;
+        var rowspan2 = 0;
+        var rowspan3 = 0;
+        var count = 0;
         var data;
+        //$("#setrow").attr("rowspan",11);
         $.ajax({
             url: "http://localhost:49760/api/Setting/GetRoleTypes",
             contentType: "application/json",
@@ -77,37 +54,51 @@
                 data = d;
             }
         });
+        //加载右边表
         $.ajax({
             url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=0&rolesId=1",
             contentType: "application/json",
             async: false,
             success: function (d) {
                 $(d).each(function () {
-                    var trid = 'trid' + this.powersId;
-                    var str = '<tr id="' + trid + '">'
-                        + '<td>' + this.powersName + '</td>'
+                    var powerid = this.powersId;
+                    var trid = 'setrow' + this.powersId;
+                    var str = '<tr>'
+                        + '<td id="' + trid + '"><input id="cb' + this.powersId + '" type="checkbox"  onclick="BossMenu(' + this.powersId+',2)" /> ' + this.powersName + '</td>'
                         + '</tr>';
                     $("#setPower").append(str);
+                    count = 0;
                     $.ajax({
                         url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=" + this.powersId+"&rolesId=1",
                         contentType: "application/json",
                         async: false,
                         success: function (d2) {
                             $(d2).each(function () {
-                                var str2 = '<td>' + this.powersName + '</td>';
-                                $("#" + trid).append(str2);
+                                var powid = this.powersId;
+                                var trid2 = 'setrow' + this.powersId;
+                                var str2 = '<tr>'
+                                    + '<td id="' + trid2 + '"> <input  id="cb' + this.powersId + '" value="' + this.powersId+'" type="checkbox" class="main'+powerid+'" onclick="MainMenu(' + this.powersId +',2)" />' + this.powersName + '</td>'
+                                    + '</tr>';
+                                $("#setPower").append(str2);
                                 $.ajax({
                                     url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=" + this.powersId + "&rolesId=1",
                                     contentType: "application/json",
                                     async: false,
                                     success: function (d3) {
+                                        var rowcount = d3.length;
+                                        $("#" + trid2).attr("rowspan", rowcount + 1);
+                                        count += rowcount + 1;
                                         $(d3).each(function () {
-                                            var str3 = '<td>' + this.powersName+'</td>';
-                                            $("#" + trid).append(str3);
+                                            var trid3 = 'setrow' + this.powersId;
+                                            var str3 = '<tr>'
+                                                + '<td id="' + trid3 + '"> <input  id="cb' + this.powersId + '" type="checkbox" value="' + this.powersId + '" class="smallcb' + powid +'" onclick="ChangeRolePower(' + this.powersId +',2)" />' + this.powersName + '</td>'
+                                                + '</tr>';
+                                            $("#setPower").append(str3);
                                         })
                                     }
                                 });
-                            })
+                            });
+                            $("#" + trid).attr("rowspan", count + 1);
                             
                         }
                     });
@@ -115,7 +106,16 @@
                 
             }
         });
-        
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetPowersByShowId?roleId=2",
+            contentType: "application/json",
+            async: false,
+            success: function (d) {
+                $(d).each(function () {
+                    $("#cb" + this.powersId).attr("checked",true);
+                })
+            }
+        });
         //无连接线风格
         tree.render({
             elem: '#test13'
@@ -124,4 +124,139 @@
         });
 
     });
+    var arr = [];
+    function BossMenu(pid,rid) {
+        var check = $("#cb" + pid).prop("checked");
+        if (check == true) {
+            arr = [];
+            arr.push(pid);
+            $(".main"+pid).each(function () {
+                var IsCheck = this.checked;
+                if (IsCheck == false) {
+                    $("#cb" + this.value).prop("checked",true);
+                    MainMenu(this.value,rid);
+                }
+            });
+        }
+        else if (check == false) {
+            arr = [];
+            arr.push(pid);
+            $(".main" + pid + ":checked" + "").each(function () {
+                $("#cb" + this.value).prop("checked", false);
+                MainMenu(this.value, rid);
+            });
+        }
+        else {
+            alert('没有得到选中的值');
+        }
+    }
+    function MainMenu(pid, rid) {
+        var check = $("#cb" + pid).prop("checked");
+        if (check==true) {
+            arr.push(pid);
+            $(".smallcb" + pid + "").each(function () {
+                var IsCheck = this.checked;
+                if (IsCheck==false) {
+                    arr.push(this.value);
+                }
+            });
+            AddPower(arr.toString(), rid);
+            //改checked
+            for (var i in arr) {
+                $("#cb" + arr[i]).prop("checked",true);
+            }
+            arr = [];
+        }
+        else if (check==false) {
+            arr.push(pid);
+            $(".smallcb" + pid +":checked"+ "").each(function () {
+                arr.push(this.value);
+            });
+            DeletePower(arr.toString(), rid);
+            for (var i in arr) {
+                $("#cb" + arr[i]).prop("checked", false);
+            }
+            arr = [];
+        }
+        else {
+            alert('没有得到选中的值');
+        }
+        
+
+    }
+    //小菜单
+    function ChangeRolePower(pid, rid) {
+        var check = $("#cb" + pid).prop("checked");
+        if (check == true) {
+            var fpid = $("#cb" + pid).prop("class").substring(7);
+            var ffpid = $("#cb" + fpid).prop("class").substring(4);
+            if ($("#cb" + ffpid).prop("checked") == false) {
+                AddPower(ffpid, rid);
+                $("#cb" + ffpid).prop("checked", true);
+            }
+            if ($("#cb" + fpid).prop("checked")==false) {
+                AddPower(fpid, rid);
+                $("#cb" + fpid).prop("checked", true);
+            }
+            AddPower(pid, rid);
+        }
+        else if (check == false) {
+            var pclass = $("#cb" + pid).prop("class");
+            var pchecked = false;
+            $("." + pclass).each(function () {
+                if (this.checked == true) {
+                    pchecked = true;
+                    return;
+                }
+            });
+            if (pchecked==false) {
+                var fpid = $("#cb" + pid).prop("class").substring(7);
+                var ffpid = $("#cb" + fpid).prop("class").substring(4);
+                if ($("#cb" + ffpid).prop("checked") == true) {
+                    DeletePower(ffpid, rid);
+                    $("#cb" + ffpid).prop("checked", false);
+                }
+                if ($("#cb" + fpid).prop("checked") == true) {
+                    DeletePower(fpid, rid);
+                    $("#cb" + fpid).prop("checked", false);
+                }
+            }
+            DeletePower(pid,rid);
+        }
+        else {
+            alert('没有得到选中项');
+        }
+    }
+    //添加权限方法
+    function AddPower(pid,rid) {
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/AddPowersAndRoles?powerId=" + pid + "&roleId=" + rid,
+            contentType: "application/json",
+            async: false,
+            success: function (d) {
+                if (d > 0) {
+                    alert('获得了 ' + d + ' 项权限!');
+                }
+                else {
+                    alert('获得权限失败!');
+                }
+            }
+        });
+    }
+    //删除权限方法
+    function DeletePower(pid,rid) {
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/DeletePowersAndRoles?powerId=" + pid + "&roleId=" + rid,
+            contentType: "application/json",
+            async: false,
+            success: function (d) {
+                if (d > 0) {
+                    alert('剥夺了 ' + d + ' 项权利!');
+                }
+                else {
+                    alert('剥夺权利失败!');
+                }
+            }
+        });
+    }
 </script>
