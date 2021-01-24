@@ -16,6 +16,12 @@
 
     <form class="layui-form" action="">
         <div class="layui-form-item">
+            <label class="layui-form-label">用户编号</label>
+            <div class="layui-input-block">
+                <input type="text" id="customerId" value=" " lay-verify="title" style="width:200px" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">用户名称</label>
             <div class="layui-input-block">
                 <input type="text" id="name" value=" " lay-verify="title" style="width:200px" autocomplete="off" placeholder="请输入用户名" class="layui-input">
@@ -61,24 +67,42 @@
             <div class="layui-input-block">
                 <button type="button" class="layui-btn" lay-submit="" id="sel">查询</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button type="button" class="layui-btn" lay-event="refresh" onclick="location.href='/Customer/Allusers'">刷新</button>
             </div>
         </div>
         <table class="layui-hide" id="test" lay-filter="test"></table>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
     </form>
 </body>
 </html>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
+
     
 <script>
-    layui.use('table', function () {
-        var table = layui.table;
+    layui.use('table', 'layer','form', function () {
+        var table = layui.table
+            , layer = layui.layer
+            , form = layui.form;
         var $ = layui.$;
+        $.ajax({
+            url: '',
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                $("#type").empty();
+                $("#type").append('<option value="空" selected>全部</option>');
+                $(d).each(function () {
+                    var str = '<option value="' + this.customerId + '" >' + this.customerName + '</option>';
+                    $("#type").append(str);
+                })
+                layui.form.render("select");
+            }
+        })
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/GetCustomers/' + 1
+            , url: 'http://localhost:49760/api/GetCustomerShow'
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
                 title: '提示'
@@ -89,19 +113,19 @@
             , cols: [[
                 { type: 'checkbox', fixed: 'left' }
                 , { field: 'CustomerId', title: '用户编号', width: 80, fixed: 'left', unresize: true, sort: true }
-                , { field: 'CustomerName', title: '用户名称', width: 120, edit: 'text' }
-                , { field: 'CustomerPhone', title: '手机号', width: 120, edit: 'text' }
-                , { field: 'Customeridentity', title: '用户身份', width: 120, edit: 'text' }
-                , { field: 'LableId', title: '用户标签', width: 120, edit: 'text' }
-                , { field: 'Customertimes', title: '用户分群', width: 120, edit: 'text' }
-                , { field: 'Customertimes', title: '消费次数', width: 120, edit: 'text' }
-                , { field: 'Customerprice', title: '单均价', width: 120, edit: 'text' }
-                , { field: 'WalletBalance', title: '消费总金额', width: 120, edit: 'text' }
+                , { field: 'CustomerName', title: '用户名称', width: 120}
+                , { field: 'CustomerPhone', title: '手机号', width: 120}
+                , { field: 'Customeridentity', title: '用户身份', width: 120 }
+                , { field: 'LableId', title: '用户标签', width: 120 }
+                , { field: 'Customertimes', title: '用户分群', width: 120 }
+                , { field: 'Customertimes', title: '消费次数', width: 120}
+                , { field: 'Customerprice', title: '单均价', width: 120 }
+                , { field: 'WalletBalance', title: '消费总金额', width: 120 }
                 , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
             ]]
             , page: true
             , limit: 5
-            ,limits:[5,10,50]
+            , limits: [5, 10, 50]
             , request: {
                 limitName: 'pageSize',
                 pageName: 'pageIndex',
@@ -115,9 +139,10 @@
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
+                    customerId: $("#customerId").val();
                     customerName: $("#name").val(),
                     customerPhone: $("#phone").val(),
-                    customerIdentity: $("#Customeridentity").text(),
+                    customerIdentity: $("#Customeridentity").val(),
                     whetherEnable: $("#classer").val(),
                     lableId: $("#type").val()
                 }
