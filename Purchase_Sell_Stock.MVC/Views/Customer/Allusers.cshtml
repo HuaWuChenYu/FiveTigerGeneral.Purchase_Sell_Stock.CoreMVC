@@ -16,6 +16,12 @@
 
     <form class="layui-form" action="">
         <div class="layui-form-item">
+            <label class="layui-form-label">用户编号</label>
+            <div class="layui-input-block">
+                <input type="text" id="customerId" value=" " lay-verify="title" style="width:200px" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">用户名称</label>
             <div class="layui-input-block">
                 <input type="text" id="name" value=" " lay-verify="title" style="width:200px" autocomplete="off" placeholder="请输入用户名" class="layui-input">
@@ -61,6 +67,7 @@
             <div class="layui-input-block">
                 <button type="button" class="layui-btn" lay-submit="" id="sel">查询</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button type="button" class="layui-btn" lay-event="refresh" onclick="location.href='/Customer/Allusers'">刷新</button>
             </div>
         </div>
         <table class="layui-hide" id="test" lay-filter="test"></table>
@@ -74,9 +81,25 @@
 
     
 <script>
-    layui.use('table', function () {
-        var table = layui.table;
+    layui.use('table', 'layer','form', function () {
+        var table = layui.table
+            , layer = layui.layer
+            , form = layui.form;
         var $ = layui.$;
+        $.ajax({
+            url: '',
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                $("#type").empty();
+                $("#type").append('<option value="空" selected>全部</option>');
+                $(d).each(function () {
+                    var str = '<option value="' + this.customerId + '" >' + this.customerName + '</option>';
+                    $("#type").append(str);
+                })
+                layui.form.render("select");
+            }
+        })
         table.render({
             elem: '#test'
             , url: 'http://localhost:49760/api/GetCustomerShow'
@@ -116,9 +139,10 @@
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
+                    customerId: $("#customerId").val();
                     customerName: $("#name").val(),
                     customerPhone: $("#phone").val(),
-                    customerIdentity: $("#Customeridentity").text(),
+                    customerIdentity: $("#Customeridentity").val(),
                     whetherEnable: $("#classer").val(),
                     lableId: $("#type").val()
                 }

@@ -15,10 +15,19 @@ namespace Purchase_Sell_Stock.MVC.Controllers
     public class LoginController : Controller
     {
         RegisterHelper rh = new RegisterHelper();
-
-        public IActionResult Index()
+        //[Route("/Login/aa")]
+        //[HttpGet]
+        //public IActionResult Index(string pone = null)
+        //{
+           
+        //    return View();
+            
+        //}
+        public IActionResult Indexs(string pone = null)
         {
-            return View();
+            int YZM = rh.Page_Load(pone);
+            return View(YZM);
+
         }
         public IActionResult LoginIndex()
         {
@@ -32,10 +41,9 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
-
-        public ActionResult XS(string pnoe=null)
+        
+        public ActionResult XS()
         {
-            
             return View();
         }
         public IActionResult Register()

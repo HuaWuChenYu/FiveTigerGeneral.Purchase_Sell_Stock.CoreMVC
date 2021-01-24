@@ -38,8 +38,9 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
-        public IActionResult Modify()
+        public IActionResult Modify(int Id)
         {
+            ViewBag.id = Id;
             return View();
         }
         /// <summary>

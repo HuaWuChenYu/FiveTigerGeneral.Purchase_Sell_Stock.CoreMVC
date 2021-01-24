@@ -20,6 +20,7 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-submit="" lay-event="demo1">新建标签</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-event="refresh" onclick="location.href='/Customer/GetLableIndex'">刷新</button>
     </div>
 </script>
 
@@ -38,6 +39,7 @@
             , title: '用户数据表'
             , cols: [[
                 { type: 'checkbox', fixed: 'left' }
+               
                 , { field: 'LableName', title: '标签名称', width: 120, }
                 , { field: 'CustomerNumber', title: '用户数', width: 100, sort: true }
                 , { field: 'LableExplain', title: '说明', width: 120, }
@@ -79,31 +81,7 @@
                     break;
             };
         });
-        //监听行工具事件
-        table.on('tool(test)', function (obj) {
-            var data = obj.data;
-            switch (obj.event) {
-                case 'edit':
-                    layer.open({
-                        type: 2 //此处以iframe举例
-                        , title: '创建商品档案'
-                        , area: ['600px', '800px']
-                        , shade: 0
-                        , id: 'LAY_layuipro' //设定一个id，防止重复弹出
-                        , maxmin: false
-                        , content: '/Customer/Modify'
-                        , btn: ['关闭'] //只是为了演示
-                        , btn2: function () {
-                            layer.closeAll();
-                        }
-                        , zIndex: layer.zIndex //重点1
-                        , success: function (layero) {
-                            layer.setTop(layero); //重点2
-                        }
-                    });
-                    break;
-            };
-        });
+        
         //监听行工具事件
         table.on('tool(test)', function (obj) {
             var data = obj.data;
@@ -129,6 +107,25 @@
                         }
                     })
                     layer.close(index);
+                });
+            }
+            else if (obj.event === 'edit') {
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '编辑标签'
+                    , area: ['600px', '800px']
+                    , shade: 0
+                    , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    , maxmin: false
+                    , content: '/Customer/Modify/'+data.LableId
+                    , btn: ['关闭'] //只是为了演示
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+                    , zIndex: layer.zIndex //重点1
+                    , success: function (layero) {
+                        layer.setTop(layero); //重点2
+                    }
                 });
             }
         });

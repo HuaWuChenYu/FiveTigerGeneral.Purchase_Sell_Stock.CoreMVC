@@ -17,7 +17,8 @@
 
     <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+            <button class="layui-btn layui-btn-sm" lay-submit="" lay-event="demo1">新建面额</button>
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="refresh" onclick="location.href='/Customer/GetDenomination'">刷新</button>
         </div>
     </script>
     <script type="text/html" id="switchTpl">
@@ -61,9 +62,31 @@
             }
             , id: 'testReload'
         });
-        //监听性别操作
-        form.on('switch(sexDemo)', function (obj) {
-            layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'demo1':
+                    layer.open({
+                        type: 2 //此处以iframe举例
+                        , title: '创建商品档案'
+                        , area: ['600px', '800px']
+                        , shade: 0
+                        , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                        , maxmin: false
+                        , content: '/Customer/AddDenomination'
+                        , btn: ['关闭'] //只是为了演示
+                        , btn2: function () {
+                            layer.closeAll();
+                        }
+                        , zIndex: layer.zIndex //重点1
+                        , success: function (layero) {
+                            layer.setTop(layero); //重点2
+                        }
+                    });
+                    break;
+            };
         });
+       
     });
 </script>

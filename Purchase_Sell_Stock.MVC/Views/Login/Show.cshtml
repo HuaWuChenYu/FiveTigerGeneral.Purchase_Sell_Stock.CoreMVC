@@ -54,7 +54,7 @@
                     success: function (d) {
                         if (d > 0) {
                             layer.alert("登录成功", { icon: 6, time: 2000 });
-                            location.href = '/Customer/GetLableIndex';
+                            location.href = '/Model/ChoseStore?id=' + $("#phone").val();
                         }
                         else {
                             layer.msg("登录失败");

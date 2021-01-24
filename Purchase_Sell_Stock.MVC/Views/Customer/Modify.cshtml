@@ -17,13 +17,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">标签名称</label>
             <div class="layui-input-block">
-                <input type="text" name="lableName" value="@ViewBag.Id" lay-verify="title" autocomplete="off" placeholder="请输入标签名称" class="layui-input">
+                <input type="text" name="lableName" id="LableName" lay-verify="title" autocomplete="off" placeholder="请输入标签名称" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">说明</label>
             <div class="layui-input-block">
-                <textarea name="lableExplain" placeholder="请输入说明" class="layui-textarea"></textarea>
+                <textarea name="lableExplain" id="LableExplain" placeholder="请输入说明" class="layui-textarea"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -42,6 +42,7 @@
         //监听提交
         form.on('submit(demo1)', function (data) {
             var obj = {};
+            obj.LableId=@ViewBag.id;
             obj.LableName = data.field.lableName;
             obj.LableExplain = data.field.lableExplain;
             console.log(obj);
@@ -66,14 +67,12 @@
         });
         //表单赋值反填
         $.ajax({
-            url: 'http://localhost:49760/api/Ft?id='+$("#LableId").val(),
-            type: 'post',
+            url: 'http://localhost:49760/api/Ft/'+@ViewBag.id,
+            type: 'get',
             contentType: 'application/json',
             success: function (d) {
-                form.val('example', {
-                    "LableName": d.LableName
-                    , "LableExplain": d.lableExplain
-                });
+                $("#LableName").val(d.lableName);
+                $("#LableExplain").val(d.lableExplain);
             }
         })
     });
