@@ -12,7 +12,18 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class SettingController : Controller
     {
+        //店铺信息
         public IActionResult StoreInfo()
+        {
+            return View();
+        }
+        //店铺设置
+        public IActionResult StoreSetAdd()
+        {
+            return View();
+        }
+        //主体认证
+        public IActionResult CompanyAdd()
         {
             return View();
         }

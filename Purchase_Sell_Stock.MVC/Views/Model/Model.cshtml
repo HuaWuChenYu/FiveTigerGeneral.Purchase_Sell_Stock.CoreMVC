@@ -35,11 +35,11 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <div class="layui-input-inline">
-                        <input type="text" style="color:black" autocomplete="off" placeholder="请输入关键字全站搜索" class="layui-input">
+                        <input type="text" style="color:black" id="textSel" autocomplete="off" placeholder="请输入关键字全站搜索" class="layui-input">
                     </div>
                 </li>
                 <li class="layui-nav-item">
-                    <button type="button" style="background-color:hotpink" class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+                    <button type="button" onclick="Sel()" style="background-color:hotpink" class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
                 </li>
                 <li class="layui-nav-item">
                     <button type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
@@ -107,6 +107,7 @@
 <script>
     document.getElementById("Side").hidden = "hidden";
     document.getElementById("Body").style.left = "0px";
+    var id = -1;
     //var count = 0;
     //style = "width:1669px;height:779px"
     //if (count == 0) {
@@ -118,9 +119,9 @@
     //}
     layui.use(['element'], function () {
         var element = layui.element;
-        var div = layui.div;
+        
         var $ = layui.$;
-        var id = @ViewBag.id;
+        id = @ViewBag.id;
         if (id<=0) {
             id = 1;
         }
@@ -129,7 +130,7 @@
             contentType: "application/json",
             success: function (d) {
                 $(d).each(function () {
-                    var str = "<li class='layui-nav-item'><a onclick='ChangeLeft(" + this.powersId + ",1)'>" + this.powersName + "</a></li>";
+                    var str = "<li class='layui-nav-item'><a onclick='ChangeLeft(" + this.powersId + "," + id + ")'>" + this.powersName + "</a></li>";
                     $("#upNavigation").append(str);
                 })
             }
@@ -174,6 +175,11 @@
                 });
             }
         });
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element;
+            var layer = layui.layer;
+            element.init(); //这行代码就是关键
+        });
     }
     function changeIFrame(thisurl) {
         document.getElementById("iframe1").src = thisurl;
@@ -183,4 +189,33 @@
         var layer = layui.layer;
         element.init(); //这行代码就是关键
     });
+    function Sel() {
+        var name = $("#textSel").val();
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetPowersBySel?name=" + name + "&empId="+id,
+            contentType: "application/json",
+            success: function (d) {
+                if (d.powersParentId == 0) {
+                    ChangeLeft(d.powersId,id);
+                    changeIFrame(d.powersURL);
+                }
+                else if (d.powersParentId > 0 && d.powersParentId<=11) {
+                    ChangeLeft(d.powersParentId, id);
+                    changeIFrame(d.powersURL);
+                }
+                else {
+                    $.ajax({
+                        url: "http://localhost:49760/api/Setting/GetPowerIdForBig?pid=" + d.powersParentId,
+                        contentType: "application/json",
+                        success: function (data) {
+                            ChangeLeft(data, id);
+                            changeIFrame(d.powersURL);
+                        }
+                    });
+                    
+                }
+                
+            }
+        });
+    }
 </script>

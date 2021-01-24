@@ -26,8 +26,9 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
-        public IActionResult ChoseStore()
+        public IActionResult ChoseStore(string phone="18312345671")
         {
+            ViewBag.phone = phone;
             return View();
         }
     }
