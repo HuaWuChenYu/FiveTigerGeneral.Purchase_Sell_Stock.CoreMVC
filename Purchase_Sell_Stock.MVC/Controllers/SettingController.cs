@@ -12,12 +12,57 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class SettingController : Controller
     {
+        //店铺信息
         public IActionResult StoreInfo()
         {
             return View();
         }
+        //店铺设置
+        public IActionResult StoreSetAdd()
+        {
+            return View();
+        }
+        //主体认证
+        public IActionResult CompanyAdd()
+        {
+            return View();
+        }
+        //角色权限
         public IActionResult UpdateRolesPowers()
         {
+            return View();
+        }
+        //显示员工
+        public IActionResult EmployeeShow()
+        {
+            return View();
+        }
+        //添加员工
+        public IActionResult AddEmployee()
+        {
+            return View();
+        }
+        //修改员工
+        public IActionResult UpdateEmployee(int id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
+        //部门显示
+        public IActionResult DepartmentShow()
+        {
+            return View();
+        }
+        //创建部门
+        public IActionResult AddDepartment(int id=-1)
+        {
+            ViewBag.adid = id;
+            return View();
+        }
+        //修改员工
+        public IActionResult UpdateDepartment(int id)
+        {
+            ViewBag.did = id;
             return View();
         }
         public IActionResult Test()

@@ -1,0 +1,379 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CompanyAdd</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <style>
+        .logodiv {
+            width: 126px;
+            height: 96px;
+            float: left;
+            background-color: whitesmoke;
+            border: 1px solid pink;
+            color: pink
+        }
+
+            .logodiv:hover {
+                border: 1px solid hotpink;
+                color: hotpink
+            }
+
+        .logodiv2 {
+            width: 126px;
+            height: 126px;
+            float: left;
+            background-color: whitesmoke;
+            border: 1px solid pink;
+            color: pink
+        }
+    </style>
+</head>
+<body>
+    <form class="layui-form" action="" lay-filter="example">
+        <table style="line-height:50px">
+            <tr>
+                <td>认证状态:</td>
+                <td>
+                    <label id="companyStates"></label>
+                </td>
+            </tr>
+            <tr>
+                <td>主体类型:</td>
+                <td>
+                    <div class="layui-input-block">
+                        <input type="radio" name="companyType" value="true" title="公司" checked="">
+                        <input type="radio" name="companyType" value="false" title="个人">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>公司名称</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="companyName" placeholder="请输入公司名称" autocomplete="off" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>公司地址</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="companyAddress" lay-verify="storeName" autocomplete="off" placeholder="请输入客户名称,个人请填写姓名" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>法人姓名:</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="companyLegalPerson" lay-verify="title" autocomplete="off" placeholder="请输入法人姓名" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>法人身份证号:</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="companyIDNUM" lay-verify="title" placeholder="请输入法人身份证号" autocomplete="off" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>统一社会信息代码</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="companyUnifyNUM" lay-verify="title" autocomplete="off" placeholder="请输入统一社会信息代码" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>营业执照:</td>
+                <td>
+                    <div class="layui-upload">
+                        <div id="test1" class="logodiv" style="padding-top:30px">
+                            <i class="layui-icon" style="font-size:30px;margin-top:50px;margin-left:50px">&#xe654;</i><br /><label style="margin-left:35px">上传图片</label>
+                        </div>
+                        <div class="logodiv2" id="imgdiv" style="margin-left:10px">
+                            <p style="margin: 35px"><i class="layui-icon" style="font-size:50px">&#xe64a;</i></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>姓名:</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="companyPersonName" lay-verify="title" autocomplete="off" placeholder="请输入姓名" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>身份证号:</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="companyPersonIDNUM" lay-verify="title" autocomplete="off" placeholder="请输入身份证号" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>联系电话:</td>
+                <td>
+                    <div class="layui-input-inline">
+                        <input type="text" name="companyLinkmanPhone" lay-verify="title" autocomplete="off" placeholder="请输入联系电话" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>身份证正面:</td>
+                <td>
+                    <div class="layui-upload">
+                        <div id="test2" class="logodiv" style="padding-top:30px">
+                            <i class="layui-icon" style="font-size:30px;margin-top:50px;margin-left:50px">&#xe654;</i><br /><label style="margin-left:35px">上传图片</label>
+                        </div>
+                        <div class="logodiv2" id="imgdiv2" style="margin-left:10px">
+                            <p style="margin: 35px"><i class="layui-icon" style="font-size:50px">&#xe64a;</i></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label style="color:red">*</label>身份证反面:</td>
+                <td>
+                    <div class="layui-upload">
+                        <div id="test3" class="logodiv" style="padding-top:30px">
+                            <i class="layui-icon" style="font-size:30px;margin-top:50px;margin-left:50px">&#xe654;</i><br /><label style="margin-left:35px">上传图片</label>
+                        </div>
+                        <div class="logodiv2" id="imgdiv3" style="margin-left:10px">
+                            <p style="margin: 35px"><i class="layui-icon" style="font-size:50px">&#xe64a;</i></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button type="submit" class="layui-btn" lay-submit="" id="save" style="background-color:deeppink" lay-filter="demo1">保存</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layer','element', 'layedit', 'laydate', 'upload'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        var element = layui.element;
+        var $ = layui.jquery
+            , upload = layui.upload;
+        var storeid = 2;
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/IsHaveCompany?storeid="+storeid,
+            contentType: "application/json",
+            success: function (d) {
+                if (d.length>0) {
+                    $("#companyStates").text("已认证");
+                    $(d).each(function () {
+                        form.val('example', {
+                            "companyType": this.companyType
+                            , "companyName": this.companyName
+                            , "companyAddress": this.companyAddress
+                            , "companyLegalPerson": this.companyLegalPerson
+                            , "companyIDNUM": this.companyIDNUM
+                            , "companyUnifyNUM": this.companyUnifyNUM
+                            , "companyPersonName": this.companyPersonName
+                            , "companyPersonIDNUM": this.companyPersonIDNUM
+                            , "companyLinkmanPhone": this.companyLinkmanPhone
+                        });
+                        
+                        $("#imgdiv").empty();
+                        var str = '<img src=""  style="width:126px;height:126px" id="demo1" alt="加载中..." />';
+                        $("#imgdiv").append(str);
+                        $('#demo1').attr('src', this.companyPhoto); //图片链接（base64）
+
+                        $("#imgdiv2").empty();
+                        var str = '<img src=""  style="width:126px;height:126px" id="demo2" alt="加载中..." />';
+                        $("#imgdiv2").append(str);
+                        $('#demo2').attr('src', this.idFront); //图片链接（base64）
+
+                        $("#imgdiv3").empty();
+                        var str = '<img src=""  style="width:126px;height:126px" id="demo3" alt="加载中..." />';
+                        $("#imgdiv3").append(str);
+                        $('#demo3').attr('src', this.idBack); //图片链接（base64）
+
+                        $("#save").addClass("layui-btn layui-btn-disabled").prop("disabled", true); 
+                    })
+                }
+                else {
+                    $("#companyStates").text("未认证");
+                }
+                
+            }
+        });
+        var CompanyPhoto;
+        var IDFront;
+        var IDBack;
+        //营业执照图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            , url: '/Setting/GetImg' //改成您自己的上传接口
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $("#imgdiv").empty();
+                    var str = '<img src=""  style="width:126px;height:126px" id="demo1" alt="加载中..." />';
+                    $("#imgdiv").append(str);
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+                //如果上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                CompanyPhoto = res.result;
+                //上传成功
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+        //身份证正面
+        var uploadInst = upload.render({
+            elem: '#test2'
+            , url: '/Setting/GetImg' //改成您自己的上传接口
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $("#imgdiv2").empty();
+                    var str = '<img src=""  style="width:126px;height:126px" id="demo2" alt="加载中..." />';
+                    $("#imgdiv2").append(str);
+                    $('#demo2').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+                //如果上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                IDFront = res.result;
+                //上传成功
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+        //身份证反面
+        var uploadInst = upload.render({
+            elem: '#test3'
+            , url: '/Setting/GetImg' //改成您自己的上传接口
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $("#imgdiv3").empty();
+                    var str = '<img src=""  style="width:126px;height:126px" id="demo3" alt="加载中..." />';
+                    $("#imgdiv3").append(str);
+                    $('#demo3').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+                //如果上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                IDBack = res.result;
+                //上传成功
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+        //自定义验证规则
+        form.verify({
+            storeName: function (value) {
+                if (value.length < 3) {
+                    return '店铺名称至少得3个字!!!';
+                }
+            }
+            //, pass: [
+            //    /^[\S]{6,12}$/
+            //    , '密码必须6到12位，且不能出现空格'
+            //]
+        });
+
+
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            data.field.companyPhoto = CompanyPhoto;
+            data.field.companyType =  Boolean(data.field.companyType)
+            data.field.iDFront = IDFront;
+            data.field.iDBack = IDBack;
+            data.field.storeId = storeid;
+            //layer.alert(JSON.stringify(data.field), {
+            //    title: '最终的提交信息'
+            //})
+            $.ajax({
+                url: "http://localhost:49760/api/Setting/AddCompany",
+                contentType: "application/json",
+                data: JSON.stringify(data.field),
+                type: "post",
+                success: function (d) {
+                    if (d > 0) {
+                        alert('保存成功');
+                    }
+                    else {
+                        alert('保存失败');
+                    }
+                }
+            });
+
+            return false;
+        });
+        //图片放大
+        //element.init(); //这行代码就是关键
+        //$('#demo1').on('click', function () {
+        //    layer.photos({
+        //        photos: '#imgdiv',
+        //        shadeClose: true,
+        //        closeBtn: 2,
+        //        anim: 1
+        //    });
+        //});
+        
+    });
+</script>

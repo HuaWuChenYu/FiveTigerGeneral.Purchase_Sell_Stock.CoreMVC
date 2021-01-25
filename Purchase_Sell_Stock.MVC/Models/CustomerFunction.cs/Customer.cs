@@ -37,7 +37,7 @@ namespace Purchase_Sell_Stock.MVC.Models.CustomerFunction.cs
         /// <summary>
         /// 单均价
         /// </summary>
-        public float Customerprice { get; set; }
+        public decimal Customerprice { get; set; }
         /// <summary>
         /// 钱包余额
         /// </summary>

@@ -17,8 +17,13 @@
 
     <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+            <button class="layui-btn layui-btn-sm" lay-submit="" lay-event="demo1">新建面额</button>
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="refresh" onclick="location.href='/Customer/GetDenomination'">刷新</button>
         </div>
+    </script>
+    <script type="text/html" id="switchTpl">
+        <!-- 这里的 checked 的状态只是演示 -->
+        <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="sexDemo" {{ d.id == 10003 ? 'checked' : '' }}>
     </script>
 </body>
 </html>
@@ -38,15 +43,15 @@
             , title: '用户数据表'
             , cols: [[
                 { type: 'checkbox', fixed: 'left' }
-                , { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true }
-                , { field: 'username', title: '面额标签', width: 120, edit: 'text' }
-                , { field: 'username', title: '充值金额', width: 120, edit: 'text' }
-                , { field: 'username', title: '实付金额', width: 120, edit: 'text' }
-                , { field: 'username', title: '赠送金额', width: 120, edit: 'text' }
-                , { field: 'username', title: '说明', width: 120, edit: 'text' }
-                , { field: 'logins', title: '已充值数量', width: 100, sort: true }
-                , { field: 'joinTime', title: '有效期', width: 120 }
-                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                , { field: 'DenominationLable', title: '面额标签', width: 120,  }
+                , { field: 'DenominationMoney', title: '充值金额', width: 120, }
+                , { field: 'ActuallyMoney', title: '实付金额', width: 120,  }
+                , { field: 'GivenMoney', title: '赠送金额', width: 120, }
+                , { field: 'username', title: '说明', width: 120, }
+                , { field: 'Recgargenumber', title: '已充值数量', width: 100, sort: true }
+                , { field: 'PeriodValidity', title: '有效期', width: 120 }
+                , { field: 'WhetherEnable', title: '是否启用', width: 120, templet: '#switchTpl', unresize: true }
+               
             ]]
             , page: true
             , limit: 5
@@ -57,5 +62,31 @@
             }
             , id: 'testReload'
         });
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'demo1':
+                    layer.open({
+                        type: 2 //此处以iframe举例
+                        , title: '创建商品档案'
+                        , area: ['600px', '800px']
+                        , shade: 0
+                        , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                        , maxmin: false
+                        , content: '/Customer/AddDenomination'
+                        , btn: ['关闭'] //只是为了演示
+                        , btn2: function () {
+                            layer.closeAll();
+                        }
+                        , zIndex: layer.zIndex //重点1
+                        , success: function (layero) {
+                            layer.setTop(layero); //重点2
+                        }
+                    });
+                    break;
+            };
+        });
+       
     });
 </script>

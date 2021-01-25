@@ -5060,11 +5060,11 @@ body .layui-util-face {
 }
 
     .layui-tree-entry:hover {
-        background-color: #eee
+        background-color: pink
     }
 
 .layui-tree-line .layui-tree-entry:hover {
-    background-color: rgba(0,0,0,0)
+    background-color: pink
 }
 
     .layui-tree-line .layui-tree-entry:hover .layui-tree-txt {

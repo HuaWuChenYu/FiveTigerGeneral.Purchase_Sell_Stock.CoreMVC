@@ -106,7 +106,7 @@
         var element = layui.element;
         var $ = layui.$;
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetStoresFromLogin?userPhone=18312345671",
+            url: "http://localhost:49760/api/Setting/GetStoresFromLogin?userPhone=" + @ViewBag.phone,
             contentType: "application/json",
             success: function (d) {
                 $(d).each(function () {
