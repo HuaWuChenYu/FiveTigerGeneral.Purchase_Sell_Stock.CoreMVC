@@ -50,7 +50,7 @@
                     </tr>
                     <tr>
                         <td><label class="layui-form-label">收货地址</label></td>
-                        <td><input type="text" readonly="readonly" name="wrovidersAddress" lay-verify="title" autocomplete="off" id="wrovidersAddress" class="layui-input"></td>
+                        <td><input type="text" readonly="readonly" name="providersAddress" lay-verify="title" autocomplete="off" id="providersAddress" class="layui-input"></td>
                     </tr>
                     <tr>
                         <td><label class="layui-form-label">出库类型</label></td>
@@ -115,7 +115,7 @@
 
             };
             $.ajax({                                                                                            //来源单号                   //出库的数量 /*'/' + arr3.toString() +*/
-                url: 'http://localhost:49760/api/Storage/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#procurementNum").val() + '/' + @ViewBag.incomingorderid,   //出库订单id
+                url: 'http://localhost:49760/api/Storage/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#procurementNum").val() + '/' + @ViewBag.incomingorderid+'/' + $("#providerName").val() + '/' + $("#warehouseName").val(),   //出库订单id
                 type: 'get',
                 contentType: 'application/json',
                 success:
@@ -143,7 +143,7 @@
                     $("#providerName").val(d.providerName); //发货方
                     $("#warehouseName").val(d.warehouseName);  //收货方
                     $("#providersPhone").val(d.providersPhone);//收货方联系电话
-                    $("#wrovidersAddress").val(d.wrovidersAddress);//收货地址
+                    $("#providersAddress").val(d.providersAddress);//收货地址
                     $("#storageTypeName").val(d.storageTypeName);//出库类型
                     $("#incomingorderTime").val(d.incomingorderTime);//出库时间
                     $("#incomingordercreationTime").val(d.incomingordercreationTime);//创建时间
@@ -159,7 +159,7 @@
                 , { field: 'goodsName', width: 80, title: '商品名称' }
                 , { field: 'goodsSize', width: 80, title: '规格', sort: true }
                 , { field: 'goodsUnitName', width: 80, title: '单位' }
-                , { field: 'ordersGoodsNum', title: '总数量', width: '30%', minWidth: 100 } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , { field: 'procurementGoodsNum', title: '总数量', width: '30%', minWidth: 100 } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , { field: 'incomingorderNuming', title: '入库数量', sort: true, templet: '#switchTpl' }
                 , { field: 'incomingorderNuming', title: '已入库数量', sort: true,  }
             ]]

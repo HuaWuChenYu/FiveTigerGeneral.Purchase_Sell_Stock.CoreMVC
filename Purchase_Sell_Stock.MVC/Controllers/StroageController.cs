@@ -16,6 +16,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
+        #region 出库
         /// <summary>
         /// 出库订单表显示
         /// </summary>
@@ -52,27 +53,9 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             ViewBag.outboundorderId = outboundorderId;
             return View();
         }
+        #endregion
 
-
-
-        /// <summary>
-        /// 商品以及 商品库存
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult commodityStocksandGoodsShow()
-        {
-            return View();
-        }
-        /// <summary>
-        /// 流水记录表
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult goodRunningWaterShow()
-        {
-            return View();
-        }
-
-
+        #region 入库
         /// <summary>
         /// 入库订单显示
         /// </summary>
@@ -109,7 +92,71 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             ViewBag.incomingorderid = incomingorderid;
             return View();
         }
+        #endregion
 
+        #region 商品流水 商品库存 商品差异
+        /// <summary>
+        /// 商品以及 商品库存
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult commodityStocksandGoodsShow()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 某个商品的流水
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult GoodsflowingWater(int goodsId) //传商品的编号
+        {
+            ViewBag.goodsId = goodsId;
+            return View();
+        }
+        /// <summary>
+        /// 流水记录表
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult goodRunningWaterShow()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 商品差异记录
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult DifferencesShow()
+        {
+            return View();
+        }
+        #endregion
+
+        #region 仓库
+        /// <summary>
+        /// 仓库显示
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult WarehouseShow()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 添加仓库
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult AddWarehouse()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 编辑仓库
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult EditWarehouse(int warehouseId)
+        {
+            ViewBag.warehouseId = warehouseId;
+            return View();
+        }
+        #endregion
 
 
 
