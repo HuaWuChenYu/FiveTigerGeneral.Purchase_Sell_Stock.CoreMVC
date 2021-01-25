@@ -8,8 +8,10 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class FirstController : Controller
     {
-        public IActionResult FirstPage()
+        public IActionResult FirstPage(int storeId=1)
         {
+            
+            ViewBag.StoreId = storeId;
             return View();
         }
     }
