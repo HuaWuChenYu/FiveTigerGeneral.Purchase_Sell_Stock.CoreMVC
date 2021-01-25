@@ -30,7 +30,44 @@
                 <input type="text" name="pwd" id="pwd" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="设置密码（8-12位，包含数字及字母）" autocomplete="off" class="layui-input">
             </div>
         </div>
-
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">确定修改</button>
+            </div>
+        </div>
     </form>
 </body>
 </html>
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form
+            , layer = layui.layer
+        var $ = layui.$;
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            var obj = {};
+            obj.UserPhone = data.field.phone;
+            obj.UserPasswork = data.field.pwd;
+            console.log(obj);
+            $.ajax({
+                url: 'http://localhost:49760/api/Forgers',
+                type: 'post',
+                data: JSON.stringify({ UserPhone: $("#phone").val(), UserPassword: $("#pwd").val() }),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (d) {
+                    if (d > 0) {
+                        layer.msg('修改成功', { icon: 1, title: '提示', time: 2000 }, function () {
+                            layer.close(index);//关闭弹窗
+                            location.href = '/Login/Show';
+                        })
+                    }
+                    else {
+                        layer.msg("修改失败");
+                    }
+                }
+            })
+            return false;
+        });
+    });
+</script>

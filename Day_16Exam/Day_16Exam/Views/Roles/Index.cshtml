@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+@using Model;
+@model List<Roless>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+</head>
+<body><input id="Button1" onclick="Add()" type="button" value="去添加" />
+    <table class="table">
+        <thead>
+            <tr>
+                <td>角色</td>
+                <td>操作</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.RName</td>
+                    <td><a href="/Roles/Del?id=@item.RId">删除|</a><a href="/Roles/Update?id=@item.RId">编辑|</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
+<script>
+    function Add()
+    {
+        location.href='/Roles/Add'
+    }
+</script>

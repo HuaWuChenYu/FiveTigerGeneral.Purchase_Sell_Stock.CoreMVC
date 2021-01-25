@@ -1,0 +1,146 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DepartmentShow</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <form class="layui-form">
+        <div class="demoTable">
+            部门编码:
+            <div class="layui-inline">
+                <input class="layui-input" id="departmentNumber" name="departmentNumber" autocomplete="off">
+            </div>
+            部门名称:
+            <div class="layui-inline">
+                <input class="layui-input" id="departmentName" name="departmentName" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload" type="submit" lay-submit="" style="background-color:hotpink" lay-filter="demo1">查询</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </form>
+    <table class="layui-hide" id="test" lay-filter="test"></table>
+
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm"  style="background-color:hotpink" id="createEmp">创建员工</button>
+        </div>
+    </script>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" id="addNext"  style="background-color:hotpink" lay-event="addNext">新建下级</a>
+        <a class="layui-btn layui-btn-xs" id="updateA"  style="background-color:hotpink" lay-event="edit">编辑</a>
+    </script>
+    <script type="text/html" id="titleTpl">
+        {{#  if(d.level == 1){ }}
+        <label>▲{{d.departmentName}}</label>
+        {{#  } else { }}
+        {{#  if(d.level == 2){ }}
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▲{{d.departmentName}}</label>
+        {{#  } else { }}
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▲{{d.departmentName}}</label>
+        {{#  } }}
+        {{#  } }}
+    </script>
+</body>
+</html>
+<script>
+    layui.use(['table', 'form'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var $ = layui.$;
+
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:49760/api/Setting/GetDepartmentByShow'
+            , method: 'get'
+            , toolbar: '#toolbarDemo'
+            , title: '用户数据表'
+            , cols: [[
+                { field: 'departmentNumber', title: '部门编码', width: 180, sort: true }
+                , { field: 'departmentName', title: '部门名称', width: 250, edit: 'text', templet: '#titleTpl' }
+                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+            ]]
+            , id: 'testReload'
+        });
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            return false;
+        });
+        var $ = layui.$, active = {
+            reload: function () {
+                var departmentNumber = $('#departmentNumber').val();
+                var departmentName = $('#departmentName').val();
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        number: departmentNumber,
+                        name: departmentName
+                    }
+                }, 'data');
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $("#createEmp").on('click', function () {
+            layer.open({
+                type: 2,
+                title: '创建部门',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '500px'], //宽高
+                content: '/Setting/AddDepartment',
+                btn: ['关闭'], //只是为了演示
+                yes: function () {
+                    layer.closeAll();
+                }
+
+            });
+        });
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'edit') {
+                layer.open({
+                    type: 2,
+                    title: '创建部门',
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['420px', '500px'], //宽高
+                    content: '/Setting/UpdateDepartment?id=' + data.departmentId,
+                    btn: ['关闭'], //只是为了演示
+                    yes: function () {
+                        layer.closeAll();
+                    }
+
+                });
+            } else if (obj.event === 'addNext') {
+                layer.open({
+                    type: 2,
+                    title: '创建部门',
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['420px', '500px'], //宽高
+                    content: '/Setting/AddDepartment?id=' + data.departmentId,
+                    btn: ['关闭'], //只是为了演示
+                    yes: function () {
+                        layer.closeAll();
+                    }
+
+                });
+            }
+        });
+    });
+</script>

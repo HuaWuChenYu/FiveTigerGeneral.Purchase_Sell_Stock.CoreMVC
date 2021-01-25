@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Purchase_Sell_Stock.MVC.Models.LoginFunction
 {
     public class RegisterHelper
@@ -13,7 +14,10 @@ namespace Purchase_Sell_Stock.MVC.Models.LoginFunction
         public RegisterHelper()
         {
         }
-        public static string _Linkstring = null;
+        public static string _Linkstring = "http://106.ihuyi.cn/webservice/sms.php?method=Submit";
+
+        public int id { get; private set; }
+
         //063778
         public RegisterHelper(string Linkstring)
         {
@@ -22,12 +26,12 @@ namespace Purchase_Sell_Stock.MVC.Models.LoginFunction
         //短信帮助类 返回值为发送验证码的四位数字  返回0为发送失败
         public int Page_Load(string mobile)
         {
-            string account = "自己";//查看用户名 登录用户中心->验证码通知短信>产品总览->API接口信息->APIID
-            string password = "自己"; //查看密码 登录用户中心->验证码通知短信>产品总览->API接口信息->APIKEY       
+            string account = "VM37364142";//查看用户名 登录用户中心->验证码通知短信>产品总览->API接口信息->APIID
+            string password = "4d46ae3b006a3adb424bd068a4e49016"; //查看密码 登录用户中心->验证码通知短信>产品总览->API接口信息->APIKEY       
             Random rad = new Random();
             int mobile_code = rad.Next(1000, 10000);
             string content = "您的验证码是：" + mobile_code + " 。请不要把验证码泄露给其他人。";
-
+            id = mobile_code;
             //Session["mobile"] = mobile;
             //Session["mobile_code"] = mobile_code;
 
@@ -62,8 +66,8 @@ namespace Purchase_Sell_Stock.MVC.Models.LoginFunction
                 int len3 = res.IndexOf("</msg>");
                 int len4 = res.IndexOf("<msg>");
                 string msg = res.Substring((len4 + 5), (len3 - len4 - 5));
-                return mobile_code;
-
+                
+                return 1;
             }
             else
             {

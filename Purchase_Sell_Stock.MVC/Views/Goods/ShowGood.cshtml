@@ -11,14 +11,16 @@
     <title>ShowGood</title>
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
-
 </head>
 <body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>商品档案</legend>
+    </fieldset>
     <form class="layui-form" action="">
         <div class="layui-form-item">
             <label class="layui-form-label">商品名称</label>
             <div class="layui-input-block">
-                <input id="storeId-Hid" type="hidden" value="1" />
+                <input id="storeId-Hid" type="hidden" value="@ViewBag.StoreId" />
                 <input type="text" id="name" style="width:200px" autocomplete="off" placeholder="请输入商品名" class="layui-input">
             </div>
         </div>
@@ -26,7 +28,7 @@
             <label class="layui-form-label">商品分类</label>
             <div class="layui-input-block" style="width:200px">
                 <select id="type" lay-filter="aihao">
-                    <option value="" selected>全部</option>
+                    <option value="">全部</option>
                 </select>
             </div>
         </div>
@@ -34,7 +36,7 @@
             <label class="layui-form-label">商品类型</label>
             <div class="layui-input-block" style="width:200px">
                 <select id="classify" lay-filter="aihao" style="width:200px">
-                    <option value="" selected>全部</option>
+                    <option value="">全部</option>
                     <option value="成品">成品</option>
                     <option value="原料">原料</option>
                 </select>
@@ -46,18 +48,17 @@
                 <button type="reset" class="layui-btn layui-btn-primary" style="background-color:deepskyblue;color:white">重置</button>
             </div>
         </div>
-        <div class="layui-form-item">
-            <div class="layui-form-mid layui-word-aux">创建/编辑后请刷新</div>
-        </div>
-        
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>创建/编辑后请点击刷新</legend>
+        </fieldset>
         <table class="layui-hide" id="test" lay-filter="test"></table>
     </form>
 </body>
 </html>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="AddGood" style="background-color:pink">创建档案</button>
-        <button type="button" class="layui-btn layui-btn-sm" lay-event="refresh" onclick="location.href='/Goods/ShowGood'" style="background-color:deepskyblue">刷新</button>
+        <button type="button" class="layui-btn layui-btn-sm layui-btn-radius" lay-event="AddGood" style="background-color:pink">创建档案</button>
+        <button type="button" class="layui-btn layui-btn-sm layui-btn-radius" lay-event="refresh" onclick="location.href='/Goods/ShowGood'" style="background-color:deepskyblue">刷新</button>
     </div>
 </script>
 <script type="text/html" id="state">
@@ -98,7 +99,7 @@
 
         //商品分类
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsTypeList/0' + '/' + " " + '/1',
+            url: 'http://localhost:49760/api/GetGoodsTypeList/0' + '/' + " " + '/' + Number( $("#storeId-Hid").val()),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -115,7 +116,7 @@
         //表格加载
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/GetGoodsList/' + $("#storeId-Hid").val()
+            , url: 'http://localhost:49760/api/GetGoodsList/' + Number($("#storeId-Hid").val())
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , title: '用户数据表'
             , cols: [[
@@ -167,9 +168,10 @@
                         , title: '创建商品档案'
                         , area: ['600px', '800px']
                         , shade: 0
+                        , anim: 2
                         , id: 'LAY_layuipro' //设定一个id，防止重复弹出
                         , maxmin: false
-                        , content: '/Goods/AddGood'
+                        , content: '/Goods/AddGood?storeId='+$("#storeId-Hid").val()
                         , btn: ['关闭'] //只是为了演示
                         , btn2: function () {
                             layer.closeAll();
@@ -193,7 +195,7 @@
                 layer.confirm('真的删除咩?~~~', function (index) {
                     layer.close(index);
                     $.ajax({
-                        url: 'http://localhost:49760/api/DeleteGoods/' + data.GoodsId + '/' + $("#storeId-Hid").val(),
+                        url: 'http://localhost:49760/api/DeleteGoods/' + data.GoodsId,
                         type: 'post',
                         contentType: 'application/json',
                         success: function (d) {
@@ -220,9 +222,10 @@
                     , title: '编辑商品档案'
                     , area: ['600px', '800px']
                     , shade: 0
+                    , anim: 2
                     , id: 'LAY_layuipro' //设定一个id，防止重复弹出
                     , maxmin: false
-                    , content: '/Goods/ModifyGood?id=' + data.GoodsId
+                    , content: '/Goods/ModifyGood?id=' + data.GoodsId + '&storeId=' + $("#storeId-Hid").val()
                     , btn: ['关闭'] //只是为了演示
                     , btn2: function () {
                         layer.closeAll();
@@ -235,7 +238,7 @@
             }
             else if (obj.event === 'up') {  //上下架
                 $.ajax({
-                    url: 'http://localhost:49760/api/ModifyState/' + data.GoodsId + '/' + $("#storeId-Hid").val(),
+                    url: 'http://localhost:49760/api/ModifyState/' + data.GoodsId,
                     type: 'post',
                     contentType: 'application/json',
                     success: function (d) {
@@ -260,6 +263,8 @@
                     , title: '商品明细'
                     , area: ['600px', '800px']
                     , shade: 0
+                    , offset: 'rb'
+                    , anim: 2
                     , id: 'LAY_layuipro' //设定一个id，防止重复弹出
                     , maxmin: false
                     , content: '/Goods/ShowOne?id=' + data.GoodsId

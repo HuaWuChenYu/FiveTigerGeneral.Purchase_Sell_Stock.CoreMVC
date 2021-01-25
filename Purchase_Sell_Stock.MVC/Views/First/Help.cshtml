@@ -1,0 +1,144 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Help</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+</head>
+<body>
+    <table class="layui-hide" id="testHelp"></table>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layer', 'table'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , table = layui.table
+            , $ = layui.$;
+        //订单/仓储/采购切换
+        table.render({
+            elem: '#three'
+            , url: 'http://localhost:49760/api/ChangeOrder/' + $("#storeId-Hid").val()
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                { field: '', width: 400, title: '', templet: '#show_Order' }
+                , { field: '', width: 120, title: '', templet: '#dispose_Order' }
+            ]]
+            , page: true
+            , limit: 5
+            , limits: [5, 10]
+            , request: {
+                pageName: 'pageIndex',
+                limitName: 'pageSize'
+            }
+        });
+        //订单
+        $('#order').on('click', function () {
+            table.render({
+                elem: '#three'
+                , url: 'http://localhost:49760/api/ChangeOrder/' + $("#storeId-Hid").val()
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [[
+                    { field: '', width: 400, title: '', templet: '#show_Order' }
+                    , { field: '', width: 120, title: '', templet: '#dispose_Order' }
+                ]]
+                , page: true
+                , limit: 5
+                , limits: [5, 10]
+                , request: {
+                    pageName: 'pageIndex',
+                    limitName: 'pageSize'
+                }
+            });
+        })
+        //入库
+        $('#storage').on('click', function () {
+            table.render({
+                elem: '#three'
+                , url: 'http://localhost:49760/api/ChangeIncomingorder/' + $("#storeId-Hid").val()
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [[
+                    { field: '', width: 400, title: '', templet: '#show_Incomingorder' }
+                    , { field: '', width: 120, title: '', templet: '#dispose_Incomingorder' }
+                ]]
+                , page: true
+                , limit: 5
+                , limits: [5, 10]
+                , request: {
+                    pageName: 'pageIndex',
+                    limitName: 'pageSize'
+                }
+            });
+        })
+        //采购
+        $('#buy').on('click', function () {
+            table.render({
+                elem: '#three'
+                , url: 'http://localhost:49760/api/ChangeProcurement/' + $("#storeId-Hid").val()
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [[
+                    { field: '', width: 400, title: '', templet: '#show_Procurement' }
+                    , { field: '', width: 120, title: '', templet: '#dispose_Procurement' }
+                ]]
+                , page: true
+                , limit: 5
+                , limits: [5, 10]
+                , request: {
+                    pageName: 'pageIndex',
+                    limitName: 'pageSize'
+                }
+            });
+        })
+
+        //去处理
+        table.on('tool(three)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'dispose_Order') {
+                alert("去处理订单");
+            }
+            if (obj.event === 'dispose_Incomingorder') {
+                alert("去处理入库");
+            }
+            if (obj.event === 'dispose_Procurement') {
+                alert("去处理采购");
+            }
+        });
+
+        //消息中心
+        table.render({
+            elem: '#testMessage'
+            , toolbar: '#mess' //开启头部工具栏，并为其绑定左侧模板
+            , url: 'http://localhost:49760/api/GetStoreMessage/' + $("#storeId-Hid").val()
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                { field: 'StoreMessageId', width: 20, title: '', sort: true, hide: true }
+                , { field: 'StoreMessageState', width: 285, title: '', templet: '#aa' }
+                , { field: 'StrStoreMessageTime', width: 285, title: '' }
+            ]]
+        });
+
+        //帮助中心
+        table.render({
+            elem: '#testHelp'
+            , toolbar: '#help' //开启头部工具栏，并为其绑定左侧模板
+            , url: 'http://localhost:49760/api/GetHelp/' + $("#storeId-Hid").val()
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                { field: 'HelpsId', width: 20, title: '', sort: true, hide: true }
+                , { field: 'HelpsContent', width: 500, title: '' }
+            ]]
+        });
+
+        
+        
+    })
+    }
+</script>
