@@ -136,9 +136,10 @@
             , laydate = layui.laydate;
         var $ = layui.jquery
             , upload = layui.upload;
+        var storeId = @ViewBag.sid;
         //反填
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetStoresForUpdate?storeId=1",
+            url: "http://localhost:49760/api/Setting/GetStoresForUpdate?storeId="+storeId,
             contentType: "application/json",
             success: function (d) {
                 $(d).each(function () {
@@ -149,7 +150,12 @@
                         , "storePrincipalPhone": d.storePrincipalPhone
                         , "storeLinkman": d.storeLinkman
                         , "storeLinkmanPhone": d.storeLinkmanPhone
+                        , "storeIntroduction": d.storeIntroduction
                     });
+                    $("#imgdiv").empty();
+                    var str = '<img src=""  style="width:126px;height:126px" id="demo1" alt="加载中..." />';
+                    $("#imgdiv").append(str);
+                    $('#demo1').attr('src', d.storeLogo); 
                 })
             }
         });
