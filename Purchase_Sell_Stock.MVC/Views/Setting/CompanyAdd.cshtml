@@ -186,7 +186,8 @@
         var element = layui.element;
         var $ = layui.jquery
             , upload = layui.upload;
-        var storeid = 2;
+        
+        var storeid = @ViewBag.sid;
         $.ajax({
             url: "http://localhost:49760/api/Setting/IsHaveCompany?storeid="+storeid,
             contentType: "application/json",

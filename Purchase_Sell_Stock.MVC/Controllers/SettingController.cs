@@ -15,6 +15,8 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         //店铺信息
         public IActionResult StoreInfo()
         {
+            var sid = HttpContext.Session.GetInt32("storeId");
+            ViewBag.sid = sid;
             return View();
         }
         //店铺设置
@@ -25,6 +27,8 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         //主体认证
         public IActionResult CompanyAdd()
         {
+            var sid= HttpContext.Session.GetInt32("storeId");
+            ViewBag.sid = sid;
             return View();
         }
         //角色权限
