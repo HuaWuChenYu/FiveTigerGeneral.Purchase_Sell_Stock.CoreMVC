@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>5ce4f354-119f-48af-89a7-7859c8f7f19a</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,10 +18,7 @@
 
   <ItemGroup>
     <Reference Include="AopSdk">
-      <HintPath>bin\Debug\AopSdk.dll</HintPath>
-      <HintPath>..\..\..\..\辅助文件\AopSdk.dll</HintPath>
-      <HintPath>..\..\..\..\辅助文件\AopSdk.dll</HintPath>
-      <HintPath>..\..\..\..\辅助文件\AopSdk.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\..\..\..\..\..\ev\AopSdk.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\辅助文件\Newtonsoft.Json.dll</HintPath>
