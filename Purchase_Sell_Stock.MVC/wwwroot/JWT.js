@@ -1,4 +1,5 @@
-﻿$.ajaxSetup({ //发送请求前触发
+﻿
+$.ajaxSetup({ //发送请求前触发
     beforeSend: function (xhr) { //可以设置自定义标头
         var token = getCookie("token");
         if (token == "" || token == null || token == undefined) {
