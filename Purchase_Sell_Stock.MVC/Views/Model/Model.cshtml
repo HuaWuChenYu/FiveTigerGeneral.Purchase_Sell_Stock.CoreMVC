@@ -42,24 +42,24 @@
                     <button type="button" onclick="Sel()" style="background-color:hotpink" class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
                 </li>
                 <li class="layui-nav-item">
-                    <button type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
+                    <button  onclick="location.href='/Model/Model'" type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
                         <i class="layui-icon">&#xe607;</i>
                     </button>
                 </li>
                 <li class="layui-nav-item">
-                    <button type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
-                        <i class="layui-icon">&#xe60f;</i>
+                    <button onclick="location.href='/Model/Model'" type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
+                            <i class="layui-icon">&#xe60f;</i>
+                        
                     </button>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;" id="empName">
+                    <a href="" id="empName">
                         <i class="layui-icon">&#xe66f;</i>
-                        
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a onclick="changeIFrame('//')">返回首页</a></dd>
+                        <dd><a onclick="location.href='/Model/Model'">返回首页</a></dd>
                         <dd><a onclick="GoChangeStore()">切换店铺</a></dd>
-                        <dd><a href="//">退出登录</a></dd>
+                        <dd><a href="/Login/Show">退出登录</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -67,7 +67,7 @@
 
         <div id="Side" class="layui-side layui-bg-black">
             <div style="background-color:lightpink" class="layui-side-scroll">
-                <ul id="LeftNavigation" class="layui-nav layui-nav-tree" lay-filter="test"  style="background-color:lightpink">
+                <ul id="LeftNavigation" class="layui-nav layui-nav-tree" lay-filter="test" style="background-color:lightpink">
                     <li class="layui-nav-item layui-nav-itemed">
                         <a class="" id="hhhh" href="javascript:;">所有商品</a>
                         <dl class="layui-nav-child">
@@ -93,12 +93,12 @@
 
         <div id="Body" class="layui-body">
             <!-- 内容主体区域 -->
-            <iframe id="iframe1"  scrolling="auto" style="width:1325px;height:779px;padding-top:20px;padding-left:20px" src="/Model/First" frameborder="0"></iframe>
+            <iframe id="iframe1" scrolling="auto" style="width:1325px;height:779px;padding-top:20px;padding-left:20px" src="/Model/First" frameborder="0"></iframe>
         </div>
 
         <div class="layui-footer">
             <!-- 底部固定区域 -->
-            © WuHu.com 
+            © WuHu.com
         </div>
     </div>
 </body>
@@ -138,7 +138,7 @@
             success: function (d) {
                 $(d).each(function () {
                     if (this.powersId==1) {
-                        changeIFrame(this.powersURL);
+                        changeIFrame("/First/FirstPage");
                     }
                     var str = "<li class='layui-nav-item'><a onclick='ChangeLeft(" + this.powersId + "," + id + ")'>" + this.powersName + "</a></li>";
                     $("#upNavigation").append(str);
@@ -151,6 +151,7 @@
         if (pid == 1) {
             document.getElementById("Side").hidden = "hidden";
             document.getElementById("Body").style.left = "0px";
+            changeIFrame("/First/FirstPage");
             return;
         }
         else {
