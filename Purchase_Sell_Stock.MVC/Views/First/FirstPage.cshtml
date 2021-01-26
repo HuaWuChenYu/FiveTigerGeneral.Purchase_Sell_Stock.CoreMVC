@@ -9,8 +9,590 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>FirstPage</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/dist/echarts.min.js"></script>
+    <style>
+        /*表头样式*/
+        .layui-table-tool {
+            background-color: floralwhite;
+        }
+        /*第一行*/
+        th {
+            background-color: pink; /* MediumSeaGreen */
+            color: #fff;
+            font-weight: bold
+        }
+
+        .ss {
+            margin-top: -300px;
+            padding-left: 800px;
+        }
+    </style>
 </head>
 <body>
+    <div style="background-color:blue;float:none">
+        <div style="float:left;width:500px">
+            <table class="table-bordered table" style="border:none">
+                <tr>
+                    <td><h3>店铺信息</h3></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><img style="width:100px;height:100px" id="logo" src="" alt="" /></td>
+                    <td><span id="storeName"></span></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color:deepskyblue"><span id="storeState"></span></td>
+                    <td style="color:deepskyblue">&nbsp;&nbsp;&nbsp;<a href="#" style="color:deepskyblue" onclick="">去设置>></a></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>店铺ID:</td>
+                    <td><span id="storeNum"></span>&nbsp;&nbsp;&nbsp;</td>
+                    <td>有效期剩余:</td>
+                    <td><span id="storeTime"></span></td>
+                </tr>
+            </table>
+        </div>
+        <div style="float:left;width:570px">
+            <input id="storeId-Hid" value="@ViewBag.StoreId" type="hidden" />
+            <table class="layui-hide" id="testMessage"></table>
+        </div>
+        <div style="float:left;width:480px">
+            <table class="layui-hide" id="testHelp"></table>
+        </div>
+    </div>
+    <div style="clear:left">
+        <div style="float:left">
+            <a href="#" id="day" style="color:deeppink;font-size:20px" onclick='newAdd("今日")'>今日</a><br /><br />
+            <a href="#" id="week" style="color:deeppink;font-size:20px" onclick='newAdd("本周")'>本周</a><br /><br />
+            <a href="#" id="month" style="color:deeppink;font-size:20px;font-weight:bolder" onclick='newAdd("本月")'>本月</a>
+        </div>
+        <div style="float:left;margin-left:200px">
+            <span style="font-size:15px;color:darkgray">新增订单数</span><br /><br /><br />
+            <span id="newOrder" style="color:deeppink;font-size:30px"></span>
+        </div>
+        <div style="float:left;margin-left:200px">
+            <span style="font-size: 15px;color:darkgray">支付金额</span><br /><br /><br />
+            <span id="money" style="color:deeppink;font-size:30px"></span>
+        </div>
+        <div style="float:left;margin-left:200px">
+            <span style="font-size: 15px;color:darkgray">下单用户数</span><br /><br /><br />
+            <span id="orderUser" style="color:deeppink;font-size:30px"></span>
+        </div>
+        <div style="float:left;margin-left:200px">
+            <span style="font-size: 15px;color:darkgray">新增用户数</span><br /><br /><br />
+            <span id="newUser" style="color:deeppink;font-size:30px"></span>
+        </div>
+        <div style="float:left;margin-left:200px">
+            <span style="font-size: 15px;color:darkgray">老用户活跃数</span><br /><br /><br />
+            <span id="oldUser" style="color:deeppink;font-size:30px"></span>
+        </div>
+    </div>
+    <div id="div3">
+        <div style="float:left">
+            <div>
+                <div id="main" style="width: 600px;height:400px;float:left">
 
+                </div>
+                <div style="float:left">
+                    <button type="button" class="layui-btn" style="background-color:pink" id="order">订单</button>
+                    <button type="button" class="layui-btn" style="background-color:pink" id="storage">入库</button>
+                    <button type="button" class="layui-btn" style="background-color:pink" id="buy">采购</button>
+                    <table class="layui-hide" id="three" lay-filter="three"></table>
+                </div>
+            </div>
+            <div style="clear:both">
+                <div class="layui-btn-container">
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">添加商品</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">订单列表</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">售后统计</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">出库信息</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">入库信息</button>
+                </div>
+                <div class="layui-btn-container">
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">用户管理</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">交易统计</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">数据概况</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">客户管理</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">店铺设置</button>
+                </div>
+            </div>
+        </div>
+        <div style="float:right">
+            <table class="layui-hide" id="goodsSum"></table>
+        </div>
+    </div>
 </body>
 </html>
+<script type="text/html" id="aa">
+    {{#  if(d.StoreMessageState === true){ }}
+    <span style="color: seagreen;">[已读]</span>
+    <span style="color: hotpink;">{{ d.StoreMessageContent }}</span>
+    {{#  } else { }}
+    <span style="color: indianred;">[未读]</span>
+    <span style="color: hotpink;">{{ d.StoreMessageContent }}</span>
+    {{#  } }}
+</script>
+<script type="text/html" id="help">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" style="background-color:floralwhite;color:deepskyblue" lay-event="">帮助中心</button>
+        <button class="layui-btn layui-btn-sm" style="background-color:lightpink" lay-event="moreHelp">更多</button>
+    </div>
+</script>
+<script type="text/html" id="mess">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" style="background-color:floralwhite;color:deepskyblue" lay-event="">消息中心</button>
+        <button class="layui-btn layui-btn-sm" style="background-color:lightpink" lay-event="moreMess">更多</button>
+    </div>
+</script>
+<script type="text/html" id="gSum">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" style="background-color:floralwhite;color:deepskyblue;font-size:20px" lay-event="">商品销量排行</button>
+    </div>
+</script>
+<script type="text/html" id="show_Order">
+    <span style="color:pink">[订单处理]   订单{{d.OrdersNum}}已支付,请尽快处理</span>
+</script>
+<script type="text/html" id="dispose_Order">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="dispose_Order" style="background-color:pink">去处理>></a>
+</script>
+<script type="text/html" id="show_Incomingorder">
+    <span style="color:pink">[入库处理]   入库订单{{d.IncomingorderOrderNumber}}待审核,请尽快处理</span>
+</script>
+<script type="text/html" id="dispose_Incomingorder">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="dispose_Incomingorder" style="background-color:pink">去处理>></a>
+</script>
+<script type="text/html" id="show_Procurement">
+    <span style="color:pink">[采购处理]   采购订单{{d.ProcurementNum}}待审核,请尽快处理</span>
+</script>
+<script type="text/html" id="dispose_Procurement">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="dispose_Procurement" style="background-color:pink">去处理>></a>
+</script>
+<script>
+    layui.use(['form', 'layer', 'table'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , table = layui.table
+            , $ = layui.$;
+        //订单/仓储/采购切换
+        table.render({
+            elem: '#three'
+            , url: 'http://localhost:49760/api/ChangeOrder/' + $("#storeId-Hid").val()
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                { field: '', width: 400, title: '', templet: '#show_Order' }
+                , { field: '', width: 120, title: '', templet: '#dispose_Order' }
+            ]]
+            , page: true
+            , limit: 5
+            , limits: [5, 10]
+            , request: {
+                pageName: 'pageIndex',
+                limitName: 'pageSize'
+            }
+        });
+        //订单
+        $('#order').on('click', function () {
+            table.render({
+                elem: '#three'
+                , url: 'http://localhost:49760/api/ChangeOrder/' + $("#storeId-Hid").val()
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [[
+                    { field: '', width: 400, title: '', templet: '#show_Order' }
+                    , { field: '', width: 120, title: '', templet: '#dispose_Order' }
+                ]]
+                , page: true
+                , limit: 5
+                , limits: [5, 10]
+                , request: {
+                    pageName: 'pageIndex',
+                    limitName: 'pageSize'
+                }
+            });
+        })
+        //入库
+        $('#storage').on('click', function () {
+            table.render({
+                elem: '#three'
+                , url: 'http://localhost:49760/api/ChangeIncomingorder/' + $("#storeId-Hid").val()
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [[
+                    { field: '', width: 400, title: '', templet: '#show_Incomingorder' }
+                    , { field: '', width: 120, title: '', templet: '#dispose_Incomingorder' }
+                ]]
+                , page: true
+                , limit: 5
+                , limits: [5, 10]
+                , request: {
+                    pageName: 'pageIndex',
+                    limitName: 'pageSize'
+                }
+            });
+        })
+        //采购
+        $('#buy').on('click', function () {
+            table.render({
+                elem: '#three'
+                , url: 'http://localhost:49760/api/ChangeProcurement/' + $("#storeId-Hid").val()
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [[
+                    { field: '', width: 400, title: '', templet: '#show_Procurement' }
+                    , { field: '', width: 120, title: '', templet: '#dispose_Procurement' }
+                ]]
+                , page: true
+                , limit: 5
+                , limits: [5,10]
+                , request: {
+                    pageName: 'pageIndex',
+                    limitName: 'pageSize'
+                }
+            });
+        })
+
+        //去处理
+        table.on('tool(three)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'dispose_Order') {
+                alert("去处理订单");
+            }
+            if (obj.event === 'dispose_Incomingorder') {
+                alert("去处理入库");
+            }
+            if (obj.event === 'dispose_Procurement') {
+                alert("去处理采购");
+            }
+        });
+
+        //消息中心
+        table.render({
+            elem: '#testMessage'
+            , toolbar: '#mess' //开启头部工具栏，并为其绑定左侧模板
+            , url: 'http://localhost:49760/api/GetStoreMessage/' + $("#storeId-Hid").val()
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                { field: 'StoreMessageId', width: 20, title: '', sort: true, hide: true }
+                , { field: 'StoreMessageState', width: 285, title: '', templet: '#aa' }
+                , { field: 'StrStoreMessageTime', width: 285, title: '' }
+            ]]
+        });
+
+        //帮助中心
+        table.render({
+            elem: '#testHelp'
+            , toolbar: '#help' //开启头部工具栏，并为其绑定左侧模板
+            , url: 'http://localhost:49760/api/GetHelp/' + $("#storeId-Hid").val()
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                { field: 'HelpsId', width: 20, title: '', sort: true, hide: true }
+                , { field: 'HelpsContent', width: 500, title: '' }
+            ]]
+        });
+
+        //店铺信息
+        $.ajax({
+            url: 'http://localhost:49760/api/GetStore/' + $("#storeId-Hid").val(),
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                //d.StoreEffectiveDate
+                var strSeparator = "-"; //日期分隔符
+                var oDate1;
+                var oDate2;
+                var iDays;
+                oDate1 = d.strStart.split(strSeparator);
+                oDate2 = d.strEnd.split(strSeparator);
+                var strDateS = new Date(oDate1[0], oDate1[1] - 1, oDate1[2]);
+                var strDateE = new Date(oDate2[0], oDate2[1] - 1, oDate2[2]);
+                iDays = parseInt(Math.abs(strDateS - strDateE) / 1000 / 60 / 60 / 24)//把相差的毫秒数转换为天数
+                if (d.storeStates == 1) {
+                    $("#storeState").text("运营中");
+                }
+                else {
+                    $("#storeState").text("打烊");
+                }
+                $("#logo").prop("src", d.storeLogo);
+                $("#storeName").text(d.storeName);
+                $("#storeNum").text(d.storeNumID);
+                $("#storeTime").text(iDays + "天");
+            }
+        })
+
+        //初次加载30天内新增订单数
+        $.ajax({
+            url: 'http://localhost:49760/api/NewOrders/' + $("#storeId-Hid").val() + '/30',
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                $("#newOrder").text(d);
+            }
+        })
+
+        //初次加载30天内支付金额
+        $.ajax({
+            url: 'http://localhost:49760/api/orderMoney/' + $("#storeId-Hid").val() + '/30',
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                $("#money").text(d);
+            }
+        })
+
+        //初次加载30天内下单客户数
+        $.ajax({
+            url: 'http://localhost:49760/api/orderUser/' + $("#storeId-Hid").val() + '/30',
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                $("#orderUser").text(d);
+            }
+        })
+
+        //初次加载30天内新增用户数
+        $.ajax({
+            url: 'http://localhost:49760/api/newUser/' + $("#storeId-Hid").val() + '/30',
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                $("#newUser").text(d);
+            }
+        })
+
+        //初次加载30天内老用户活跃数
+        $.ajax({
+            url: 'http://localhost:49760/api/activeUser/' + $("#storeId-Hid").val() + '/30',
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                $("#oldUser").text(d);
+            }
+        })
+
+        
+
+        //商品销量排行
+        table.render({
+            elem: '#goodsSum'
+            , toolbar: '#gSum' //开启头部工具栏，并为其绑定左侧模板
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , url: 'http://localhost:49760/api/SellSum/' + $("#storeId-Hid").val()
+            , cols: [[
+                { field: 'Num', width: 60, title: '排行' }
+                , { field: 'GoodsName', width: 300, title: '商品' }
+                , { field: 'GoodsSum', width: 100, title: '销量' }
+            ]]
+        });
+    });
+    //时间变换
+    function newAdd(d) {//normal
+        if (d == "今日") {
+            $.ajax({    //加粗/新增订单数
+                url: 'http://localhost:49760/api/NewOrders/' + $("#storeId-Hid").val() + '/1',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#month").css("font-weight", "normal");
+                    $("#day").css("font-weight", "bolder");
+                    $("#week").css("font-weight", "normal");
+                    $("#newOrder").text(d);
+                }
+            })
+            $.ajax({//金额
+                url: 'http://localhost:49760/api/orderMoney/' + $("#storeId-Hid").val() + '/1',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#money").text(d);
+                }
+            })
+            $.ajax({//下单客户数
+                url: 'http://localhost:49760/api/orderUser/' + $("#storeId-Hid").val() + '/1',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#orderUser").text(d);
+                }
+            })
+            $.ajax({//新增用户数
+                url: 'http://localhost:49760/api/newUser/' + $("#storeId-Hid").val() + '/1',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#newUser").text(d);
+                }
+            })
+            $.ajax({//老用户活跃数
+                url: 'http://localhost:49760/api/activeUser/' + $("#storeId-Hid").val() + '/1',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#oldUser").text(d);
+                }
+            })
+        }
+
+        //=============================================================================================//
+
+        if (d == "本周") {
+            $.ajax({//加粗
+                url: 'http://localhost:49760/api/NewOrders/' + $("#storeId-Hid").val() + '/7',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#week").css("font-weight", "bolder");
+                    $("#day").css("font-weight", "normal");
+                    $("#month").css("font-weight", "normal");
+                    $("#newOrder").text(d);
+                }
+            })
+            $.ajax({//金额
+                url: 'http://localhost:49760/api/orderMoney/' + $("#storeId-Hid").val() + '/7',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#money").text(d);
+                }
+            })
+            $.ajax({//下单客户数
+                url: 'http://localhost:49760/api/orderUser/' + $("#storeId-Hid").val() + '/7',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#orderUser").text(d);
+                }
+            })
+            $.ajax({//新增用户数
+                url: 'http://localhost:49760/api/newUser/' + $("#storeId-Hid").val() + '/7',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#newUser").text(d);
+                }
+            })
+            $.ajax({//老用户活跃数
+                url: 'http://localhost:49760/api/activeUser/' + $("#storeId-Hid").val() + '/7',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#oldUser").text(d);
+                }
+            })
+        }
+
+        //=============================================================================================//
+
+        if (d == "本月") {
+            $.ajax({//加粗
+                url: 'http://localhost:49760/api/NewOrders/' + $("#storeId-Hid").val() + '/30',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#month").css("font-weight", "bolder");
+                    $("#day").css("font-weight", "normal");
+                    $("#week").css("font-weight", "normal");
+                    $("#newOrder").text(d);
+                }
+            })
+            $.ajax({//金额
+                url: 'http://localhost:49760/api/orderMoney/' + $("#storeId-Hid").val() + '/30',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#money").text(d);
+                }
+            })
+            $.ajax({//下单客户数
+                url: 'http://localhost:49760/api/orderUser/' + $("#storeId-Hid").val() + '/30',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#orderUser").text(d);
+                }
+            })
+            $.ajax({//新增用户数
+                url: 'http://localhost:49760/api/newUser/' + $("#storeId-Hid").val() + '/30',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#newUser").text(d);
+                }
+            })
+            $.ajax({//老用户活跃数
+                url: 'http://localhost:49760/api/activeUser/' + $("#storeId-Hid").val() + '/30',
+                type: 'get',
+                contentType: 'application/json',
+                success: function (d) {
+                    $("#oldUser").text(d);
+                }
+            })
+        }
+    }
+</script>
+@*饼图*@
+<script>
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    var option;
+    $.ajax({
+        url: 'http://localhost:49760/api/Cake/' + $("#storeId-Hid").val(),
+        type: 'get',
+        contentType: 'application/json',
+        success: function (d) {
+            option = {
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    top: '5%',
+                    left: 'center'
+                },
+                series: [
+                    {
+                        name: '访问来源',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        itemStyle: {
+                            borderRadius: 10,
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        },
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '20',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: [
+                            { value: d.orderCount, name: '待发货订单' },
+                            { value: d.outCount, name: '待审核出库订单' },
+                            { value: d.cancelOrder, name: '待审核退款订单' },
+                            { value: d.goCount, name: '待审核入库订单' },
+                            { value: d.cancelBuyCount, name: '待审核采购退货单' },
+                            { value: d.buyCount, name: '待审核采购订单' }
+                        ]
+                    }
+                ]
+            };
+            option && myChart.setOption(option);
+        }
+    })
+</script>

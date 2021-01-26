@@ -43,9 +43,11 @@
                 <button type="reset" class="layui-btn layui-btn-primary" style="background-color:deepskyblue;color:white">重置</button>
             </div>
         </div>
+        
     </form>
     <input id="storeId-Hid" type="hidden" value="@ViewBag.StoreId" />
     <table class="layui-hide" id="test" lay-filter="test"></table>
+    
 </body>
 </html>
 <script type="text/html" id="toolbarDemo">
@@ -70,10 +72,12 @@
     <span style="color: #F581B1;">{{ d.Reply }}</span>
     {{#  } }}
 </script>
+
 <script>
-    layui.use(['table', 'form','laydate'], function () {
+    layui.use(['table', 'form', 'laydate','rate'], function () {
         var table = layui.table
             , form = layui.form
+            , rate = layui.rate
             , laydate = layui.laydate
             , $ = layui.$;
 
@@ -88,8 +92,9 @@
                 , { field: 'CommentContent', title: '评价内容', width: 200 }
                 , { field: 'OrdersNum', title: '订单编号', width: 200}
                 , { field: 'CustomerName', title: '评价用户', width: 200}
-                , { field: 'StrCommentTime', title: '评价时间', width: 200}
-                , { field: '', title: '回复内容', width: 200, toolbar:'#look'}
+                , { field: 'StrCommentTime', title: '评价时间', width: 200 }
+                , { field: '', title: '星级', width: 200, templet: '#bbb' }
+                , { field: '', title: '回复内容', width: 200, templet:'#look'}
                 , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 300 }
             ]]
             , request: {

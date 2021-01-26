@@ -17,7 +17,10 @@
 <body>
     <div style="float:left;width:340px;margin-left:10px;margin-top:10px">
         <div class="layui-input-inline" style="margin-left:10px;margin-top:10px">
-            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入角色名称" class="layui-input">
+            <input type="text" id="roleName" lay-verify="title" autocomplete="off" placeholder="请输入角色名称">
+            <button type="button"  style="background-color:hotpink" onclick="SelRoles()" class="layui-btn">
+                <i class="layui-icon">&#xe615;</i> 
+            </button>
             <div id="test13" style="font-size:20px" class="demo-tree-more"></div>
         </div>
     </div>
@@ -298,6 +301,18 @@
                 else {
                     alert('剥夺权利失败!');
                 }
+            }
+        });
+    }
+    //查询角色
+    function SelRoles() {
+        var name = $("#roleName").val();
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetRoleId?name=" + name,
+            contentType: "application/json",
+            async: false,
+            success: function (d) {
+                changRole(d);
             }
         });
     }

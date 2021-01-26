@@ -1,0 +1,109 @@
+﻿
+@{
+    Layout = null;
+}
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddWarehouse</title>
+</head>
+<body>
+
+    <form class="layui-form" action="">
+        @*添加*@
+        <button type="button" class="layui-btn" id="addwarehouse" lay-submit="" lay-filter="demo1">确定创建</button>
+        <table class="layui-form-table">
+            <tr>
+                <td><label class="layui-form-label">仓库编号:</label></td>
+                <td><input type="tel" id="WarehouseOrderNumber" name="WarehouseOrderNumber" class="layui-input"></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label"> 仓库名称:</label></td>
+                <td> <input type="tel" id="WarehouseName" name="WarehouseName" class="layui-input"></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label">仓库类型:</label></td>
+                <td>
+                    <select id="warehouseTypeId" name="warehouseTypeId">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label">负责人:</label></td>
+                <td> <input type="tel" id="WarehousePrincipal" name="WarehousePrincipal" class="layui-input"></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label">联系电话:</label></td>
+                <td> <input type="tel" id="WarehousePrincipalPhone" name="WarehousePrincipalPhone" class="layui-input"></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label">仓库地址:</label></td>
+                <td> <input type="tel" id="Warehouselocation" name="Warehouselocation" class="layui-input"></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label">备注:</label></td>
+                <td> <input type="tel" id="WarehouseRemark" name="WarehouseRemark" class="layui-input"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layedit', 'laydate', 'form'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+        var $ = layui.$;
+        $.ajax({
+            url: 'http://localhost:49760/api/GetWarehouseTypesShow',
+            type: 'get',
+            contentType: 'application/json',
+            success:
+                function (d) {
+                    $("#warehouseTypeId").empty();
+                    $(d).each(function () {
+                        var str = '<option value="' + this.warehouseTypeId + '">' + this.warehouseTypeName + '</option>';
+                        $("#warehouseTypeId").append(str);
+                        //渲染下拉框
+                        form.render("select");
+                    })
+                }
+        })
+        //监听提交
+        $("#addwarehouse").on('click', function () {
+            var model = {};
+            model.warehouseOrderNumber = $("#WarehouseOrderNumber").val();
+            model.warehouseName = $("#WarehouseName").val();
+            model.warehouseTypeId = Number($("#warehouseTypeId").val());
+            model.warehousePrincipal = $("#WarehousePrincipal").val();
+            model.warehousePrincipalPhone = $("#WarehousePrincipalPhone").val();
+            model.warehouselocation = $("#Warehouselocation").val();
+            model.warehouseRemark = $("#WarehouseRemark").val();
+
+            $.ajax({
+                url: 'http://localhost:49760/api/AddWarehouses',
+                data: JSON.stringify(model),
+                type: 'post',
+                contentType: 'application/json',
+                success:
+                    function (d) {
+                        if (d > 0) {
+                            alert("创建成功");
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                            parent.layer.close(index);//关闭当前页
+                        }
+                        else {
+                            alert("创建失败");
+                        }
+                    }
+            })
+        })
+    })
+</script>
