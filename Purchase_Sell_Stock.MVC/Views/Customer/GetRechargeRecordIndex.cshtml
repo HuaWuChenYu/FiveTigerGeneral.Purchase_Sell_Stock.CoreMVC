@@ -85,6 +85,19 @@
             }
             , id: 'testReload'
         });
-
+        //查询
+        $('#sel').on('click', function () {
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    customerName: $("#name").val(),
+                    customerPhone: $("#phone").val(),
+                    DenominationLable: $("#classer option:selected").text()
+                }
+            }, 'data');
+        });
     });
 </script>
