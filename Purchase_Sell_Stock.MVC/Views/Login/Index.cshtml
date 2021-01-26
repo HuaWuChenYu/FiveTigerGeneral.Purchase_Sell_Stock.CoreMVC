@@ -58,6 +58,20 @@
                 contentType: 'application/json',
                 success: function (d) {
                     if (d > 0) {
+                        //获取token令牌
+                        $.ajax({
+                            url: 'http://localhost:49760/api/Login/GetToken',
+                            type: 'post',
+                            data: JSON.stringify({ UserPhone: $("#phone").val(), UserPassword: $("#pwd").val() }),
+                            contentType: 'application/json',
+                            success: function (data) {
+                                if (data == null) {
+                                    alert('获取令牌失败');
+                                    return;
+                                }
+                                Setcookie("token", data);
+                            }
+                        });
                         layer.alert("登录成功", { icon: 6, time: 2000 });
                         if (d == 20000) {
                             location.href = '/Model/ChoseStore?phone=' + $("#usersphone").val();
