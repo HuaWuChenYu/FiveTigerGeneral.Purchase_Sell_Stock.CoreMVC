@@ -16,44 +16,44 @@
         <div class="layui-inline">
             <label class="layui-form-label">出库单号</label>
             <div class="layui-input-inline">
-                <input type="tel" name="outboundorderOrderNumber" autocomplete="off" class="layui-input">
+                <input type="tel" id="outboundorderOrderNumber" name="outboundorderOrderNumber" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">发货方</label>
             <div class="layui-input-inline">
-                <select id="quiz1" name="quiz1">
+                <select id="warehouseName" name="warehouseName">
                 </select>
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">收货方</label>
             <div class="layui-input-inline">
-                <input type="tel" name="customerName" autocomplete="off" class="layui-input">
+                <input type="tel" id="customerName" name="customerName" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">出库类型</label>
             <div class="layui-input-inline">
-                <select id="quiz2" name="quiz2">
+                <select id="storageTypeName" name="storageTypeName">
                 </select>
             </div>
         </div>
         <div style="width:300px;height:50px" class="layui-inline">
-           
-           
+
+
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">创建时间</label>
             <div class="layui-input-inline">
-                <input type="text" class="layui-input" id="test1" placeholder="yyyy-MM-dd">
+                <input type="text" class="layui-input" id="outboundordercreationtimeone" placeholder="yyyy-MM-dd">
             </div>
             <div class="layui-input-inline">
-                <input type="text" class="layui-input" id="test1" placeholder="yyyy-MM-dd">
+                <input type="text" class="layui-input" id="outboundordercreationtimetwo" placeholder="yyyy-MM-dd">
             </div>
         </div>
-        <button type="button" class="layui-btn" lay-submit="" lay-filter="demo1">立即查询</button>
-        <button type="reset" class="layui-btn" lay-submit="" lay-filter="demo2">重置</button>
+        <button type="button" style="background-color:lightpink" id="inquire" class="layui-btn" lay-submit="" lay-filter="demo1">立即查询</button>
+        <button type="reset" style="background-color:greenyellow" class="layui-btn" lay-submit="" lay-filter="demo2">重置</button>
         <table class="layui-hide" id="test" lay-filter="test"></table>
     </form>
 </body>
@@ -62,12 +62,29 @@
 <script type="text/html" id="barDemo">
     <a style="background-color:antiquewhite" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">详情</a>
 </script>
+<script type="text/html" id="state">
+    {{# if(d.outboundorderState==0){}}
+    <span>待出库</span>
+    {{# }else if(d.outboundorderState==1) { }}
+    <span>已出库</span>
+    {{#   } }}
+</script>
 
 <script>
-    layui.use(['table', 'form'], function () {
+    layui.use(['table', 'form', 'layedit', 'laydate'], function () {
         var table = layui.table;
-        var form = layui.form;
-        
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#outboundordercreationtimeone'
+        });
+        laydate.render({
+            elem: '#outboundordercreationtimetwo'
+        });
         var $ = layui.$;
         //温馨提示：默认由前端自动合计当前行数据。从 layui 2.5.6 开始： 若接口直接返回了合计行数据，则优先读取接口合计行数据。
         //详见：https://www.layui.com/doc/modules/table.html#totalRow
@@ -86,7 +103,7 @@
                 , { field: 'warehouseName', title: '发货方', width: 100, sort: true, totalRow: true }
                 , { field: 'customerName', title: '收货方' }
                 , { field: 'storageTypeName', title: '出库类型', width: 100 }
-                , { field: 'outboundorderState', title: '状态', width: 120 }
+                , { field: 'outboundorderState', title: '状态', width: 120, toolbar: "#state" }
                 , { field: 'outboundordercreationTime', title: '创建时间', width: 120 }
                 , { field: 'outboundorderTime', title: '出库时间', width: 120 }
                 , { field: 'outboundorderRemark', title: '备注', width: 120 }
@@ -99,21 +116,38 @@
         table.on('tool(test)', function (obj) {
             var data = obj.data;
             //console.log(obj)
-             if (obj.event === 'edit') {
+            if (obj.event === 'edit') {
                 location.href = '/Stroage/OutboundorderCombinebackfillPage?outboundorderid=' + data.outboundorderId;
             }
         })
+        $("#inquire").on('click', function () {
+            table.reload('testReload', {
+                page: {
+                    curr: 1,
+                },
+                where: {
+                    outboundorderOrderNumber: $("#outboundorderOrderNumber").val(),//出库单号
+                    warehouseName: $("#warehouseName").val(),//发货方
+                    adress: $("#customerName").val(),//收货方
+                    storageTypeName: $("#storageTypeName").val(), //出库类型
+                    outboundordercreationtimeone: $("#outboundordercreationtimeone").val(), //开始时间
+                    outboundordercreationtimetwo: $("#outboundordercreationtimetwo").val(),//结束时间
+                }
+
+            })
+        })
         //全部仓库（发货方）
         $.ajax({
-            url: 'http://localhost:49760/api/GetWarehousesShow',
+            url: 'http://localhost:49760/api/GetWarehousesShowed',
             type: 'get',
             contentType: 'application/json',
             success:
                 function (d) {
-                    $("#quiz1").empty();
+                    $("#warehouseName").empty();
+                    $("#warehouseName").append('<option value="">请选择</option>');
                     $(d).each(function () {
-                        var str = '<option value="' + this.warehouseId + '">' + this.warehouseName + '</option>';
-                        $("#quiz1").append(str);
+                        var str = '<option value="' + this.warehouseName + '">' + this.warehouseName + '</option>';
+                        $("#warehouseName").append(str);
                         //渲染下拉框
                         form.render("select");
                     })
@@ -125,10 +159,11 @@
             contentType: 'application/json',
             success:
                 function (d) {
-                    $("#quiz2").empty();
+                    $("#storageTypeName").empty();
+                    $("#storageTypeName").append('<option value="">请选择</option>');
                     $(d).each(function () {
-                        var str = '<option value="' + this.storageTypeId + '">' + this.storageTypeName + '</option>';
-                        $("#quiz2").append(str);
+                        var str = '<option value="' + this.storageTypeName + '">' + this.storageTypeName + '</option>';
+                        $("#storageTypeName").append(str);
                         //渲染下拉框
                         form.render("select");
                     })

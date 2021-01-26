@@ -68,6 +68,10 @@
                         <td><label class="layui-form-label">备注</label></td>
                         <td><input type="text" readonly="readonly" name="OutboundorderRemark" lay-verify="title" autocomplete="off" id="OutboundorderRemark" class="layui-input"></td>
                     </tr>
+                    <tr>
+                        <td><label class="layui-form-label">总数量</label></td>
+                        <td><input type="text" readonly="readonly" name="Numbers" lay-verify="title" autocomplete="off" id="Numbers" class="layui-input"></td>
+                    </tr>
                 </table>
             </div>
             <div id="dr">
@@ -114,8 +118,8 @@
             for (var i = 0; i < pname.length; i++) {
                 arr4.push(pname[i].value)
             };
-            $.ajax({                                                                                            //来源单号                   //出库的数量 /*'/' + arr3.toString() +*/
-                url: 'http://localhost:49760/api/GoodsAmend/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#OrdersNum").val() + '/' + @ViewBag.outboundorderId,   //出库订单id
+            $.ajax({                                                                                            //来源单号  //出库的数量 /*'/' + arr3.toString() +*/  //出库订单id//发货方                    //收货方
+                url: 'http://localhost:49760/api/GoodsAmend/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#OrdersNum").val() + '/' + @ViewBag.outboundorderId+'/' + $("#WarehouseName").val() + '/' + $("#CustomerName").val(), 
                 type: 'get',
                 contentType: 'application/json',
                 success:

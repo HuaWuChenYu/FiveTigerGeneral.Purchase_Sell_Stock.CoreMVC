@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>commodityStocksandGoodsShow</title>
+    <title>GoodsflowingWater</title>
 </head>
 <body>
     <form class="layui-form" action="">
@@ -18,36 +18,43 @@
                 <label class="layui-form-label">仓库</label>
                 <div class="layui-input-inline">
                     <select id="WarehouseName" name="WarehouseName">
-                        
+                        <option value="">请选择市</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">商品名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="goodsName" id="goodsName"  class="layui-input">
+                    <input type="text" name="GoodsName" id="GoodsName" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">商品编号</label>
+                <label class="layui-form-label">来源</label>
                 <div class="layui-input-inline">
-                    <input type="tel" name="goodsId" id="goodsId" lay-verify="url" autocomplete="off" class="layui-input">
+                    <select id="quiz2" name="quiz2">
+                        <option value="">请选择</option>
+                        <option value="出库">出库</option>
+                        <option value="入库">入库</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">来源单号</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="SourceNumber" id="SourceNumber" class="layui-input">
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="button" class="layui-btn" id="inquire" lay-submit="" lay-filter="demo1">立即查询</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button type="button" style="background-color:lightpink" id="inquire" class="layui-btn" lay-submit="" lay-filter="demo1">立即查询</button>
+                <button type="reset" style="background-color:yellowgreen" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
         <table class="layui-hide" id="test" lay-filter="test"></table>
     </form>
 </body>
 </html>
-<script type="text/html" id="barDemo">
-    <a style="background-color:pink;color:bisque" class="layui-btn layui-btn-xs" lay-event="edit">流水记录</a>
-</script>
 <script>
     layui.use(['table','form'], function () {
         var table = layui.table;
@@ -55,9 +62,8 @@
         var $ = layui.$;
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/commodityStocksandGoodsShow'
-
-            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , url: 'http://localhost:49760/api/Goodsflowingwater/' +@ViewBag.goodsId,
+              toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
                 title: '提示'
                 , layEvent: 'LAYTABLE_TIPS'
@@ -66,39 +72,22 @@
             , title: '用户数据表'
             , cols: [[
                 { type: 'checkbox', fixed: 'left' }
-                , { field: 'commodityStocksId', title: '库存id', width: 80, fixed: 'left', unresize: true, sort: true }
-                , { field: 'goodsId', title: '商品编号', width: 120, edit: 'text' }
-                , { field: 'goodsName', title: '商品名称', width: 80, edit: 'text', sort: true }
-                , { field: 'goodsSize', title: '商品规格', width: 100 }
+                , { field: 'goodRunningWaterId', title: '流水id', width: 80, fixed: 'left', unresize: true, sort: true }
+                , { field: 'goodsId', title: '商品id', width: 120, edit: 'text' }
                 , { field: 'goodsUnitName', title: '商品单位名称' }
-                , { field: 'inventory', title: '库存数量', width: 80, sort: true }
-                , { field: 'vendibilityInventory', title: '可售库存数量', width: 120 }
+                , { field: 'goodsName', title: '商品名称', width: 80, sort: true }
                 , { field: 'warehouseName', title: '仓库名', width: 120 }
-                , { field: 'warehousePrincipal', title: '执行人', width: 120 }
-                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                , { field: 'goodsSize', title: '规格', width: 120 }
+                , { field: 'chuKu', title: '出入库', width: 120 }
+                , { field: 'inventory', title: '商品库存', width: 80, edit: 'text', sort: true }
+                , { field: 'vendibilityInventory', title: '可售库存', width: 100 }
+                , { field: 'residueWarehouse', title: '剩余库存', width: 120 }
+                , { field: 'source', title: '来源', width: 120 }
+                , { field: 'sourceNumber', title: '来源单号', width: 120 }
+                , { field: 'operator', title: '操作人', width: 120 }
             ]]
             , page: true
             ,id:'tables'
-
-        });
-        $("#inquire").on('click', function () {
-            table.reload('tables', {
-                page: {
-                    curr:1,
-                },
-                where: {
-                    warehouseName:$("#warehouseName").val(),
-                    goodsName:$("#goodsName").val(),
-                    goodsId:$("#goodsId").val(),
-                }
-            })
-        })
-        //监听行工具事件
-        table.on('tool(test)', function (obj) {
-            var data = obj.data;
-            if (obj.event === 'edit') {
-                location.href = '/Stroage/GoodsflowingWater?goodsId=' + data.goodsId;
-            }
         });
         //仓库下拉
         $.ajax({
@@ -117,6 +106,18 @@
                     })
                 }
         })
-
+        $("#inquire").on('click', function () {
+            table.reload('tables', {
+                page: {
+                    curr:1,
+                },
+                where: {
+                    warehouseName: $("#WarehouseName").val(),//仓库
+                    goodsName: $("#GoodsName").val(),//商品编号
+                    Source: $("#quiz2").val(),//来源
+                    sourceNumber: $("#SourceNumber").val(),//来源单号
+                }
+            })
+        })
     })
 </script>
