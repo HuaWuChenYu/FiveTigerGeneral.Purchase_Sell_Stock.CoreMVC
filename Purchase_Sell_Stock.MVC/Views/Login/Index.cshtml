@@ -16,20 +16,24 @@
 
 </head>
 <body>
-    <form style="margin-top:500px;margin-left:1500px" class="layui-form" action="">
+    <div class="video-player" preload="auto" autoplay="autoplay" loop="loop" data-height="1080" data-width="1920" height="1080" width="1920">
+        <!--背景图片-->
+        <img src="~/Img/ed6b609fb80852c2e767e2604a36f10e.jpeg" style="width:100%; height:100%" />
+    </div>
+    <form style="margin-top:-500px;margin-left:1400px" class="layui-form" action="">
 
         <div class="layui-form-item">
-            <label class="layui-form-label">手机号：</label>
+            <label class="layui-form-label" style="color:white">手机号：</label>
             <div class="layui-input-inline">
                 <input id="usersphone" type="text" name="usersphone" lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input">
-               rreobyfnnfj
+                
             </div>
             <div id="msg" style="margin-left: 40px"></div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">验证码：</label>
+            <label class="layui-form-label" style="color:white">验证码：</label>
             <div class="layui-input-inline">
-                <input id="pnum" type="text" name="pnum"  placeholder="请输入验证码" autocomplete="off" class="layui-input">
+                <input id="pnum" type="text" name="pnum" placeholder="请输入验证码" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -37,11 +41,11 @@
 
                 <input type="button" class="layui-btn" id="find" value="点击获取验证码" />
                 <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">登录</button>
-                
+
                 <a></a>
             </div>
         </div>
-        
+
     </form>
 </body>
 </html>
