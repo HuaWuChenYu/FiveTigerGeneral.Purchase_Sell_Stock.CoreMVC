@@ -1,1 +1,1 @@
-﻿var HttpUrlPart = "http://192.168.137.4:8012";
+﻿var HttpUrlPart = "http://localhost:49760";
