@@ -4,7 +4,7 @@ $.ajaxSetup({ //发送请求前触发
         var token = getCookie("token");
         if (token == "" || token == null || token == undefined) {
             alert('请先登录');
-            location.href = '/Login/Show';
+            location.href = '/Login/LoginIndex';
             return;
         }
         xhr.setRequestHeader('Authorization', "Bearer " + token);
