@@ -32,13 +32,13 @@
             所属部门:
             <div class="layui-input-inline">
                 <select name="EmployeeDepartmentId" id="EmployeeDepartmentId" lay-filter="aihao">
-                    <option value="-1"></option>
+                    <option value="-1">请选择所属部门</option>
                 </select>
             </div>
             所属角色:
             <div class="layui-input-inline">
                 <select name="EmployeeRolesId" id="EmployeeRolesId" lay-filter="aihao">
-                    <option value="-1"></option>
+                    <option value="-1">请选择所属角色</option>
                 </select>
             </div>
             <button class="layui-btn" data-type="reload"  style="background-color:hotpink" type="submit" lay-submit="" lay-filter="demo1">查询</button>
@@ -95,7 +95,7 @@
                 limitName: 'pageSize',
                 pageName: 'pageIndex'
             }
-            , limit: 3
+            , limit: 9
             , limits: [3, 6, 9]
             , id: 'testReload'
         });

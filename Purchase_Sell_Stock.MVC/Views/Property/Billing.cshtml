@@ -14,69 +14,82 @@
 </head>
 <body>
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-        <legend>五虎盛世集团、综合账单、对账详细复杂组合响应式展现</legend>
+        <legend>综合账单、对账详细复杂组合响应式展现</legend>
     </fieldset>
 
     <div style="margin-top:30px;margin-right:40px">
-
-        <div style="margin-left:20px">
+        <div id="main" style="width: 1600px;height:400px"></div>
+        <div style="margin-left:130px">
             <form class="layui-form" action="">
-
-                类型：
-                <div class="layui-inline">
-                    <select name="Account_Type" id="Account_Type" lay-verify="">
-                        <option value=" ">请选择</option>
-                        <option value="店铺余额">店铺余额</option>
-                        <option value="店铺收益">店铺收益</option>
-                    </select>
-                </div>
-
-                &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;单据类型：
-                <div class="layui-inline">
-                    <select name="Order_type" id="Order_type" lay-verify="">
-                        <option value=" ">请选择</option>
-                        <option value="充值">充值</option>
-                        <option value="提现">提现</option>
-                        <option value="订单完结">订单完结</option>
-                        <option value="采购支出">采购支出</option>
-                    </select>
-                </div>
-
-                &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;单据编码：
-                <div class="layui-inline">
-
-                    <input class="layui-input" name="Order_NUm" id="Order_NUm" autocomplete="off">
-                </div>
-
-                &nbsp;&nbsp; &nbsp;&nbsp;入账时间范围：
-                <div class="layui-inline">
-                    <div class="layui-input-inline">
-                        <input type="text" id="start_time" name="start_time" autocomplete="off" placeholder="请输入开始时间" class="layui-input">
-                    </div>
-                    至
-                    <div class="layui-input-inline">
-                        <input type="text" id="end_time" name="end_time" autocomplete="off" placeholder="请输入结束时间" class="layui-input">
+                <div>
+                    &nbsp;&nbsp; &nbsp;&nbsp;类型：
+                    <div class="layui-inline">
+                        <select name="Account_Type" id="Account_Type" lay-verify="">
+                            <option value=" ">请选择</option>
+                            <option value="店铺余额">店铺余额</option>
+                            <option value="店铺收益">店铺收益</option>
+                        </select>
                     </div>
 
+                    &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;单据类型：
+                    <div class="layui-inline">
+                        <select name="Order_type" id="Order_type" lay-verify="">
+                            <option value=" ">请选择</option>
+                            <option value="充值">充值</option>
+                            <option value="提现">提现</option>
+                            <option value="订单完结">订单完结</option>
+                            <option value="采购支出">采购支出</option>
+                        </select>
+                    </div>
+
+                    &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;单据编码：
+                    <div class="layui-inline">
+
+                        <input class="layui-input" name="Order_NUm" id="Order_NUm" autocomplete="off">
+                    </div>
                 </div>
+                <br />
+                <div style="margin-top:-5px">
+                    &nbsp;&nbsp; &nbsp;&nbsp;入账时间范围：
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                            <input type="text" id="start_time" name="start_time" autocomplete="off" placeholder="请输入开始时间" class="layui-input">
+                        </div>
+                        至
+                        <div class="layui-input-inline">
+                            <input type="text" id="end_time" name="end_time" autocomplete="off" placeholder="请输入结束时间" class="layui-input">
+                        </div>
 
-                &nbsp;&nbsp; &nbsp;&nbsp;支/收
-                <div class="layui-inline">
-                    <select name="InorOut" id="InorOut" lay-verify="">
-                        <option value=" ">请选择</option>
-                        <option value="1">收入</option>
-                        <option value="0">支出</option>
+                    </div>
 
-                    </select>
+                    &nbsp;&nbsp; &nbsp;&nbsp;支/收
+                    <div class="layui-inline">
+                        <select name="InorOut" id="InorOut" lay-verify="">
+                            <option value=" ">请选择</option>
+                            <option value="1">收入</option>
+                            <option value="2">支出</option>
+
+                        </select>
+                    </div>
+
+                    &nbsp;&nbsp; &nbsp;
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
-
-                &nbsp;&nbsp; &nbsp;
-                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-
 
 
             </form>
+            <div style="margin-top:20px">
+                <span style="color:darkgray">当前时间范围：&nbsp;&nbsp; &nbsp;收入共计</span>&nbsp;&nbsp;<span id="incount" style="font-size:20px"></span>&nbsp;&nbsp;<span style="color:darkgray">笔</span>;
+                &nbsp;
+                <span style="color:darkgray">合计</span>&nbsp;&nbsp;<span id="inRMB" style="font-size:20px"></span>&nbsp;&nbsp;<span style="color:darkgray">元</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <span style="color:darkgray">支出共计</span>&nbsp;&nbsp;<span id="putcount" style="font-size:20px">&nbsp;&nbsp;</span>&nbsp;&nbsp;<span style="color:darkgray">笔</span>;
+                &nbsp;
+                <span style="color:darkgray">合计</span>&nbsp;&nbsp;<span id="outRMB" style="font-size:20px"></span>&nbsp;&nbsp;<span style="color:darkgray">元</span>
+                &nbsp;
+                <span>（默认显示和计算当月数据）</span>
+            </div>
             <table id="test" class="layui-table" lay-even lay-skin="nob" lay-size="sm"></table>
         </div>
 
@@ -87,7 +100,11 @@
 </body>
 </html>
 <script>
-    layui.use(['table', 'laydate', 'form'], function () {
+    layui.config({
+        base: '/Scripts/'
+    });
+
+    layui.use(['table', 'laydate', 'echarts', 'form'], function () {
         var table = layui.table,
             $ = layui.$;
         var form = layui.form;
@@ -119,9 +136,262 @@
                 };
             }
         });
+
+        var myChart = layui.echarts.init(document.getElementById('main'))
+        // 指定图表的配置项和数据
+        const colorList = ["#9E87FF", '#73DDFF', '#fe9a8b', '#F56948', '#9E87FF']
+        option = {
+            backgroundColor: '#fff',
+            title: {
+                text: '月收入统计',
+                textStyle: {
+                    fontSize: 12,
+                    fontWeight: 400
+                },
+                left: 'center',
+                top: '5%'
+            },
+            legend: {
+                icon: 'circle',
+                top: '5%',
+                right: '5%',
+                itemWidth: 6,
+                itemGap: 20,
+                textStyle: {
+                    color: '#556677'
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    label: {
+                        show: true,
+                        backgroundColor: '#fff',
+                        color: '#556677',
+                        borderColor: 'rgba(0,0,0,0)',
+                        shadowColor: 'rgba(0,0,0,0)',
+                        shadowOffsetY: 0
+                    },
+                    lineStyle: {
+                        width: 0
+                    }
+                },
+                backgroundColor: '#fff',
+                textStyle: {
+                    color: '#5c6c7c'
+                },
+                padding: [10, 10],
+                extraCssText: 'box-shadow: 1px 0 2px 0 rgba(163,163,163,0.5)'
+            },
+            grid: {
+                top: '15%'
+            },
+            xAxis: [{
+                type: 'category',
+                data: [],
+                axisLine: {
+                    lineStyle: {
+                        color: '#DCE2E8'
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLabel: {
+                    interval: 0,
+                    textStyle: {
+                        color: '#556677'
+                    },
+                    // 默认x轴字体大小
+                    fontSize: 12,
+                    // margin:文字到x轴的距离
+                    margin: 15
+                },
+                axisPointer: {
+                    label: {
+                        // padding: [11, 5, 7],
+                        padding: [0, 0, 10, 0],
+                        /*
+            除了padding[0]建议必须是0之外，其他三项可随意设置
+            
+            和CSSpadding相同，[上，右，下，左]
+            
+            如果需要下边线超出文字，设左右padding即可，注：左右padding最好相同
+            
+            padding[2]的10:
+            
+            10 = 文字距下边线的距离 + 下边线的宽度
+                        
+            如：UI图中文字距下边线距离为7 下边线宽度为2
+            
+            则padding: [0, 0, 9, 0]
+                        
+                        */
+                        // 这里的margin和axisLabel的margin要一致!
+                        margin: 15,
+                        // 移入时的字体大小
+                        fontSize: 12,
+                        backgroundColor: {
+                            type: 'linear',
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            colorStops: [{
+                                offset: 0,
+                                color: '#fff' // 0% 处的颜色
+                            }, {
+                                // offset: 0.9,
+                                offset: 0.86,
+                                /*
+        0.86 = （文字 + 文字距下边线的距离）/（文字 + 文字距下边线的距离 + 下边线的宽度）
+                                
+                                */
+                                color: '#fff' // 0% 处的颜色
+                            }, {
+                                offset: 0.86,
+                                color: '#33c0cd' // 0% 处的颜色
+                            }, {
+                                offset: 1,
+                                color: '#33c0cd' // 100% 处的颜色
+                            }],
+                            global: false // 缺省为 false
+                        }
+                    }
+                },
+                boundaryGap: false
+            }],
+            yAxis: [{
+                type: 'value',
+                axisTick: {
+                    show: false
+                },
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#DCE2E8'
+                    }
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: '#556677'
+                    }
+                },
+                splitLine: {
+                    show: false
+                }
+            }, {
+                type: 'value',
+                position: 'right',
+                axisTick: {
+                    show: false
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: '#556677'
+                    },
+                    formatter: '{value}'
+                },
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#DCE2E8'
+                    }
+                },
+                splitLine: {
+                    show: false
+                }
+            }],
+            series: [{
+                name: '支付宝',
+                type: 'line',
+                data:[],
+                symbolSize: 1,
+                symbol: 'circle',
+                smooth: true,
+                yAxisIndex: 0,
+                showSymbol: false,
+                lineStyle: {
+                    width: 5,
+                    color: new layui.echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+                        offset: 0,
+                        color: '#73DD39'
+                    },
+                    {
+                        offset: 1,
+                        color: '#73DDFF'
+                    }
+                    ]),
+                    shadowColor: 'rgba(115,221,255, 0.3)',
+                    shadowBlur: 10,
+                    shadowOffsetY: 20
+                },
+                itemStyle: {
+                    normal: {
+                        color: colorList[1],
+                        borderColor: colorList[1]
+                    }
+                }
+            },
+            {
+                name: '订单完结',
+                type: 'line',
+                data: [],
+                symbolSize: 1,
+                yAxisIndex: 1,
+                symbol: 'circle',
+                smooth: true,
+                showSymbol: false,
+                lineStyle: {
+                    width: 5,
+                    color: new layui.echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        offset: 0,
+                        color: '#fe9a'
+                    },
+                    {
+                        offset: 1,
+                        color: '#fe9a8b'
+                    }
+                    ]),
+                    shadowColor: 'rgba(254,154,139, 0.3)',
+                    shadowBlur: 10,
+                    shadowOffsetY: 20
+                },
+                itemStyle: {
+                    normal: {
+                        color: colorList[2],
+                        borderColor: colorList[2]
+                    }
+                }
+            }
+            ]
+        };
+       
+        //图表自适应窗口大小
+        $('#main').resize(function () {
+            myChart.resize();
+        });
+
+        sale();
+        function sale(begin, end)
+        {
+            $.post('http://localhost:49760/api/tim', { beginDate: begin, endDate: end }, function (date) {
+                console.log(date);
+                option.xAxis[0].data = date.arrtime;
+                option.series[0].data = date.list;
+                option.series[1].data = date.orderlist;
+                //载入配置
+                myChart.setOption(option);
+            }, 'json');
+        }
+       
+       
+       
         table.render({
+            
             elem: '#test'
             , url: 'http://localhost:49760/api/ShowBilling_details'
+            , width:1300
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
                 { field: 'date_recorded', width: 180, title: '入账时间', sort: true }
@@ -131,13 +401,18 @@
                 , {
                     field: 'InorOut', width: 180, title: '收入/支出',
                     templet: function (d) {
-                        if (d.gender == 1) { return '收入' } else { return '支出' }
+                         
+                        if (d.InorOut == 1) { return '收入' } else if (d.InorOut == 2){ return '支出' }
+                    
                     }
                 }
-                , { field: 'Order_type', title: '单据类型', minWidth: 100 } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                , { field: 'Order_NUm', title: '单据编码' }
+                , { field: 'Order_type', title: '单据类型', width: 180} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , { field: 'Order_NUm', title: '单据编码', width: 250}
+                , { field: 'Num', title: '收/支', hide: true }
+                , { field: 'MoneySum', title: '总和', hide: true }
+              
             ]]
-            , limits: [5, 10, 30]
+            , limits: [10, 15, 30]
             , limit: 10
             , request: {
                 pageName: 'pageIndex',//控制器 显示方法 当前页数参数
@@ -145,11 +420,43 @@
             }
             , id: 'testReload'
             , page: true
+            , done: function (res, curr, count) {
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                console.log(res);
+        
+                //得到当前页码
+                console.log(curr);
+
+                //得到数据总量
+                console.log(count);
+                
+                var incount = 0;
+                var putcount = 0;
+                var inRMB = 0;
+                var outRMB = 0;
+                for (var i = 0; i < res.data.length; i++) {
+
+                    if (res.data[i].InorOut == 1) {
+                        incount = res.data[i].Num;
+                        inRMB = res.data[i].MoneySum;
+                     
+                    } else if (res.data[i].InorOut == 2) {
+                        putcount= res.data[i].Num;
+                        outRMB = res.data[i].MoneySum;
+                    }
+                    
+                }
+                $("#incount").text(incount);
+                $("#putcount").text(putcount);
+                $("#inRMB").text(inRMB);
+                $("#outRMB").text(outRMB);
+            }
         });
 
         //监听提交
         form.on('submit(formDemo)', function (data) {
-            alert(data.field.start_time);
+         
             //执行重载
             table.reload('testReload', {
                 page: {
@@ -164,9 +471,15 @@
                     InorOut: data.field.InorOut,
                 }
             }, 'data');
+            if (data.field.start_time != "" && data.field.end_time != "")
+            {
+                sale(data.field.start_time, data.field.end_time,)
+            }
             return false;
         });
-
+       
+      
+      
     });
 
 

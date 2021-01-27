@@ -118,7 +118,7 @@
         })
         //商品品牌
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsBrandList/0' + '/' + " " + '/' + Number( $("#storeId").val()),
+            url: 'http://localhost:49760/api/GetGoodsBrandList/'+ Number( $("#storeId").val()),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -133,7 +133,7 @@
         })
         //商品单位
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsUnitList/0' + '/' + " " + '/' + Number($("#storeId").val()),
+            url: 'http://localhost:49760/api/GetGoodsUnitList/'+ Number($("#storeId").val()),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {

@@ -14,7 +14,7 @@
 </head>
 <body>
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-        <legend>五虎盛世集团、平板、桌面端的复杂组合响应式展现</legend>
+        <legend>账户资产的复杂组合数据响应式展现</legend>
     </fieldset>
 
     <div class="layui-row">
@@ -26,16 +26,16 @@
                     <div style="float:left">
                         <div style="margin-left:60px"><input id="sdk" class="layui-btn layui-btn-xs layui-btn-primary" type="button" value="充值" /></div>
                     </div>
-                    <div style="margin-left:100px">
+                    @*<div style="margin-left:100px">
                         <div><input id="Button1" class="layui-btn layui-btn-xs layui-btn-primary " type="button" value="提现" /></div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
         <div style="width:450px;margin-left:60px" class="layui-col-xs6 layui-col-sm6 layui-col-md4">
             <div style="border-radius: 10px 10px 10px 10px;height: 200px; font-size: 17px" class="grid-demo layui-bg-blue">
                 待结算
-                <div style=" font-size:60px;margin-left:80px; margin-top:40px;color:white"><span style="font-size:20px;">￥</span>10000</div>
+                <div style=" font-size:60px;margin-left:80px; margin-top:40px;color:white"><span style="font-size:20px;" >￥</span ><span id="sttledmoney"></span></div>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
                 <button class="layui-btn" data-type="reload">搜索</button>
                 <button class="layui-btn" data-type="reload">重置</button>
             </div>
-            <table id="test" class="layui-table" lay-even lay-skin="nob" lay-size="sm"></table>
+            <table id="test" class="layui-table" lay-even lay-skin="nob" ></table>
         </div>
     </div>
 </body>
@@ -111,6 +111,7 @@
         });
         table.render({
             elem: '#test'
+            ,width:1200
             , url: 'http://localhost:49760/api/Show'
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
@@ -125,8 +126,15 @@
                     }
                 }
                 , { field: 'Income_Source', width: 120, title: '收入来源' } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                , { field: 'Order_num', title: '单据编码', sort: true }
-                , { field: 'Explain', title: '说明', sort: true }
+                , { field: 'Order_num', width: 180,title: '单据编码', sort: true }
+                , { field: 'Explain', width: 80 ,title: '说明', sort: true }
+                , {
+                    field: 'sttledmoney', width: 80, title: '待结算总和', hide: true
+                    , templet: function (d) { //d可以取到改行的所有数据
+                        $("#sttledmoney").text(d.sttledmoney);
+                        return d.sttledmoney;
+                    }
+                }
             ]]
             , limits: [5, 10, 30]
             , limit: 10
@@ -164,61 +172,12 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        //充值调用
+        //充值跳转
         $('#sdk').on('click', function () {
-            ////$.get('/Property/alipay', function (date) {
-            ////    $('body').append(date);
-            //layer.open({
-            //    title: '编辑用户',
-            //    type: 2,
-            //    area: ['62%', '70%'],
-            //    maxmin: true,
-            //    anim: 2,
-            //    shadeClose: true,
-            //    shade: 0, // 不显示遮罩
-            //    content: '/Property/Recharge',
-
-            //    success: function (layero, index) {
-            //        //var body = layer.getChildFrame('body', index);  //获取子页面的body元素
-            //        //body.find('#id').val(data.Id);
-            //        //body.find('#Name').val(data.Name);
-            //        //body.find('#Title').val(data.Title);
-            //        //body.find('#Adtime').val(data.Adtime);//为子页面id为id的元素赋值
-
-            //    },
-
-            //    end: function () {
-            //        var handle_status = $("#id").val();
-            //        if (handle_status > 0) {
-            //            layer.msg('修改成功！')
-            //            table.reload('test', {
-            //                url: '/Stu/Show'
-            //            })
-            //            //    icon: 1,
-            //            //    time: 1000 //2秒关闭（如果不配置，默认是3秒）
-            //            //}, function () {
-            //            //    //history.go(0);
-            //            //    table.reload('test', {
-            //            //        url: '/Stu/Show'
-            //            //    })
-            //            //});
-            //        } else {
-            //            layer.msg('修改失败！', {
-            //                icon: 2,
-            //                time: 1000 //2秒关闭（如果不配置，默认是3秒）
-            //            }, function () {
-            //                history.go(0);
-            //            });
-            //        }
-            //    }
-            //});
-            $('#sdk').on('click', function () {
-                $.get('/Property/alipay', function (date) {
-                    $('body').append(date);
-                });
-            });
+            location.href = '/Property/Recharge';
         });
     });
+  
 
 
 

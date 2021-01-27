@@ -13,6 +13,7 @@
     <script src="~/layui/layui.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/dist/echarts.min.js"></script>
+    <script src="https://apip.weatherdt.com/simple/static/js/weather-simple-common.js?v=2.0"></script>
     <style>
         /*表头样式*/
         .layui-table-tool {
@@ -31,7 +32,8 @@
         }
     </style>
 </head>
-<body>
+<body style="height:700px;width:1700px">
+    <div id="weather-v2-plugin-simple" style="width:100px"></div>
     <div style="background-color:blue;float:none">
         <div style="float:left;width:500px">
             <table class="table-bordered table" style="border:none">
@@ -113,27 +115,50 @@
             </div>
             <div style="clear:both">
                 <div class="layui-btn-container">
-                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">添加商品</button>
-                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">订单列表</button>
-                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">售后统计</button>
-                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">出库信息</button>
-                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">入库信息</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px" onclick="Jump('AddGoods')">添加商品</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px" onclick="Jump('Order')">订单列表</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px" onclick="Jump('CancelOrder')">售后统计</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px" onclick="Jump('Out')">出库信息</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px" onclick="Jump('Go')">入库信息</button>
                 </div>
                 <div class="layui-btn-container">
-                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">用户管理</button>
-                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">交易统计</button>
-                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">数据概况</button>
-                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">客户管理</button>
-                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px">店铺设置</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px" onclick="Jump('User')">用户管理</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px" onclick="Jump('Money')">店铺资产</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px" onclick="Jump('Data')">交易统计</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px" onclick="Jump('Customer')">客户管理</button>
+                    <button type="button" class="layui-btn layui-btn-radius" style="background-color:pink;height:100px;width:100px" onclick="Jump('Store')">店铺设置</button>
                 </div>
             </div>
         </div>
-        <div style="float:right">
+        <div style="float:left;margin-left:50px">
             <table class="layui-hide" id="goodsSum"></table>
         </div>
     </div>
 </body>
 </html>
+<script>
+    WIDGET = {
+        CONFIG: {
+            "modules": "01234",
+            "background": 1,
+            "tmpColor": "FFFFFF",
+            "tmpSize": 16,
+            "cityColor": "FFFFFF",
+            "citySize": 16,
+            "aqiSize": 16,
+            "weatherIconSize": 24,
+            "alertIconSize": 18,
+            "padding": "10px 10px 10px 10px",
+            "shadow": "1",
+            "language": "auto",
+            "borderRadius": 5,
+            "fixed": "false",
+            "vertical": "middle",
+            "horizontal": "center",
+            "key": "IwV2S8AsgN"
+        }
+    }
+</script>
 <script type="text/html" id="aa">
     {{#  if(d.StoreMessageState === true){ }}
     <span style="color: seagreen;">[已读]</span>
@@ -146,13 +171,13 @@
 <script type="text/html" id="help">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" style="background-color:floralwhite;color:deepskyblue" lay-event="">帮助中心</button>
-        <button class="layui-btn layui-btn-sm" style="background-color:lightpink" lay-event="moreHelp">更多</button>
+        <button class="layui-btn layui-btn-sm" style="background-color:lightpink" onclick="message()">更多</button>
     </div>
 </script>
 <script type="text/html" id="mess">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" style="background-color:floralwhite;color:deepskyblue" lay-event="">消息中心</button>
-        <button class="layui-btn layui-btn-sm" style="background-color:lightpink" lay-event="moreMess">更多</button>
+        <button class="layui-btn layui-btn-sm" style="background-color:lightpink" onclick="help()">更多</button>
     </div>
 </script>
 <script type="text/html" id="gSum">
@@ -179,6 +204,47 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="dispose_Procurement" style="background-color:pink">去处理>></a>
 </script>
 <script>
+    function help() {
+        location.href = '/First/Help?storeId='+@ViewBag.StoreId;
+    }
+    function message() {
+        location.href = '/First/Message?storeId='+@ViewBag.StoreId;
+    }
+    function Jump(d) {
+        switch (d) {
+            case "AddGoods":
+                location.href = '/Goods/AddGood?storeId=' + $("#storeId-Hid").val();
+                break;
+            case "Order":
+                location.href = '/Order/ShowOrder';
+                break;
+            case "CancelOrder":
+                location.href = '/Order/CancelOrder';
+                break;
+            case "Out":
+                location.href = '/Stroage/OutboundorderCombineShow';
+                break;
+            case "Go":
+                location.href = '/Stroage/IncomingorderShow';
+                break;
+            case "User":
+                location.href = '/Setting/EmployeeShow';
+                break;
+            case "Money":
+                location.href = '/Property/Balance';
+            case "Data":
+                location.href = '/Property/Billing';
+                break;
+            case "Customer":
+                location.href = '/Customer/GetCustomerShow';
+                break;
+            case "Store":
+                location.href = '/Setting/StoreInfo';
+                break;
+            default:
+                break;
+        }
+    }
     layui.use(['form', 'layer', 'table'], function () {
         var form = layui.form
             , layer = layui.layer
@@ -251,7 +317,7 @@
                 ]]
                 , page: true
                 , limit: 5
-                , limits: [5,10]
+                , limits: [5, 10]
                 , request: {
                     pageName: 'pageIndex',
                     limitName: 'pageSize'
@@ -264,13 +330,13 @@
             var data = obj.data;
             //console.log(obj)
             if (obj.event === 'dispose_Order') {
-                alert("去处理订单");
+                location.href = '/Order/ShowOrder?';
             }
             if (obj.event === 'dispose_Incomingorder') {
-                alert("去处理入库");
+                location.href = '/Stroage/IncomingorderShow';
             }
             if (obj.event === 'dispose_Procurement') {
-                alert("去处理采购");
+                location.href = '/Procurement/GetProcurementsShow';
             }
         });
 
@@ -377,8 +443,6 @@
                 $("#oldUser").text(d);
             }
         })
-
-        
 
         //商品销量排行
         table.render({
