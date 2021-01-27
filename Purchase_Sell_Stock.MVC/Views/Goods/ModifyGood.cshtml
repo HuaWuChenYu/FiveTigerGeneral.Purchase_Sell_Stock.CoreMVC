@@ -36,7 +36,7 @@
             <div class="layui-input-block" style="width:400px">
                 <select id="goodsclassify" name="goodsclassify">
                     <option value="">全部</option>
-                    <option value="成品" >成品</option>
+                    <option value="成品">成品</option>
                     <option value="原料">原料</option>
                 </select>
             </div>
@@ -98,7 +98,7 @@
             , table = layui.table
             , upload = layui.upload
             , $ = layui.$;
-        
+
         //商品分类
         $.ajax({
             url: 'http://localhost:49760/api/GetGoodsTypeList/0' + '/' + " " + '/' + Number($("#storeId").val()),
@@ -117,7 +117,7 @@
         })
         //商品品牌
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsBrandList/0' + '/' + " " + '/' + Number($("#storeId").val()),
+            url: 'http://localhost:49760/api/GetGoodsBrandList/' + $("#storeId").val()+'?brandId=0&brandName=',
             type: 'get',
             async: false,
             contentType: 'application/json',
@@ -133,7 +133,7 @@
         })
         //商品单位
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsUnitList/0' + '/' + " " + '/' + Number($("#storeId").val()),
+            url: 'http://localhost:49760/api/GetGoodsUnitList/'+Number($("#storeId").val()),
             type: 'get',
             async: false,
             contentType: 'application/json',
