@@ -295,7 +295,7 @@
 
 <html>
 <body>
-    <form style="margin-top:500px;margin-left:1500px" class="layui-form" action="">
+    <form style="margin-top:500px;margin-left:1100px" class="layui-form" action="">
 
         <div class="layui-form-item">
             <label class="layui-form-label" style="color:white">手机号：</label>
@@ -315,10 +315,13 @@
         <div class="layui-form-item" style="width:8000px;margin: 0;">
             <div class="layui-input-block">
                 <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">登录</button>
+                <a class=" layui-btn-xs" lay-event="edit" style="color:white" onclick="location.href='/Login/ForgetPwd'">忘记密码</a>
+                <a class=" layui-btn-xs" lay-event="edit" style="color:white" onclick="location.href='/Login/Register'">注册</a>
             </div>
         </div>
     </form>
     <script>
+        Remove("token");
         layui.use(['form', 'layer', 'table', 'carousel'], function () {
             var carousel = layui.carousel
             var form = layui.form
@@ -372,10 +375,18 @@
                 return false;
             });
         })
+        function Remove(name) {
+            //设置名称为name,值为value的Cookie
+            var expdate = new Date();   //初始化时间
+            expdate.setTime(expdate.getTime() -30* 60 * 1000);   //时间单位毫秒
+            document.cookie = name + "=''"  + ";expires=" + expdate.toGMTString() + ";path=/";
+
+            //即document.cookie= name+"="+value+";path=/";  时间默认为当前会话可以不要，但路径要填写，因为JS的默认路径是当前页，如果不填，此cookie只在当前页面生效！
+        }
         function Setcookie(name, value) {
             //设置名称为name,值为value的Cookie
             var expdate = new Date();   //初始化时间
-            expdate.setTime(expdate.getTime() + 60 * 1000);   //时间单位毫秒
+            expdate.setTime(expdate.getTime() +30* 60 * 1000);   //时间单位毫秒
             document.cookie = name + "=" + value + ";expires=" + expdate.toGMTString() + ";path=/";
 
             //即document.cookie= name+"="+value+";path=/";  时间默认为当前会话可以不要，但路径要填写，因为JS的默认路径是当前页，如果不填，此cookie只在当前页面生效！
@@ -392,7 +403,7 @@
                     return unescape(document.cookie.substring(c_start, c_end))
                 }
             }
-            return ""
+            return "";
         }
     </script>
 </body>

@@ -8,12 +8,14 @@ using Purchase_Sell_Stock.MVC.Models.Property;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Purchase_Sell_Stock.MVC.Controllers
 {
-    public class Property : Controller
+    public class PropertyController : Controller
     {
         public IActionResult Index()
         {
@@ -42,37 +44,58 @@ namespace Purchase_Sell_Stock.MVC.Controllers
                            "Bv2dVqIYKnD4Lmtyzeyczc7R2Q0Dx9ILmp0zlhzNbGZlKzZGYRE9BVk+sX3iI8uPIWorkYJeMXPBdD62hzbx6/Vnukdqbu492fmvZ+bd7KRLlWF+Ywabn3kbuQn0q5CsD72" +
                            "K+OT9sIwIDAQAB"; //这里是支付宝公钥  
 
-        //支付宝充值方法接口调用
+        //充值视图
+        public IActionResult Recharge()
+        {
+            return View();
+          
+        }
+
         
-        public IActionResult alipay(string Money="1")
+        //支付宝充值方法接口调用
+        [HttpPost]
+        public IActionResult alipay(string Money)
         {
 
             Random random = new Random();
-
-            IAopClient client = new DefaultAopClient("https://openapi.alipaydev.com/gateway.do",appId, pirvateKey, "json", "1.0", "RSA2", publicKey, "utf-8", false);
-
-
             //业务逻辑
+            string radid = random.Next(13245, 12345642).ToString();
+            string OutTradeNo= "JD_"+ radid;
+            string productname = "烦死";
+
+            IAopClient client = new DefaultAopClient("https://openapi.alipaydev.com/gateway.do", appId, pirvateKey, "json", "1.0", "RSA2", publicKey, "utf-8", false);
+            System.Net.Http.HttpClient clients = new HttpClient();
+            clients.BaseAddress = new Uri("http://localhost:49760/");
+            clients.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            var responses = clients.GetAsync("api/AddBilling_detailsInfos?UserId=" + 1 + "&Account_Type=" + "店铺收益" + "&Account_Money=" + Money + "&InorOut=" + 1 + "&Order_type=" + "支付宝充值" + "&Order_NUm=" + OutTradeNo).Result;
+            if (responses.IsSuccessStatusCode)  //判断请求返回的是否为200
+            {
+                //请求成功将不再请求
+                clients = null;
+            }
             AlipayTradePagePayModel model = new AlipayTradePagePayModel();
-            model.OutTradeNo = "JD_111";
+
             model.Body = "买不了吃亏"; //描述 //商品描述
-            model.Subject = "烦死";//名称 //商品名称
-            model.TotalAmount =Money;//价格 商品价格
-            model.OutTradeNo = random.Next(13245, 12345642).ToString();  //随机数  
+            model.Subject = productname;//名称 //商品名称
+            model.TotalAmount = Money;//价格 商品价格
+            model.OutTradeNo =OutTradeNo;  //商户订单号  
             model.ProductCode = "FAST_INSTANT_TRADE_PAY";
 
             AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
             // 设置同步回调地址
             // 支付成功之后要跳转的页面
             request.SetReturnUrl(" http://localhost:57736/Property/Balance");
+
             // 设置异步通知接收地址
             request.SetNotifyUrl("");
             // 将业务model载入到request
             request.SetBizModel(model);
+           
             AlipayTradePagePayResponse response = null;
             try
             {
-                response = client.pageExecute(request, null, "post");  //调用支付宝 它是以Post 方式
+                 response = client.pageExecute(request, null, "post");  //调用支付宝 它是以Post 方式
+               
             }
 
             catch (Exception exp)
@@ -81,14 +104,16 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 
             }
 
+            
             return Content(response.Body); //把支付宝反回来的数据 全部加载到页面上
 
         }
 
-        public Query Query(string WIDout_trade_no= "3795556") 
+      
+        public Query Query(string WIDout_trade_no = "3795556")
         {
 
-            DefaultAopClient client = new DefaultAopClient("https://openapi.alipaydev.com/gateway.do",appId, pirvateKey, "json", "1.0", "RSA2",publicKey,"utf-8", false);
+            DefaultAopClient client = new DefaultAopClient("https://openapi.alipaydev.com/gateway.do", appId, pirvateKey, "json", "1.0", "RSA2", publicKey, "utf-8", false);
 
             // 商户订单号，和交易号不能同时为空
             string out_trade_no = WIDout_trade_no.Trim();
@@ -130,11 +155,11 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
-       
+
         //提现接口（暂为拥有该能力）
         public IActionResult TransToaccount()
         {
-      
+
             IAopClient client = new DefaultAopClient("https://openapi.alipaydev.com/gateway.do", appId, pirvateKey, "json", "1.0", "RSA2", publicKey, "utf-8", false);
             AlipayFundTransUniTransferRequest request = new AlipayFundTransUniTransferRequest();
             request.BizContent = "{" +
@@ -156,12 +181,12 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             return Content(response.Body);
         }
 
-        //充值视图
-       public IActionResult Recharge() 
-       {
+        public IActionResult Amount_settled()
+        {
             return View();
-       }
+        }
 
-   
+       
+
     }
 }

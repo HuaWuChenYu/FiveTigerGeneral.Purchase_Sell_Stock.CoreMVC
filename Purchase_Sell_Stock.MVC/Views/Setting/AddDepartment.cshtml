@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <button class="layui-btn" lay-submit="" lay-filter="demo2">确认创建</button>
+            <button class="layui-btn" lay-submit="" style="background-color:deeppink" lay-filter="demo2">确认创建</button>
         </div>
     </form>
 </body>
@@ -64,7 +64,15 @@
         }
         //监听提交
         form.on('submit(demo2)', function (data) {
+            if (data.field.departmentName=="") {
+                alert('员工姓名不能为空');
+                return;
+            }
             data.field.departmentParentId = Number(data.field.departmentParentId);
+            if (data.field.departmentParentId<1) {
+                alert('上级部门不能为空');
+                return;
+            }
             $.ajax({
                 url: "http://localhost:49760/api/Setting/AddDepartment",
                 contentType: "application/json",

@@ -10,16 +10,15 @@ namespace Purchase_Sell_Stock.MVC.Controllers
     {
         public IActionResult FirstPage(int storeId=1)//首页
         {
-            
             ViewBag.StoreId = storeId;
             return View();
         }
-        public IActionResult Help(int storeId = 1)//帮助中心
+        public IActionResult Help(int storeId)//帮助中心
         {
             ViewBag.StoreId = storeId;
             return View();
         }
-        public IActionResult Message(int storeId = 1)//消息中心
+        public IActionResult Message(int storeId)//消息中心
         {
             ViewBag.StoreId = storeId;
             return View();

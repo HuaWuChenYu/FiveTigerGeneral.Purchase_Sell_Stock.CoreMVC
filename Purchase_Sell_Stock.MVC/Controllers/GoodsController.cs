@@ -31,9 +31,29 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             ViewBag.Id = id;
             return View();
         }
-        public IActionResult ShowOne(int id)//明细
+        public IActionResult ShowOne(int id)//明细页面
         {
             ViewBag.Id = id;
+            return View();
+        }
+        public IActionResult Brand(int storeId = 1)//商品品牌页面
+        {
+            ViewBag.storeId = storeId;
+            return View();
+        }
+        public IActionResult AddBrand(int storeId)//添加品牌页面
+        {
+            ViewBag.storeId = storeId;
+            return View();
+        }
+        public IActionResult Unit(int storeId = 1)//单位页面
+        {
+            ViewBag.storeId = storeId;
+            return View();
+        }
+        public IActionResult AddUnit(int storeId)//添加单位页面
+        {
+            ViewBag.storeId = storeId;
             return View();
         }
         #endregion
