@@ -12,67 +12,64 @@
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <title>Recharge</title>
 </head>
-<body>
-    <div style="margin-top:40px">
-        <form class="layui-form" action="">
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="color:darkgrey">店铺ID：</label>
-                <div class="layui-form-mid layui-word-aux"><span style="color:black">10000222</span></div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="color:darkgrey">店铺名称：</label>
-                <div class="layui-form-mid layui-word-aux"><span style="color:black">五虎科技</span></div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="color:darkgrey">可用余额：</label>
-                <div class="layui-form-mid layui-word-aux">￥<span style="color:black">122.5</span></div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="color:darkgrey">充值金额：</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="RMB" required lay-verify="required" placeholder="请输入充值金额" autocomplete="off" class="layui-input">
+<body style="background-color: #f3f3f3">
+  
+    <div style="margin-top:40px;background-color:#ffffff;width:1200px;height:280px;margin-left:40px;margin-right:50px" >
+        <div>
+            <form class="layui-form" action="">
+                <div style="background-color: #ffffff">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="color:darkgrey">店铺ID：</label>
+                        <div class="layui-form-mid layui-word-aux"><span  id="StoreCode"style="color:black"></span></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="color:darkgrey">店铺名称：</label>
+                        <div class="layui-form-mid layui-word-aux"><span id="StoreName" style="color:black"></span></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="color:darkgrey">可用余额：</label>
+                        <div class="layui-form-mid layui-word-aux">￥<span id="BalanceMoney" style="color:black"></span></div>
+                    </div>
+                    <div class="layui-form-item" style="background-color:#ffffff">
+                        <label class="layui-form-label" style="color:darkgrey">充值金额：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="RMB" required lay-verify="required" placeholder="请输入充值金额" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="background-color:#ffffff">
+                        <div class="layui-input-block">
+                            <button type="submit" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
+    
 </body>
 </html>
 <script>
+   
     //Demo
-    layui.use('form', function () {
-        var form = layui.form,
-        $ = layui.$;
+    layui.use(['form'], function () {
+        var form = layui.form
+        var $ = layui.$;
         //监听提交
         form.on('submit(formDemo)', function (data) {
-
-            $.ajax({
-                url: "/Property/alipay",
-                type: "get",
-                dataType: 'json',
-                data: {
-                    Money: data.field.RMB,
-                },
-
-                success: function (data) {
-                    if (data > 0) {
-                        layer.msg('添加成功', {
-                            icon: 2,
-                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        }, function () {
-                            location.href = '/Stu/Index';
-                        })
-                    } else {
-                        layer.msg("添加失败");
-                    }
-                }
+            $.post('/Property/alipay', { Money: data.field.RMB }, function (date) {
+                $('body').append(date);
             });
             return false;
         });
+
+        $.post('http://localhost:49760/api/Reset', { UserId: 1 }, function (date) {
+            var str = JSON.parse(date)
+
+            $("#StoreCode").text(str[0].StoreCoding);
+            $("#StoreName").text(str[0].StoreName);
+            $("#BalanceMoney").text(str[0].Balance_Money);
+        });
+     
     });
 </script>
