@@ -13,6 +13,7 @@
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/JWT.js"></script>
+    <script src="~/HttpURLPart.js"></script>
     <style>
         .bigdiv {
             padding-left: 100px;
@@ -116,7 +117,7 @@
         var $ = layui.$;
         var eid = 0;
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetStoresFromLogin?userPhone=" + @ViewBag.phone,
+            url: HttpUrlPart+"/api/Setting/GetStoresFromLogin?userPhone=" + @ViewBag.phone,
             contentType: "application/json",
             //headers: { 'Authorization': "Bearer " + getCookie("token") },
             success: function (d) {

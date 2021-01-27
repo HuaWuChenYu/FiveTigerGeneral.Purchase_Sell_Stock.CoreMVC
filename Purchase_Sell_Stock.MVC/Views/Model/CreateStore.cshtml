@@ -12,6 +12,7 @@
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/HttpURLPart.js"></script>
     <style>
         .logodiv {
             width: 126px;
@@ -166,7 +167,7 @@
             //    title: '最终的提交信息'
             //})
             $.ajax({
-                url: "http://localhost:49760/api/Setting/AddStore",
+                url: HttpUrlPart+"/api/Setting/AddStore",
                 contentType: "application/json",
                 data: JSON.stringify(data.field),
                 type: "post",
@@ -185,7 +186,7 @@
     });
     function LoadClassify() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetClassifiesForShow",
+            url: HttpUrlPart+"/api/Setting/GetClassifiesForShow",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -199,7 +200,7 @@
     }
     function LoadIndustry() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetIndustriesForShow",
+            url: HttpUrlPart+"/api/Setting/GetIndustriesForShow",
             contentType: "application/json",
             async: false,
             success: function (d) {
