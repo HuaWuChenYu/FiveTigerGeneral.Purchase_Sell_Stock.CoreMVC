@@ -1,0 +1,85 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/layui/layui.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <title>Amount_settled</title>
+</head>
+<body>
+    <div style="margin-left:20px">
+        <div class="demoTable">
+            单据编码：
+            <div class="layui-inline">
+
+                <input class="layui-input" name="id" id="Order_num" autocomplete="off">
+            </div>
+
+            &nbsp;&nbsp; &nbsp;
+            <button class="layui-btn" data-type="reload">搜索</button>
+            <button class="layui-btn" data-type="reload">重置</button>
+        </div>
+        <table id="test" class="layui-table" lay-even lay-skin="nob" lay-size="sm"></table>
+        <div style="margin-top:20px">
+            <table id="test" class="layui-table" lay-even lay-skin="nob" lay-size="sm"></table>
+        </div>
+    </div>
+   
+</body>
+</html>
+ <script>
+     layui.use(['table', 'laydate'], function () {
+         var table = layui.table,
+             $ = layui.$;
+
+
+         table.render({
+             elem: '#test'
+             , url: 'http://localhost:49760/api/ShowAmount_settledMoney'
+             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+             , cols: [[
+                   { field: 'Amount_settleId', width: 100, title: 'ID', sort: true }
+                 , { field: 'OrderSubmitTime', width: 180, title: '订单提交时间', sort: true }
+                 , { field: 'Amount_settledMoneys', width: 180, title: '待结算金额' }
+                 , { field: 'OrderUnm', width: 180, title: '订单编号'}
+                 , { field: 'ProductName', width: 120, title: '商品名称' } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+             ]]
+             , limits: [5, 10, 30]
+             , limit: 10
+             , request: {
+                 pageName: 'pageIndex',//控制器 显示方法 当前页数参数
+                 limitName: 'pageSize' //控制器 显示方法 每页条数参数
+             }
+             , id: 'testReload'
+             , page: true
+         });
+
+         var $ = layui.$, active = {
+             reload: function () {
+                 var Order_num = $('#Order_num');
+                
+
+                 //执行重载
+                 table.reload('testReload', {
+                     page: {
+                         curr: 1 //重新从第 1 页开始
+                     }
+                     , where: {
+                         OrderUnm: Order_num.val(),
+                     }
+                 }, 'data');
+             }
+         };
+
+         $('.demoTable .layui-btn').on('click', function () {
+             var type = $(this).data('type');
+             active[type] ? active[type].call(this) : '';
+         });
+     })
+ </script>
