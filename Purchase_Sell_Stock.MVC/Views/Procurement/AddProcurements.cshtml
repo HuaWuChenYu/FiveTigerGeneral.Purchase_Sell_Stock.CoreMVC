@@ -1,0 +1,154 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddProcurements</title>
+</head>
+<body>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+
+            <div class="layui-input-inline">
+                <label class="layui-form-label">采购方</label>
+                <select id="ProcurementName" name="ProcurementName">
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <label class="layui-form-label">供应商</label>
+                <select id="ProviderName" name="ProviderName">
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <label class="layui-form-label">创建时间</label>
+                <input type="text" name="ProcurementTime" id="ProcurementTime" lay-verify="date" placeholder="yyyy-MM-dd" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" id="AddGoods" class="layui-btn" lay-submit="" lay-filter="demo1">选择商品</button>
+                <button type="button" id="Addpro" class="layui-btn" lay-submit="" lay-filter="demo3">创建采购单</button>
+            </div>
+        </div>
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+    </form>
+</body>
+</html>
+<script type="text/html" id="number">
+    <input name="procurementGoodsNumed" type="text" />
+</script>
+<script>
+    layui.use(['table', 'form', 'layedit','laydate'], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        //日期
+        laydate.render({
+            elem: '#ProcurementTime'
+        });
+       var gooid ="@ViewBag.goodsid";
+        //温馨提示：默认由前端自动合计当前行数据。从 layui 2.5.6 开始： 若接口直接返回了合计行数据，则优先读取接口合计行数据。
+        //详见：https://www.layui.com/doc/modules/table.html#totalRow
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:49760/api/GetGoodsbuyersShow/' + gooid,
+            toolbar: '#toolbarDemo'
+            , title: '用户数据表'
+            , totalRow: true
+            , cols: [[
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'goodsId', title: '商品编号', width: 150, edit: 'text' }
+                , { field: 'goodsName', title: '商品名称', width: 150, sort: true, totalRow: true }
+                , { field: 'goodsSize', title: '规格', width: 150, edit: 'text', sort: true }
+                , { field: 'goodsUnitName', title: '单位', width: 150, sort: true, totalRow: true }
+                , { field: 'procurementPrice', title: '进货价格', width: 150 }
+                , {
+                    field: 'procurementGoodsNums', title: '采购数量', width: 150, edit: "true", toolbar: '#number'
+                }
+            ]]
+            , page: true
+            , id:'testReload'
+        });
+        $("#AddGoods").on('click', function () {
+            location.href = '/Procurement/GetGoodsShow';
+        })
+        //供应商
+        $.ajax({
+            url: 'http://localhost:49760/api/GetProvidersShow',
+            type: 'get',
+            contentType: 'application/json',
+            success:
+                function (d) {
+                    $("#ProviderName").empty();
+                    $("#ProviderName").append('<option value="">请选择</option>')
+                    $(d).each(function () {
+                        var str = '<option value="' + this.providersName + '">' + this.providersName + '</option>';
+                        $("#ProviderName").append(str);
+                        form.render("select");
+                    })
+                }
+        })
+        //采购方
+        $.ajax({
+            url: 'http://localhost:49760/api/WarehousesShow',
+            type: 'get',
+            contentType: 'application/json',
+            success:
+                function (d) {
+                    $("#ProcurementName").empty();
+                    $("#ProcurementName").append('<option value="">请选择</option>')
+                    $(d).each(function () {
+                        var str = '<option value="' + this.warehouseName + '">' + this.warehouseName + '</option>';
+                        $("#ProcurementName").append(str);
+                        form.render("select");
+                    })
+                }
+        })
+        $("#Addpro").on('click', function () {
+            var data = table.cache["testReload"];
+            var arr1 = [];//用于存储商品编号
+            var arr2 = [];//用于存储数量
+            for (var i = 0; i < data.length; i++) {
+                arr1.push(data[i].goodsId); //编号
+            }
+            var pname = $("input[name='procurementGoodsNumed']");
+            for (var i = 0; i < pname.length; i++) {
+                arr2.push(pname[i].value)//数量
+            }
+            var model = {};
+            model.ProcurementName = $("#ProcurementName").val();
+            model.ProviderName = $("#ProviderName").val();
+            model.ProcurementTime = $("#ProcurementTime").val();
+            model.goodid = arr1.toString();
+            model.procurementGoodsNumed = arr2.toString();
+
+            $.ajax({
+                url: 'http://localhost:49760/api/AddProcurements',
+                data: JSON.stringify(model),
+                type: 'post',
+                contentType: 'application/json',
+                success:
+                    function (d) {
+                        if (d>0) {
+                            alert("添加成功");
+                            location.href = '/Procurement/GetProcurementsShow';
+                        }
+                        else {
+                            alert("添加失败");
+                        }
+                    }
+            })
+
+        })
+    })
+
+</script>

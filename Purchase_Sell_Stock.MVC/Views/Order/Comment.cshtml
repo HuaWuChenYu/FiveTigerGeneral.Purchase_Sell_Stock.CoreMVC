@@ -1,0 +1,209 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Comment</title>
+    <script src="~/layui/layui.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>订单</legend>
+    </fieldset>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">评价内容</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="content" style="width:200px" autocomplete="off" placeholder="评价内容" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">评价时间</label>
+                <div class="layui-input-inline">
+                    <input type="date" name="time" id="time" placeholder="年-月-日" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">评价用户</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="person" style="width:200px" autocomplete="off" placeholder="收货人" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-submit="" id="sel" style="background-color:pink">查询</button>
+                <button type="reset" class="layui-btn layui-btn-primary" style="background-color:deepskyblue;color:white">重置</button>
+            </div>
+        </div>
+        
+    </form>
+    <input id="storeId-Hid" type="hidden" value="@ViewBag.StoreId" />
+    <table class="layui-hide" id="test" lay-filter="test"></table>
+    
+</body>
+</html>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm layui-btn-radius" style="background-color:pink" lay-event="all">全部</button>
+        <button class="layui-btn layui-btn-sm layui-btn-radius" style="background-color:pink" lay-event="good">好评</button>
+        <button class="layui-btn layui-btn-sm layui-btn-radius" style="background-color:pink" lay-event="justSoSo">中评</button>
+        <button class="layui-btn layui-btn-sm layui-btn-radius" style="background-color:pink" lay-event="bad">差评</button>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    {{#  if(d.Reply === ''){ }}
+    <a class="layui-btn layui-btn-xs" style="background-color:pink" id="aa" lay-event="reply">回复</a>
+    {{#  } else { }}
+    <span style="color: darkgray;">-</span>
+    {{#  } }}
+</script>
+<script type="text/html" id="look">
+    {{#  if(d.Reply === ''){ }}
+    <span style="color: darkgray">暂无</span>
+    {{#  } else { }}
+    <span style="color: #F581B1;">{{ d.Reply }}</span>
+    {{#  } }}
+</script>
+
+<script>
+    layui.use(['table', 'form', 'laydate','rate'], function () {
+        var table = layui.table
+            , form = layui.form
+            , rate = layui.rate
+            , laydate = layui.laydate
+            , $ = layui.$;
+
+        //表格加载
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:49760/api/CancelCommentList/' + $("#storeId-Hid").val()
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , cols: [[
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'CommentId', title: '评价主键', width: 80, hide: true}
+                , { field: 'CommentContent', title: '评价内容', width: 200 }
+                , { field: 'OrdersNum', title: '订单编号', width: 200}
+                , { field: 'CustomerName', title: '评价用户', width: 200}
+                , { field: 'StrCommentTime', title: '评价时间', width: 200 }
+                , { field: '', title: '回复内容', width: 200, templet:'#look'}
+                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 300 }
+            ]]
+            , request: {
+                pageName: 'pageIndex',
+                limitName:'pageSize'
+            }
+            , limit: 5
+            , limits:[5,10,50]
+            , id:'testReload'
+            , page: true
+        });
+
+        //查询
+        $("#sel").on('click', function () {
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    content: $("#content0").val(),
+                    person: $("#person").val(),
+                    time: $("#time").val()
+                }
+            }, 'data');
+        })
+
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'all':
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            type: ""
+                        }
+                    }, 'data');
+                    break;
+                case 'good':
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            type: "好评"
+                        }
+                    }, 'data');
+                    break;
+                case 'justSoSo':
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            type: "中评"
+                        }
+                    }, 'data');
+                    break;
+                case 'bad':
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            type: "差评"
+                        }
+                    }, 'data');
+                    break;
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+            };
+        });
+
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            //多窗口模式，层叠置顶
+            layer.open({
+                type: 2 //此处以iframe举例
+                , title: '回复'
+                , area: ['390px', '260px']
+                , shade: 0
+                , maxmin: true
+                , anim: 2
+                , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                , content: '/Order/LookReply?commentId=' + data.CommentId
+                , btn: ['关闭'] //只是为了演示
+                , yes: function () {
+                    $(that).click();
+                }
+                , btn2: function () {
+                    layer.closeAll();
+                }
+
+                , zIndex: layer.zIndex //重点1
+                , success: function (layero) {
+                    layer.setTop(layero); //重点2
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,97 @@
+﻿
+@{
+    Layout = null;
+}
+<script src="~/layui/layui.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditWarehouse</title>
+</head>
+<body>
+
+    <form class="layui-form" action="">
+        <table class="layui-form-table">
+            <tr>
+                <td><label class="layui-form-label">仓库编号:</label></td>
+                <td><input type="tel" id="WarehouseOrderNumber" name="WarehouseOrderNumber" class="layui-input"></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label"> 仓库名称:</label></td>
+                <td> <input type="tel" id="WarehouseName" name="WarehouseName" class="layui-input"></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label">仓库类型:</label></td>
+                <td>
+                    <select id="warehouseTypeId" name="warehouseTypeId">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label">负责人:</label></td>
+                <td> <input type="tel" id="WarehousePrincipal" name="WarehousePrincipal" class="layui-input"></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label">联系电话:</label></td>
+                <td> <input type="tel" id="WarehousePrincipalPhone" name="WarehousePrincipalPhone" class="layui-input"></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label">仓库地址:</label></td>
+                <td> <input type="tel" id="Warehouselocation" name="Warehouselocation" class="layui-input"></td>
+            </tr>
+            <tr>
+                <td><label class="layui-form-label">备注:</label></td>
+                <td> <input type="tel" id="WarehouseRemark" name="WarehouseRemark" class="layui-input"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layedit', 'laydate', 'form'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+        var $ = layui.$;
+        //仓库类型
+        $.ajax({
+            url: 'http://localhost:49760/api/GetWarehouseTypesShow',
+            type: 'get',
+            contentType: 'application/json',
+            success:
+                function (d) {
+                    $("#warehouseTypeId").empty();
+                    $(d).each(function () {
+                        var str = '<option value="' + this.warehouseTypeId + '">' + this.warehouseTypeName + '</option>';
+                        $("#warehouseTypeId").append(str);
+                        //渲染下拉框
+                        form.render("select");
+                    })
+                }
+        })
+        $.ajax({
+            url: 'http://localhost:49760/api/BackfillWarehouse/' +@ViewBag.warehouseId,
+            type: 'get',
+            contentType: 'application/json',
+            success:
+                function (d) {
+                    $("#WarehouseOrderNumber").val(d.warehouseOrderNumber);
+                    $("#WarehouseName").val(d.warehouseName);
+                    $("#warehouseTypeId").val(d.warehouseTypeId);
+                    $("#WarehousePrincipal").val(d.warehousePrincipal);
+                    $("#WarehousePrincipalPhone").val(d.warehousePrincipalPhone);
+                    $("#Warehouselocation").val(d.warehouselocation);
+                    $("#WarehouseRemark").val(d.warehouseRemark);
+                }
+        })
+        var readForm = layui.$('[lay-filter="example"]')
+        readForm.find('input,textarea,select').prop('disabled', true);
+        readForm.find('.layui-layedit iframe').contents().find('body').prop('contenteditable', false);
+        layui.form.render();
+    })
+</script>

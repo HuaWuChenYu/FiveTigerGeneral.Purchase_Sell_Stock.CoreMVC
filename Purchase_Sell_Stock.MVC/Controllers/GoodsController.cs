@@ -15,22 +15,45 @@ namespace Purchase_Sell_Stock.MVC.Controllers
     public class GoodsController : Controller
     {
         #region 商品模块页面
-        public IActionResult ShowGood()//商品页面
+        public IActionResult ShowGood(int storeId=1)//商品页面
         {
+            ViewBag.StoreId = storeId;
             return View();
         }
-        public IActionResult AddGood()//添加商品页面
+        public IActionResult AddGood(int storeId)//添加商品页面
         {
+            ViewBag.StoreId = storeId;
             return View();
         }
-        public IActionResult ModifyGood(int id)//编辑商品页面
+        public IActionResult ModifyGood(int id,int storeId)//编辑商品页面
+        {
+            ViewBag.StoreId = storeId;
+            ViewBag.Id = id;
+            return View();
+        }
+        public IActionResult ShowOne(int id)//明细页面
         {
             ViewBag.Id = id;
             return View();
         }
-        public IActionResult ShowOne(int id)//明细
+        public IActionResult Brand(int storeId = 1)//商品品牌页面
         {
-            ViewBag.Id = id;
+            ViewBag.storeId = storeId;
+            return View();
+        }
+        public IActionResult AddBrand(int storeId)//添加品牌页面
+        {
+            ViewBag.storeId = storeId;
+            return View();
+        }
+        public IActionResult Unit(int storeId = 1)//单位页面
+        {
+            ViewBag.storeId = storeId;
+            return View();
+        }
+        public IActionResult AddUnit(int storeId)//添加单位页面
+        {
+            ViewBag.storeId = storeId;
             return View();
         }
         #endregion
@@ -41,7 +64,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         [HttpPost]
         public string AddImgInMvc()//MVC添加图片供能
         {
-
+            var s= System.Environment.CurrentDirectory;
             var uploadfile = Request.Form.Files[0];
             String name = uploadfile.FileName;//文件名称
             var path = Directory.GetCurrentDirectory();//文件夹绝对路径

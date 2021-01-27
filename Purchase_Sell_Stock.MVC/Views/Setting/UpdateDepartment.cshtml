@@ -1,0 +1,103 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UpdateDepartment</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/JWT.js"></script>
+</head>
+<body>
+    <form class="layui-form  layui-form-pane" action="" lay-filter="example">
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门编码:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="departmentNumber" readonly disabled="disabled" autocomplete="off" placeholder="系统自己生成" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上级部门:</label>
+            <div class="layui-input-inline">
+                <select name="departmentParentId" id="departmentParentId" lay-filter="aihao">
+                    <option value="-1"></option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门名称:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="departmentName" autocomplete="off" placeholder="请输入部门名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" lay-submit="" lay-filter="demo2">确认修改</button>
+        </div>
+    </form>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+        LoadDept();
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetDepartmentById?id="+@ViewBag.did,
+            contentType: "application/json",
+            success: function (d) {
+                form.val('example', {
+                    "departmentNumber": d.departmentNumber // "name": "value"
+                    , "departmentParentId": d.departmentParentId
+                    , "departmentName": d.departmentName
+                });
+            }
+        });
+        layui.form.render("select");
+        //监听提交
+        form.on('submit(demo2)', function (data) {
+            data.field.departmentId = @ViewBag.did;
+            data.field.departmentParentId = Number(data.field.departmentParentId);
+            $.ajax({
+                url: "http://localhost:49760/api/Setting/UpdateDepartment",
+                contentType: "application/json",
+                type: "post",
+                data: JSON.stringify(data.field),
+                success: function (d) {
+                    if (d > 0) {
+                        alert('修改部门成功');
+                    }
+                    else {
+                        alert('修改部门失败');
+                    }
+                }
+            });
+            //layer.alert(JSON.stringify(data.field), {
+            //    title: '最终的提交信息'
+            //})
+            return false;
+        });
+
+    });
+    function LoadDept() {
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetDepartmentByShow",
+            contentType: "application/json",
+            async: false,
+            success: function (d) {
+                $(d.data).each(function () {
+                    var str = "<option value='" + this.departmentId + "'>" + this.departmentName + "</option>";
+                    $("#departmentParentId").append(str);
+                })
+            }
+        });
+    }
+</script>

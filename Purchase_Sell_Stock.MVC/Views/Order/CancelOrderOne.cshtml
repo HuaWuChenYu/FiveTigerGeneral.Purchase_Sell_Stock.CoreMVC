@@ -1,0 +1,235 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CancelOrderOne</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+</head>
+<body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>订单详细</legend>
+    </fieldset>
+    <form>
+        <input id="orderId" type="hidden" value="@ViewBag.OrderId" />
+        <div class="layui-form-item" >
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">订单编码</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="orderNum"></label>
+                </div>
+            </div>
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">订单状态</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" style="width:200px" id="orderState"></label>
+                </div>
+            </div>
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">下单时间</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="orderTime"></label>
+                </div>
+            </div>
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">销售类型</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="sellType"></label>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">收货人</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="person"></label>
+                </div>
+            </div>
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">联系电话</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="phone" style="color:hotpink"></label>
+                </div>
+            </div>
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">详细地址</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="address"></label>
+                </div>
+            </div>
+        </div>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend></legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">付款方式</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="payWay"></label>
+                </div>
+            </div>
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">订单金额</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="money" style="color:hotpink"></label>
+                </div>
+            </div>
+        </div>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>退款详情</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">退款单号</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="cancelNum"></label>
+                </div>
+            </div>
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">退单状态</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" style="width:200px" id="cancelOrderState"></label>
+                </div>
+            </div>
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">退款金额</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" style="color:hotpink" id="cancelMoney"></label>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">申请时间</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="cancelTime"></label>
+                </div>
+            </div>
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">退款原因</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label" id="reason" style="color:hotpink"></label>
+                </div>
+            </div>
+            <div class="layui-layui-inline">
+                <label class="layui-form-label">客户提供图片</label>
+                <div class="layui-input-inline" id="imgDiv">
+                    <img src="" alt="" id="img" style="width:158px;height:108px" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" style="background-color:lightpink" lay-submit="" id="no">拒绝</button>
+                <button type="button" class="layui-btn" style="background-color:pink" lay-submit="" id="yes">同意</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layer', 'table'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , table = layui.table
+            , $ = layui.$;
+
+        //加载信息
+        $.ajax({
+            url: 'http://localhost:49760/api/GetCancelOneById/' + $("#orderId").val(),
+            type: 'get',
+            contentType: 'application/json',
+            success: function (d) {
+                if (d.cancelOrderState == 2) {
+                    $("#cancelOrderState").text("已退款");
+                    $("#no").attr("style", "display:none;");
+                    $("#yes").attr("style", "display:none;");
+                }
+                else {
+                    $("#cancelOrderState").text("未退款");
+                }
+                if (d.ordersState == 1) {
+                    $("#orderState").text("待付款");
+                }
+                if (d.ordersState == 2) {
+                    $("#orderState").text("待发货");
+                }
+                if (d.ordersState == 3) {
+                    $("#orderState").text("进行中");
+                }
+                if (d.ordersState == 4) {
+                    $("#orderState").text("已完成");
+                }
+                $("#cancelNum").text(d.cancelOrderNumber);
+                $("#orderNum").text(d.ordersNum);
+                $("#orderTime").text(d.strOrdersTime);
+                $("#sellType").text(d.sellType);
+                $("#person").text(d.customerName);
+                $("#phone").text(d.customerPhone);
+                $("#address").text(d.adress);
+                $("#payWay").text(d.payWay);
+                $("#money").text(d.payMoney);
+                $("#cancelTime").text(d.strCancelOrderTime);
+                $("#cancelMoney").text(d.payMoney);
+                $("#reason").text(d.cancelOrderReason);
+                $("#img").prop("src", d.cancelOrderPhoto);
+            }
+        })
+
+        //点击图片放大
+        $('#img').on('click', function () {
+            layer.photos({
+                photos: '#imgDiv',
+                shadeClose: true,
+                closeBtn: 2,
+                anim: 1
+            });
+        });
+
+        //同意退款
+        $('#yes').on('click', function () {
+            $.ajax({
+                url: 'http://localhost:49760/api/ModifyCancelState/' + $("#orderId").val(),
+                type: 'post',
+                contentType: 'application/json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert("已退款");
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                        parent.layer.close(index);//关闭当前页
+                    }
+                    else {
+                        layer.msg("操作失败");
+                    }
+                }
+            })
+        });
+
+        //拒绝退款
+        $('#no').on('click', function () {
+            $.ajax({
+                url: 'http://localhost:49760/api/ModifyCancelState/' + $("#orderId").val(),
+                type: 'post',
+                contentType: 'application/json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert("已拒绝");
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                        parent.layer.close(index);//关闭当前页
+                    }
+                    else {
+                        layer.msg("操作失败");
+                    }
+                }
+            })
+        });
+    });
+</script>

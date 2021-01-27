@@ -1,0 +1,164 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UpdateEmployee</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/JWT.js"></script>
+</head>
+<body>
+    <form class="layui-form  layui-form-pane" action="" lay-filter="example">
+        <div class="layui-form-item">
+            <label class="layui-form-label">员工工号:</label>
+            <div class="layui-input-inline">
+                <input type="text" id="employeeNumber" readonly name="employeeNumber" autocomplete="off" placeholder="请输入员工工号" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属部门:</label>
+            <div class="layui-input-inline">
+                <select name="employeeDepartmentId" id="EmployeeDepartmentId" lay-filter="aihao">
+                    <option value="-1"></option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系电话:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="employeeContact" id="employeeContact" autocomplete="off" placeholder="请输入员工联系电话" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">员工姓名:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="employeeName" id="employeeName" autocomplete="off" placeholder="请输入员工姓名" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属角色:</label>
+            <div class="layui-input-inline">
+                <select name="employeeRolesId" id="EmployeeRolesId" lay-filter="aihao">
+                    <option value="-1"></option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="employeeStates" id="employeeStates1" value="true" title="正常" checked="">
+                <input type="radio" name="employeeStates" id="employeeStates0" value="false" title="禁用">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" lay-submit="" style="background-color:deeppink" lay-filter="demo2">确认修改</button>
+        </div>
+    </form>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        LoadDept();
+        LoadRole();
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetEmployeeById?id="+@ViewBag.id,
+            contentType: "application/json",
+            success: function (d) {
+                form.val('example', {
+                    "employeeNumber": d.employeeNumber // "name": "value"
+                    , "employeeDepartmentId": d.employeeDepartmentId
+                    , "employeeContact": d.employeeContact
+                    , "employeeName": d.employeeName //复选框选中状态
+                    , "employeeRolesId": d.employeeRolesId //开关状态
+                    , "employeeStates": d.employeeStates
+                });
+            }
+        });
+
+        layui.form.render("select");
+
+        //监听提交
+        form.on('submit(demo2)', function (data) {
+            if (data.field.employeeNumber == "") {
+                alert('员工工号不能为空');
+                return;
+            }
+            if (data.field.employeeName == "") {
+                alert('员工姓名不能为空');
+                return;
+            }
+            if (data.field.departmentName == "") {
+                alert('员工账号不能为空');
+                return;
+            }
+            data.field.employeeDepartmentId = Number(data.field.employeeDepartmentId);
+            data.field.employeeRolesId = Number(data.field.employeeRolesId);
+            data.field.employeeStates = Boolean(data.field.employeeStates);
+            data.field.employeeId =@ViewBag.id;
+            if (data.field.employeeDepartmentId < 1) {
+                alert('请选择部门');
+                return;
+            }
+            if (data.field.employeeRolesId < 1) {
+                alert('请选择角色');
+                return;
+            }
+            $.ajax({
+                url: "http://localhost:49760/api/Setting/UpdateEmployee",
+                contentType: "application/json",
+                type: "post",
+                data: JSON.stringify(data.field),
+                success: function (d) {
+                    if (d > 0) {
+                        alert('修改成功');
+                    }
+                    else {
+                        alert('修改失败');
+                    }
+                }
+            });
+           
+            return false;
+        });
+
+    });
+    
+    function LoadDept() {
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetDepartments",
+            contentType: "application/json",
+            async: false,
+            success: function (d) {
+                $(d).each(function () {
+                    var str = "<option value='" + this.departmentId + "'>" + this.departmentName + "</option>";
+                    $("#EmployeeDepartmentId").append(str);
+                })
+            }
+        });
+
+    }
+    function LoadRole() {
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetRolesForSelect",
+            contentType: "application/json",
+            async: false,
+            success: function (d) {
+                $(d).each(function () {
+                    var str = "<option value='" + this.rolesId + "'>" + this.rolesName + "</option>";
+                    $("#EmployeeRolesId").append(str);
+                })
+            }
+        });
+    }
+</script>

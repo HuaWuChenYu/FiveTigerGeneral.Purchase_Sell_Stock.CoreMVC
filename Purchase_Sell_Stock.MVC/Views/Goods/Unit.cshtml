@@ -1,0 +1,149 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Unit</title>
+    <script src="~/layui/layui.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+    <input id="storeId" type="hidden" value="@ViewBag.storeId" />
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">单位编码</label>
+            <div class="layui-input-block">
+                <input type="text" id="id" autocomplete="off" style="width:200px" placeholder="请输入单位编码" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">单位名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" autocomplete="off" style="width:200px" placeholder="请输入单位名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-submit="" id="sel">查询</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+    <table class="layui-hide" style="width:300px" id="test" lay-filter="test"></table>
+</body>
+</html>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="AddBrand">创建单位</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        var $ = layui.$;
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:49760/api/GetGoodsUnitListShow/' + $("#storeId").val()
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }]
+            , title: '用户数据表'
+            , cols: [[
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'GoodsUnitId', title: '单位编号', width: 120, fixed: 'left' }
+                , { field: 'GoodsUnitName', title: '单位', width: 120}
+                , { field: 'GoodsUnitGroup', title: '单位分组', width: 120 }
+                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+            ]]
+            //, page: true
+            , id:'testReload'
+        });
+
+        $("#sel").on('click', function () {
+            var id = $("#id").val();
+            if (isNaN(id)) {
+                alert("编码格式错误");
+                return;
+            }
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    unitName: $("#name").val(),
+                    unitId: id == "" ? 0 : $("#id").val()
+                }
+            }, 'data');
+        })
+
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'AddBrand':
+                    layer.open({
+                        type: 2 //此处以iframe举例
+                        , title: '添加单位'
+                        , area: ['600px', '800px']
+                        , shade: 0
+                        , anim: 2
+                        , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                        , maxmin: false
+                        , content: '/Goods/AddUnit?storeId=' + $("#storeId").val()
+                        , btn: ['关闭'] //只是为了演示
+                        , btn2: function () {
+                            layer.closeAll();
+                        }
+                        , zIndex: layer.zIndex //重点1
+                        , success: function (layero) {
+                            layer.setTop(layero); //重点2
+                        }
+                    });
+                    break;
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    layer.close(index);
+                    $.ajax({
+                        url: 'http://localhost:49760/api/DelUnit?unitId=' + data.GoodsUnitId,
+                        type: 'get',
+                        contentType: 'application/json',
+                        success: function (d) {
+                            if (d > 0) {
+                                alert("删除成功");
+                                //执行重载
+                                table.reload('testReload', {
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                }, 'data');
+                            }
+                            else {
+                                alert("删除失败");
+                            }
+                        }
+                    })
+                });
+            }
+        });
+    });
+</script>

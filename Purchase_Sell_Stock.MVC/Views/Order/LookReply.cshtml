@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LookReply</title>
+    <script src="~/layui/layui.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+    <input id="commentId-Hid" type="hidden" value="@ViewBag.CommentId" />
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">回复内容</label>
+            <div class="layui-input-block">
+                <input type="text" id="content" autocomplete="off" placeholder="请输入回复内容" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-submit="" id="demo1">回复</button>
+                <button type="reset" class="layui-btn layui-btn-primary">清空</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form
+            , $ = layui.$;
+
+        $("#demo1").on('click', function () {
+            var obj = {};
+            if ($("#content").val() == "") {
+                alert("回复内容不能为空");
+                return;
+            }
+            obj.CommentId =Number( $("#commentId-Hid").val());
+            obj.CommentContent = $("#content").val();
+            $.ajax({
+                url: 'http://localhost:49760/api/ReplyComment',
+                data: JSON.stringify(obj),
+                type: 'post',
+                contentType: 'application/json',
+                success: function (d) {
+                    if (d > 0) {
+                        alert("回复成功");
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                        parent.layer.close(index);//关闭当前页
+                    }
+                }
+            })
+        })
+
+    });
+</script>

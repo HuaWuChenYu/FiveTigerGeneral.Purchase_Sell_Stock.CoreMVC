@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Mvc;
 @{
     Layout = null;
 }
@@ -12,9 +13,9 @@
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
-
+    <script src="~/JWT.js"></script>
 </head>
-<body class="layui-layout-body ">
+<body class="layui-layout-body " onbeforeunload="return beforClose()">
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header" style="background-color:lightpink">
             <div class="layui-logo" style="color:white"><img style="width:40px;height:40px" src="~/Img/TigerLogo2.png" />&nbsp;&nbsp;五虎上將</div>
@@ -35,32 +36,31 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <div class="layui-input-inline">
-                        <input type="text" style="color:black" autocomplete="off" placeholder="请输入关键字全站搜索" class="layui-input">
+                        <input type="text" style="color:black" id="textSel" autocomplete="off" placeholder="请输入关键字全站搜索" class="layui-input">
                     </div>
                 </li>
                 <li class="layui-nav-item">
-                    <button type="button" style="background-color:hotpink" class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+                    <button type="button" onclick="Sel()" style="background-color:hotpink" class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
                 </li>
                 <li class="layui-nav-item">
-                    <button type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
+                    <button  onclick="location.href='/Model/Model'" type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
                         <i class="layui-icon">&#xe607;</i>
                     </button>
                 </li>
                 <li class="layui-nav-item">
-                    <button type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
-                        <i class="layui-icon">&#xe60f;</i>
+                    <button onclick="location.href='/Model/Model'" type="button" style="background-color:lightpink" class="layui-btn layui-btn-sm">
+                            <i class="layui-icon">&#xe60f;</i>
+                        
                     </button>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">
+                    <a href="" id="empName">
                         <i class="layui-icon">&#xe66f;</i>
-                        贤心
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="">返回首页</a></dd>
-                        <dd><a href="">切换店铺</a></dd>
-                        <dd><a href="">进入平台管理中心</a></dd>
-                        <dd><a href="">退出登录</a></dd>
+                        <dd><a onclick="location.href='/Model/Model'">返回首页</a></dd>
+                        <dd><a onclick="GoChangeStore()">切换店铺</a></dd>
+                        <dd><a href="/Login/Show">退出登录</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -68,7 +68,7 @@
 
         <div id="Side" class="layui-side layui-bg-black">
             <div style="background-color:lightpink" class="layui-side-scroll">
-                <ul id="LeftNavigation" class="layui-nav layui-nav-tree" lay-filter="test"  style="background-color:lightpink">
+                <ul id="LeftNavigation" class="layui-nav layui-nav-tree" lay-filter="test" style="background-color:lightpink">
                     <li class="layui-nav-item layui-nav-itemed">
                         <a class="" id="hhhh" href="javascript:;">所有商品</a>
                         <dl class="layui-nav-child">
@@ -94,12 +94,12 @@
 
         <div id="Body" class="layui-body">
             <!-- 内容主体区域 -->
-            <iframe id="iframe1"  scrolling="auto" style="width:1325px;height:779px;padding-top:20px;padding-left:20px" src="/Model/First" frameborder="0"></iframe>
+            <iframe id="iframe1" scrolling="auto" style="width:1325px;height:779px;padding-top:20px;padding-left:20px" src="/Model/First" frameborder="0"></iframe>
         </div>
 
         <div class="layui-footer">
             <!-- 底部固定区域 -->
-            © layui.com - 底部固定区域
+            © WuHu.com
         </div>
     </div>
 </body>
@@ -107,7 +107,8 @@
 <script>
     document.getElementById("Side").hidden = "hidden";
     document.getElementById("Body").style.left = "0px";
-    //var count = 0;
+    var id = -1;
+    var count = 1;
     //style = "width:1669px;height:779px"
     //if (count == 0) {
     //    document.getElementById("Side").hidden = "hidden";
@@ -118,9 +119,17 @@
     //}
     layui.use(['element'], function () {
         var element = layui.element;
-        var div = layui.div;
+
         var $ = layui.$;
-        var id = @ViewBag.id;
+        id = @ViewBag.id;
+
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetEmployeeById?id="+id,
+            contentType: "application/json",
+            success: function (d) {
+                $("#empName").append(d.employeeName);
+            }
+        });
         if (id<=0) {
             id = 1;
         }
@@ -129,7 +138,10 @@
             contentType: "application/json",
             success: function (d) {
                 $(d).each(function () {
-                    var str = "<li class='layui-nav-item'><a onclick='ChangeLeft(" + this.powersId + ",1)'>" + this.powersName + "</a></li>";
+                    if (this.powersId==1) {
+                        changeIFrame("/First/FirstPage");
+                    }
+                    var str = "<li class='layui-nav-item'><a onclick='ChangeLeft(" + this.powersId + "," + id + ")'>" + this.powersName + "</a></li>";
                     $("#upNavigation").append(str);
                 })
             }
@@ -140,18 +152,20 @@
         if (pid == 1) {
             document.getElementById("Side").hidden = "hidden";
             document.getElementById("Body").style.left = "0px";
+            changeIFrame("/First/FirstPage");
             return;
         }
         else {
             document.getElementById("Side").hidden = false;
             document.getElementById("Body").style.left = "200px";
         }
-        
+
         $.ajax({
             url: "http://localhost:49760/api/Setting/GetPowers?employeeId=" + eid + "&powersParentId=" + pid,
             contentType: "application/json",
             success: function (d) {
                 $("#LeftNavigation").empty();
+                count = 1;
                 $(d).each(function () {
                     var str = "<li class='layui-nav-item layui-nav-itemed'><a class='' href='javascript:;'>" + this.powersName + "</a><dl id='DownNavigation" + this.powersId + "' class='layui-nav-child'></dl></li>";
                     $("#LeftNavigation").append(str);
@@ -161,6 +175,10 @@
                         contentType: "application/json",
                         success: function (d) {
                             $(d).each(function () {
+                                if (count==1) {
+                                    changeIFrame(this.powersURL);
+                                    count++;
+                                }
                                 var str2 = "<dd><a onclick='changeIFrame(\""+this.powersURL+"\")'>" + this.powersName + "</a></dd>";
                                 $(idstr).append(str2);
                             })
@@ -174,6 +192,11 @@
                 });
             }
         });
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element;
+            var layer = layui.layer;
+            element.init(); //这行代码就是关键
+        });
     }
     function changeIFrame(thisurl) {
         document.getElementById("iframe1").src = thisurl;
@@ -183,4 +206,47 @@
         var layer = layui.layer;
         element.init(); //这行代码就是关键
     });
+    function GoChangeStore() {
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetPhoneByEId?eid="+id ,
+            contentType: "application/json",
+            success: function (d) {
+                location.href = '/Model/ChoseStore?phone=' + d;
+            }
+        });
+    }
+    function Sel() {
+        var name = $("#textSel").val();
+        $.ajax({
+            url: "http://localhost:49760/api/Setting/GetPowersBySel?name=" + name + "&empId="+id,
+            contentType: "application/json",
+            success: function (d) {
+                if (d.powersParentId == 0) {
+                    ChangeLeft(d.powersId,id);
+                    changeIFrame(d.powersURL);
+                }
+                else if (d.powersParentId > 0 && d.powersParentId<=11) {
+                    ChangeLeft(d.powersParentId, id);
+                    changeIFrame(d.powersURL);
+                }
+                else {
+                    $.ajax({
+                        url: "http://localhost:49760/api/Setting/GetPowerIdForBig?pid=" + d.powersParentId,
+                        contentType: "application/json",
+                        success: function (data) {
+                            ChangeLeft(data, id);
+                            changeIFrame(d.powersURL);
+                        }
+                    });
+
+                }
+
+            }
+        });
+    }
+    function beforClose() {
+        Remove("token");
+        return "我在这写点东西...";
+    }
+
 </script>

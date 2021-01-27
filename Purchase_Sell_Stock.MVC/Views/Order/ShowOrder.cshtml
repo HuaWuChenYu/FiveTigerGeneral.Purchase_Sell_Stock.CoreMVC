@@ -13,80 +13,203 @@
     <link href="~/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>订单</legend>
+    </fieldset>
     <form class="layui-form" action="">
-        <input id="storeId-Hid" type="hidden" value="1" />
-        <table class="layui-hide" id="test" lay-filter="test"></table>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">订单编号</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="orderNum" style="width:200px" autocomplete="off" placeholder="订单编号" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">下单时间</label>
+                <div class="layui-input-inline">
+                    <input type="date" name="time" id="time" placeholder="年-月-日" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">收货人</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="person" style="width:200px" autocomplete="off" placeholder="收货人" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">联系电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="phone" style="width:200px" autocomplete="off" placeholder="买家联系电话" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">销售类型</label>
+            <div class="layui-input-inline" style="width:200px">
+                <select id="sellType" lay-filter="aihao" style="width:200px">
+                    <option value="">全部</option>
+                    <option value="现货">现货</option>
+                    <option value="预售">预售</option>
+                </select>
+            </div>
+            <label class="layui-form-label">支付方式</label>
+            <div class="layui-input-inline" style="width:200px">
+                <select id="payWay" lay-filter="aihao" style="width:200px">
+                    <option value="">全部</option>
+                    <option value="钱包余额">钱包余额</option>
+                    <option value="微信">微信</option>
+                    <option value="支付宝">支付宝</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-submit="" id="sel" style="background-color:pink">查询</button>
+                <button type="reset" class="layui-btn layui-btn-primary" style="background-color:deepskyblue;color:white">重置</button>
+            </div>
+        </div>
     </form>
+    <input id="storeId-Hid" type="hidden" value="@ViewBag.StoreId" />
+    <table class="layui-hide" id="test" lay-filter="test"></table>
 </body>
 </html>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="all">全部</button>
-        <button class="layui-btn layui-btn-sm" lay-event="noPay">付款中</button>
-        <button class="layui-btn layui-btn-sm" lay-event="noDispatch">待发货</button>
-        <button class="layui-btn layui-btn-sm" lay-event="ing">进行中</button>
-        <button class="layui-btn layui-btn-sm" lay-event="ok">已完成</button>
+        <button class="layui-btn layui-btn-sm layui-btn-radius" style="background-color:pink" lay-event="all">全部</button>
+        <button class="layui-btn layui-btn-sm layui-btn-radius" style="background-color:pink" lay-event="noPay">付款中</button>
+        <button class="layui-btn layui-btn-sm layui-btn-radius" style="background-color:pink" lay-event="noDispatch">待发货</button>
+        <button class="layui-btn layui-btn-sm layui-btn-radius" style="background-color:pink" lay-event="ing">进行中</button>
+        <button class="layui-btn layui-btn-sm layui-btn-radius" style="background-color:pink" lay-event="ok">已完成</button>
     </div>
 </script>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="showOne">明细</a>
+    <a class="layui-btn layui-btn-xs" style="background-color:pink" lay-event="showOne">明细</a>
 </script>
-<script type="text/html" id="state">
 
-    {{#  if(d.OrdersState === 1){ }}
-    <span style="color: #F581B1;">待付款</span>
-    {{#  } else if(d.OrdersState === 2){ }}
-    <span style="color: #F581B1;">待2</span>
-    {{#  } }}
-</script>
 <script>
-    layui.use(['table', 'form'], function () {
+    layui.use(['table', 'form','laydate'], function () {
         var table = layui.table
             , form = layui.form
+            , laydate = layui.laydate
             , $ = layui.$;
 
+
+        //表格加载
         table.render({
             elem: '#test'
             , url: 'http://localhost:49760/api/GetOrderList/' + $("#storeId-Hid").val()
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-            , title: 'aa'
             , cols: [[
                 { type: 'checkbox', fixed: 'left' }
                 , { field: 'OrdersId', title: '订单主键', width: 80, hide: true}
                 , { field: 'OrdersNum', title: '订单编号', width: 200 }
-                , { field: 'OrdersBelong', title: '订单归属', width: 200 }
-                , { field: 'DispatchWay', title: '配送方式', width: 200 }
                 , { field: 'SellType', title: '销售类型', width: 200}
-                , { field: 'PayMoney', title: '实付金额', width: 200, templet:'<div><label style="color:blue">¥{{d.PayMoney}}</label></div>'}
+                , { field: 'PayMoney', title: '实付金额', width: 200, templet:'<div><label style="color:deeppink">¥{{d.PayMoney}}</label></div>'}
                 //CustomerPhone-手机号
-                , { field: 'CustomerName', title: '收货人信息', width: 200 }
-                , { field: 'OrdersState', title: '订单状态', width: 200, templet:'#state'}
-                , { field: 'OrdersTime', title: '下单时间', width: 200 }
+                , { field: 'CustomerName', title: '收货人信息', width: 200, templet: '<div><label>{{d.CustomerName}} / {{d.CustomerPhone}}</label></div>'}
+                , { field: 'OrdersState', title: '订单状态', width: 200, templet: function (d) {
+                        if (d.OrdersState == 2) {
+                            return '<label style = "color:deeppink" >待发货</label >';
+                        } else if (d.OrdersState == 3) {  
+                            return '<label style = "color:deeppink" >进行中</label >';
+                        } else if (d.OrdersState == 4) {  
+                            return '<label style = "color:deeppink" >已完成</label >';
+                        } else {                          
+                            return '<label style = "color:deeppink" >待付款</label >';
+                        }
+                    }
+                }
+                , { field: 'StrOrdersTime', title: '下单时间', width: 230}
                 , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 100 }
             ]]
             , request: {
                 pageName: 'pageIndex',
                 limitName:'pageSize'
             }
+            , limit: 5
+            , limits:[5,10,50]
             , id:'testReload'
             , page: true
         });
+
+        //查询
+        $("#sel").on('click', function () {
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    orderNum: $("#orderNum").val(),
+                    sellType: $("#sellType").val(),
+                    time: $("#time").val(),
+                    person: $("#person").val(),
+                    phone: $("#phone").val(),
+                    payType: $("#payWay").val(),
+                    person: $("#person").val()
+                }
+            }, 'data');
+        })
 
         //头工具栏事件
         table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
-                case 'getCheckData':
-                    var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
+                case 'all':
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            orderState: 0
+                        }
+                    }, 'data');
                     break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：' + data.length + ' 个');
+                case 'noPay':
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            orderState: 1
+                        }
+                    }, 'data');
                     break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                case 'noDispatch':
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            orderState: 2
+                        }
+                    }, 'data');
+                    break;
+                case 'ing':
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            orderState: 3
+                        }
+                    }, 'data');
+                    break;
+                case 'ok':
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            orderState: 4
+                        }
+                    }, 'data');
                     break;
 
                 //自定义头工具栏右侧图标 - 提示
@@ -100,20 +223,25 @@
         table.on('tool(test)', function (obj) {
             var data = obj.data;
             //console.log(obj)
-            if (obj.event === 'del') {
-                layer.confirm('真的删除行么', function (index) {
-                    obj.del();
-                    layer.close(index);
-                });
-            } else if (obj.event === 'edit') {
-                layer.prompt({
-                    formType: 2
-                    , value: data.email
-                }, function (value, index) {
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
+            if (obj.event === 'showOne') {
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '订单明细'
+                    , area: ['1100px', '700px']
+                    , shade: 0
+                    , anim: 2
+                    , offset: 'rb'
+                    , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    , maxmin: false
+                    , content: '/Order/ShowOne?orderId=' + data.OrdersId
+                    , btn: ['关闭'] //只是为了演示
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+                    , zIndex: layer.zIndex //重点1
+                    , success: function (layero) {
+                        layer.setTop(layero); //重点2
+                    }
                 });
             }
         });
