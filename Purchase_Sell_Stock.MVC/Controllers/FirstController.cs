@@ -9,10 +9,10 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class FirstController : Controller
     {
-        public IActionResult FirstPage(int storeId=1)//首页
+        public IActionResult FirstPage()//首页
         {
-            storeId=Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
-            ViewBag.StoreId = storeId;
+            int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
+            ViewBag.storeId = StoreId;
             return View();
         }
         public IActionResult Help(int storeId)//帮助中心
