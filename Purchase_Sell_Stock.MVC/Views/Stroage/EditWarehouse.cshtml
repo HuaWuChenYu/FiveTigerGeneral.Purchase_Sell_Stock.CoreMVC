@@ -47,6 +47,7 @@
                 <td> <input type="tel" id="WarehouseRemark" name="WarehouseRemark" class="layui-input"></td>
             </tr>
         </table>
+        <button type="button" class="layui-btn" id="edit" lay-submit="" lay-filter="demo1">修改</button>
     </form>
 </body>
 </html>
@@ -88,6 +89,36 @@
                     $("#Warehouselocation").val(d.warehouselocation);
                     $("#WarehouseRemark").val(d.warehouseRemark);
                 }
+        })
+
+        $("#edit").on('click', function () {
+            var model = {};
+            model.warehouseId =@ViewBag.warehouseId;
+            model.warehouseOrderNumber=$("#WarehouseOrderNumber").val();
+            model.warehouseName= $("#WarehouseName").val();
+            model.warehouseTypeId= $("#warehouseTypeId").val();
+            model.warehousePrincipal= $("#WarehousePrincipal").val();
+            model.warehousePrincipalPhone= $("#WarehousePrincipalPhone").val();
+            model.warehouselocation= $("#Warehouselocation").val();
+            model.warehouseRemark= $("#WarehouseRemark").val();
+            $.ajax({
+                url:'http://localhost:49760/api/ModifyWarehouse',
+                type: 'post',
+                data: JSON.stringify(model),
+                contentType:'application/json',
+                success:
+                    function (d) {
+                        if (d>0) {
+                            alert("修改成功");
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                            parent.layer.close(index);//关闭当前页
+                        }
+                        else {
+                            alert("修改失败");
+                        }
+                    }
+            })
         })
         var readForm = layui.$('[lay-filter="example"]')
         readForm.find('input,textarea,select').prop('disabled', true);
