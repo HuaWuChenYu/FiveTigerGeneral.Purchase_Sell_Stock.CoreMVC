@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
     {
         public IActionResult FirstPage(int storeId=1)//首页
         {
+            storeId=Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
             ViewBag.StoreId = storeId;
             return View();
         }

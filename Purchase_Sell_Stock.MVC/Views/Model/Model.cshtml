@@ -94,7 +94,7 @@
 
         <div id="Body" class="layui-body">
             <!-- 内容主体区域 -->
-            <iframe id="iframe1" scrolling="auto" style="width:1325px;height:779px;padding-top:20px;padding-left:20px" src="/Model/First" frameborder="0"></iframe>
+            <iframe id="iframe1" scrolling="auto" style="width:1536px;height:779px;padding-top:20px;padding-left:20px" src="/Model/First" frameborder="0"></iframe>
         </div>
 
         <div class="layui-footer">
@@ -152,12 +152,14 @@
         if (pid == 1) {
             document.getElementById("Side").hidden = "hidden";
             document.getElementById("Body").style.left = "0px";
+            document.getElementById("iframe1").style.width = "1536px";
             changeIFrame("/First/FirstPage");
             return;
         }
         else {
             document.getElementById("Side").hidden = false;
             document.getElementById("Body").style.left = "200px";
+            document.getElementById("iframe1").style.width = "1325px";
         }
 
         $.ajax({
