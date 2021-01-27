@@ -1,0 +1,84 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetProcurementsShow</title>
+</head>
+<body>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="AddProcurement" lay-submit="" lay-filter="demo1">添加采购单</button> 
+        </div>
+    </div>
+    <table class="layui-hide" id="test" lay-filter="test"></table>
+</body>
+</html>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="pass">通过</a>
+    @*<a class="layui-btn layui-btn-xs" lay-event="detail">明细</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">编辑</a>*@
+</script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        var $ = layui.$;
+        //温馨提示：默认由前端自动合计当前行数据。从 layui 2.5.6 开始： 若接口直接返回了合计行数据，则优先读取接口合计行数据。
+        //详见：https://www.layui.com/doc/modules/table.html#totalRow
+        table.render({
+            elem: '#test'
+            , url: 'http://localhost:49760/api/GetProcurementsShow'
+            , toolbar: '#toolbarDemo'
+            , title: '用户数据表'
+            , totalRow: true
+            , cols: [[
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'procurementId', title: '采购Id', width: 120, edit: 'text' }
+                , { field: 'procurementNum', title: '采购单号', width: 80, sort: true, totalRow: true }
+                , { field: 'providerName', title: '供应商', width: 80, edit: 'text', sort: true }
+                , { field: 'procurementName', title: '采购方', width: 100, sort: true, totalRow: true }
+                , { field: 'procurementCreator', title: '采购创建人' }
+                , { field: 'procurementState', title: '状态', width: 100 }
+                , { field: 'procurementTime', title: '创建时间', width: 120 }
+                , { field: 'storeId', title: '店铺', width: 120 }
+                , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+            ]]
+            , page: true
+        });
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'pass') {
+                $.ajax({
+                    url: 'http://localhost:49760/api/UptProviders/' + data.procurementId,
+                    type: 'get',
+                    contentType:'application/json',
+                    success:
+                        function (d) {
+                            if (d>0) {
+                                alert("修改成功");
+                                location.href = '/Procurement/GetProcurementsShow';
+                            }
+                            else {
+                                alert("修改失败");
+                            }
+                        }
+                })
+            }
+            //} else if (obj.event === 'detail') {
+            //    alert("详情");
+            //} else if (obj.event =='edit') {
+            //    alert("编辑");
+            //}
+        });
+        $("#AddProcurement").on('click', function () {
+            location.href = '/Procurement/AddProcurements';
+        })
+    })
+</script>

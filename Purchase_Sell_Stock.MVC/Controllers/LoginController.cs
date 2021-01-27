@@ -17,12 +17,12 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         RegisterHelper rh = new RegisterHelper();
         //[Route("/Login/aa")]
         //[HttpGet]
-        //public IActionResult Index(string pone = null)
-        //{
+        public IActionResult Index()
+        {
            
-        //    return View();
+            return View();
             
-        //}
+        }
         public IActionResult Indexs(string pone = null)
         {
             int YZM = rh.Page_Load(pone);

@@ -12,6 +12,7 @@
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/layui/layui.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/JWT.js"></script>
 </head>
 <body>
     <form class="layui-form">
@@ -68,7 +69,6 @@
         var form = layui.form;
         var table = layui.table;
         var $ = layui.$;
-
         LoadDept();
         LoadRole();
         
@@ -103,7 +103,7 @@
         form.on('submit(demo1)', function (data) {
             return false;
         });
-        var $ = layui.$, active = {
+        var active = {
             reload: function () {
                 var eNumber = $('#EmployeeNumber').val();
                 var eName = $('#EmployeeName').val();

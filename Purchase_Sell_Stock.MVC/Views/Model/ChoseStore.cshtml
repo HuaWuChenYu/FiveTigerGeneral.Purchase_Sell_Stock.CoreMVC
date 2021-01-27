@@ -11,6 +11,8 @@
     <title>ChoseStore</title>
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/JWT.js"></script>
     <style>
         .bigdiv {
             padding-left: 100px;
@@ -80,8 +82,7 @@
                         <label id="username"></label>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="">返回首页</a></dd>
-                        <dd><a href="">退出登录</a></dd>
+                        <dd><a href="/Login/Show">退出登录</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -107,6 +108,7 @@
 </html>
 <script>
     document.getElementById("Body").style.left = 0;
+    
     //JavaScript代码区域
         layui.use(['element', 'layer'], function () {
             var layer = layui.layer;
@@ -116,6 +118,7 @@
         $.ajax({
             url: "http://localhost:49760/api/Setting/GetStoresFromLogin?userPhone=" + @ViewBag.phone,
             contentType: "application/json",
+            //headers: { 'Authorization': "Bearer " + getCookie("token") },
             success: function (d) {
                 $(d).each(function () {
                     eid = this.employeeId;
@@ -178,4 +181,5 @@
     function choseStore(id, sid) {
         location.href = '/Model/Model?eid=' + id + '&sid=' + sid;
     }
+    
 </script>

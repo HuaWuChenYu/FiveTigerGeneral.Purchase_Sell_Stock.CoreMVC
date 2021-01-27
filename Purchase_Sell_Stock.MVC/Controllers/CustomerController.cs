@@ -67,5 +67,21 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 钱包查询
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Getwallet()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 流水表
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult GetWater()
+        {
+            return View();
+        }
     }
 }
