@@ -14,6 +14,7 @@
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/JWT.js"></script>
+    <script src="~/HttpURLPart.js"></script>
 </head>
 <body class="layui-layout-body " onbeforeunload="return beforClose()">
     <div class="layui-layout layui-layout-admin">
@@ -94,7 +95,7 @@
 
         <div id="Body" class="layui-body">
             <!-- 内容主体区域 -->
-            <iframe id="iframe1" scrolling="auto" style="width:1325px;height:779px;padding-top:20px;padding-left:20px" src="/Model/First" frameborder="0"></iframe>
+            <iframe id="iframe1" scrolling="auto" style="width:1536px;height:779px;padding-top:20px;padding-left:20px" src="/Model/First" frameborder="0"></iframe>
         </div>
 
         <div class="layui-footer">
@@ -124,7 +125,7 @@
         id = @ViewBag.id;
 
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetEmployeeById?id="+id,
+            url: HttpUrlPart+ "/api/Setting/GetEmployeeById?id="+id,
             contentType: "application/json",
             success: function (d) {
                 $("#empName").append(d.employeeName);
@@ -134,7 +135,7 @@
             id = 1;
         }
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetPowers?employeeId="+id+"&powersParentId=0",
+            url: HttpUrlPart+ "/api/Setting/GetPowers?employeeId="+id+"&powersParentId=0",
             contentType: "application/json",
             success: function (d) {
                 $(d).each(function () {
@@ -152,16 +153,18 @@
         if (pid == 1) {
             document.getElementById("Side").hidden = "hidden";
             document.getElementById("Body").style.left = "0px";
+            document.getElementById("iframe1").style.width = "1536px";
             changeIFrame("/First/FirstPage");
             return;
         }
         else {
             document.getElementById("Side").hidden = false;
             document.getElementById("Body").style.left = "200px";
+            document.getElementById("iframe1").style.width = "1325px";
         }
 
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetPowers?employeeId=" + eid + "&powersParentId=" + pid,
+            url: HttpUrlPart+"/api/Setting/GetPowers?employeeId=" + eid + "&powersParentId=" + pid,
             contentType: "application/json",
             success: function (d) {
                 $("#LeftNavigation").empty();
@@ -171,7 +174,7 @@
                     $("#LeftNavigation").append(str);
                     var idstr = "#DownNavigation" + this.powersId;
                     $.ajax({
-                        url: "http://localhost:49760/api/Setting/GetPowers?employeeId=" + eid + "&powersParentId=" + this.powersId,
+                        url: HttpUrlPart+"/api/Setting/GetPowers?employeeId=" + eid + "&powersParentId=" + this.powersId,
                         contentType: "application/json",
                         success: function (d) {
                             $(d).each(function () {
@@ -208,7 +211,7 @@
     });
     function GoChangeStore() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetPhoneByEId?eid="+id ,
+            url: HttpUrlPart+"/api/Setting/GetPhoneByEId?eid="+id ,
             contentType: "application/json",
             success: function (d) {
                 location.href = '/Model/ChoseStore?phone=' + d;
@@ -218,7 +221,7 @@
     function Sel() {
         var name = $("#textSel").val();
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetPowersBySel?name=" + name + "&empId="+id,
+            url: HttpUrlPart+"/api/Setting/GetPowersBySel?name=" + name + "&empId="+id,
             contentType: "application/json",
             success: function (d) {
                 if (d.powersParentId == 0) {
@@ -231,7 +234,7 @@
                 }
                 else {
                     $.ajax({
-                        url: "http://localhost:49760/api/Setting/GetPowerIdForBig?pid=" + d.powersParentId,
+                        url: HttpUrlPart+"/api/Setting/GetPowerIdForBig?pid=" + d.powersParentId,
                         contentType: "application/json",
                         success: function (data) {
                             ChangeLeft(data, id);
