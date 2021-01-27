@@ -11,37 +11,51 @@
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <title>忘记密码</title>
+    <link href="~/jquerylogin/css/login.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="video-player" preload="auto" autoplay="autoplay" loop="loop" data-height="1080" data-width="1920" height="1080" width="1920">
-        <!--背景图片-->
-        <img src="~/Img/90fbe7e286060410183dbef0bdd9f84a.jpeg" style="width:100%; height:100%" />
+    <div class="body">
+        <!--<img src="img/tubiao-09.png" class="logo" />-->
+        <div class="body_count">
+            <div class="login_count">
+                <div class="login_count_a">
+
+                    <div id="all">
+                        <ul id="option">
+                            <li class="active login_left">注册</li>
+                        </ul>
+                        <ul id="card">
+                            <li class="active">
+                                <!--输入框-->
+                                <div class="login_bot_count">
+                                    @*<img src="img/tubiao-07.png" alt="" />*@
+                                    <img src="~/jquerylogin/img/tubiao-07.png" />
+                                    <input type="text" name="phone" id="phone" placeholder="请输入账号" />
+                                </div>
+                                <div class="login_bot_count">
+                                    @*<img src="img/tubiao-06.png" alt="" />*@
+                                    <img src="~/jquerylogin/img/tubiao-06.png" />
+                                    <input type="text" name="YZM" id="YZM" placeholder="请输入6位验证码" />
+                                </div>
+                                <div class="login_bot_count">
+                                    @*<img src="img/tubiao-06.png" alt="" />*@
+                                    <img src="~/jquerylogin/img/tubiao-06.png" />
+                                    <input type="text" name="pwd" id="pwd" placeholder="请输入6位验证码" />
+                                </div>
+                                <!--登录按钮-->
+
+                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">确定修改</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <form style="margin-top:-500px;margin-left:1400px" class="layui-form" action="">
-        <div class="layui-form-item">
-            <label class="layui-form-label" style="color:white">手机号</label>
-            <div class="layui-input-inline">
-                <input type="text" phone name="phone" lay-verify="title" autocomplete="off" placeholder="请输入手机号" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" style="color:white">验证必填项</label>
-            <div class="layui-input-inline">
-                <input type="text" name="YZM" id="YZM" lay-verify="required" lay-reqtext="设置密码（8-12位，包含数字及字母）" placeholder="请输入6位验证码" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" style="color:white">密码</label>
-            <div class="layui-input-inline">
-                <input type="text" name="pwd" id="pwd" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="设置密码（8-12位，包含数字及字母）" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">确定修改</button>
-            </div>
-        </div>
-    </form>
+
+    <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+    <script src="~/jquerylogin/js/login.js"></script>
 </body>
 </html>
 <script>
@@ -64,8 +78,8 @@
                 success: function (d) {
                     if (d > 0) {
                         layer.msg('修改成功', { icon: 1, title: '提示', time: 2000 }, function () {
-                            layer.close(index);//关闭弹窗
-                            location.href = '/Login/Show';
+                            
+                            location.href = '/Login/LoginIndex';
                         })
                     }
                     else {

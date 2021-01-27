@@ -29,7 +29,7 @@ namespace Purchase_Sell_Stock.MVC.Models.CustomerFunction.cs
         /// <summary>
         /// 买家标签外键
         /// </summary>
-        public int LableId { get; set; }
+        public string LableName { get; set; }
         /// <summary>
         /// 消费次数
         /// </summary>

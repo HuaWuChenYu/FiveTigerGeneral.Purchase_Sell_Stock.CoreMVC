@@ -114,20 +114,18 @@
             , title: '用户数据表'
             , cols: [[
                 { type: 'checkbox', fixed: 'left' }
-                , { field: 'CustomerId', title: '用户编号', width: 80, fixed: 'left', unresize: true, sort: true }
                 , { field: 'CustomerName', title: '用户名称', width: 120}
                 , { field: 'CustomerPhone', title: '手机号', width: 120}
                 , { field: 'Customeridentity', title: '用户身份', width: 120 }
-                , { field: 'LableId', title: '用户标签', width: 120 }
-                , { field: 'Customertimes', title: '用户分群', width: 120 }
+                , { field: 'LableName', title: '用户标签', width: 120 }
                 , { field: 'Customertimes', title: '消费次数', width: 120}
                 , { field: 'Customerprice', title: '单均价', width: 120 }
                 , { field: 'WalletBalance', title: '消费总金额', width: 120 }
                 , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
             ]]
             , page: true
-            , limit: 5
-            , limits: [5, 10, 50]
+            , limit: 10
+            , limits: [10, 20, 50]
             , request: {
                 limitName: 'pageSize',
                 pageName: 'pageIndex',
