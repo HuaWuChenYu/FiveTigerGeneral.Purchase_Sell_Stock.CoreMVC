@@ -132,24 +132,20 @@
             }
             , id: 'testReload'
         });
-
-        form.on('submit(formDemo)', function (data) {
+        //查询
+        $('#sel').on('click', function () {
             //执行重载
             table.reload('testReload', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    customerName: data.field.customerName,
-                    customerPhone:data.field.customerPhone,
-                    customerIdentity: data.field.customerIdentity,
-                    whetherEnable: data.field.whetherEnable,
-                    lableId: data.field.lableId,
+                    customerName: $("#name").val(),
+                    customerPhone: $("#phone").val(),
+                    DenominationLable: $("#classer option:selected").text()
                 }
             }, 'data');
-            return false;
         });
-
         //头工具栏事件
         table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id);
