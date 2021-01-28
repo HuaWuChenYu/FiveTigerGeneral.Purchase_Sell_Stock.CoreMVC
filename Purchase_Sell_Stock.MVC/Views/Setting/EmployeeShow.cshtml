@@ -13,6 +13,7 @@
     <script src="~/layui/layui.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/JWT.js"></script>
+    <script src="~/HttpURLPart.js"></script>
 </head>
 <body>
     <form class="layui-form">
@@ -76,7 +77,7 @@
 
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/Setting/GetEmployeesForShow'
+            , url: ''+HttpUrlPart+'/api/Setting/GetEmployeesForShow'
             , method: 'get'
             , toolbar: '#toolbarDemo'
             , title: '用户数据表'
@@ -166,7 +167,7 @@
     });
     function LoadDept() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetDepartments",
+            url: ""+HttpUrlPart+"/api/Setting/GetDepartments",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -180,7 +181,7 @@
     }
     function LoadRole() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetRolesForSelect",
+            url: ""+HttpUrlPart+"/api/Setting/GetRolesForSelect",
             contentType: "application/json",
             async: false,
             success: function (d) {

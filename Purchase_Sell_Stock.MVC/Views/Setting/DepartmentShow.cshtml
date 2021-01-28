@@ -12,6 +12,7 @@
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/layui/layui.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/HttpURLPart.js"></script>
 </head>
 <body>
     <form class="layui-form">
@@ -60,7 +61,7 @@
 
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/Setting/GetDepartmentByShow'
+            , url: ''+HttpUrlPart+'/api/Setting/GetDepartmentByShow'
             , method: 'get'
             , toolbar: '#toolbarDemo'
             , title: '用户数据表'
