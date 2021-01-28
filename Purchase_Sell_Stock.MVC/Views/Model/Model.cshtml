@@ -12,7 +12,6 @@
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script src="~/JWT.js"></script>
 </head>
 <body class="layui-layout-body " onbeforeunload="return beforClose()">
     <div class="layui-layout layui-layout-admin">
@@ -212,9 +211,7 @@
             url: "http://localhost:49760/api/Setting/GetPhoneByEId?eid="+id ,
             contentType: "application/json",
             success: function (d) {
-                var token = getCookie("token");
                 location.href = '/Model/ChoseStore?phone=' + d;
-                Setcookie("token",token);
             }
         });
     }
@@ -248,7 +245,6 @@
         });
     }
     function beforClose() {
-        Remove("token");
         return "我在这写点东西...";
     }
 
