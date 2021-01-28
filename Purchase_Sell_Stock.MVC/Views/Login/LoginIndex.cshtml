@@ -40,7 +40,7 @@
                                 <div class="login_bot_count">
                                     @*<img src="img/tubiao-07.png" alt="" />*@
                                     <img src="~/jquerylogin/img/tubiao-07.png" />
-                                    <input type="text" name="phone" id="phone" placeholder="请输入账号" />
+                                    <input type="text" name="phone" id="phone" placeholder="请输入账号" onblur="isPhone(this.value);" />
                                 </div>
                                 <div class="login_bot_count">
                                     @*<img src="img/tubiao-06.png" alt="" />*@
@@ -67,7 +67,7 @@
                                         <option value="+886">+886</option>
                                     </select>
                                     <img src="img/line-down.png" alt="" class="account_select_icon" />
-                                    <input type="text" name="usersphone" class="mobile_input" placeholder="请输入手机号码" id="usersphone" />
+                                    <input type="text" name="usersphone" class="mobile_input"  lay-verify="required|phone"  autocomplete="off" placeholder="请输入手机号码" id="usersphone" />
                                 </div>
                                 <div class="login_account_counts">
                                     @*<img src="img/tubiao-06.png" alt="" />*@
@@ -111,6 +111,27 @@
 
 </html>
 <script>
+    function isPhone(phone) {
+        //  alert(phone);
+        if (null == phone || "" == phone || undefined == phone) {
+            alert("请输入手机号！");
+        } else {
+            var RegCellPhone = '[1-9][0-9]{10}|[1-9][0-9]{11}';
+            var falg = phone.search(RegCellPhone);
+            if (falg == -1) {
+                alert("手机号不正确");
+
+            } else {
+                //return true;
+            }
+            if (phone.length >= 1 && phone.length <= 11) {
+            }
+            else {
+                alert("手机号不正确");
+            }
+          
+        }
+    }
     layui.use(['form', 'layer', 'table', 'carousel'], function () {
         var carousel = layui.carousel
         var form = layui.form
@@ -120,6 +141,8 @@
             elem: '#test1'
             , arrow: 'always'
         });
+        //input失焦  验证手机号是否合法
+       
         //监听提交
         form.on('submit(demo1)', function (data) {
             $.ajax({
