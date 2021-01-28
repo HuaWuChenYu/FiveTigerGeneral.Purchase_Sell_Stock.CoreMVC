@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,10 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class OrderController : Controller
     {
-        public IActionResult ShowOrder(int storeId=1)//显示订单
+        public IActionResult ShowOrder()//显示订单
         {
-            ViewBag.StoreId = storeId;
+            int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
+            ViewBag.storeId = StoreId;
             return View();
         }
         public IActionResult ShowOne(int orderId)//订单明细
@@ -18,9 +20,10 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             ViewBag.OrderId = orderId;
             return View();
         }
-        public IActionResult CancelOrder(int storeId=1)//退单
+        public IActionResult CancelOrder()//退单
         {
-            ViewBag.StoreId = storeId;
+            int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
+            ViewBag.storeId = StoreId;
             return View();
         }
         public IActionResult CancelOrderOne(int orderId)//退单明细      
@@ -28,9 +31,10 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             ViewBag.OrderId = orderId;
             return View();
         }
-        public IActionResult Comment(int storeId=1)//评论页面 
+        public IActionResult Comment()//评论页面 
         {
-            ViewBag.StoreId = storeId;
+            int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
+            ViewBag.storeId = StoreId;
             return View();
         }
         public IActionResult LookReply(int commentId)//回复页面 

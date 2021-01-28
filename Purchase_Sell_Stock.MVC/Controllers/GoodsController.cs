@@ -15,9 +15,10 @@ namespace Purchase_Sell_Stock.MVC.Controllers
     public class GoodsController : Controller
     {
         #region 商品模块页面
-        public IActionResult ShowGood(int storeId=1)//商品页面
+        public IActionResult ShowGood()//商品页面
         {
-            ViewBag.StoreId = storeId;
+            int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
+            ViewBag.StoreId = StoreId;
             return View();
         }
         public IActionResult AddGood(int storeId)//添加商品页面
@@ -36,9 +37,10 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             ViewBag.Id = id;
             return View();
         }
-        public IActionResult Brand(int storeId = 1)//商品品牌页面
+        public IActionResult Brand()//商品品牌页面
         {
-            ViewBag.storeId = storeId;
+            int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
+            ViewBag.storeId = StoreId;
             return View();
         }
         public IActionResult AddBrand(int storeId)//添加品牌页面
@@ -46,9 +48,10 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             ViewBag.storeId = storeId;
             return View();
         }
-        public IActionResult Unit(int storeId = 1)//单位页面
+        public IActionResult Unit()//单位页面
         {
-            ViewBag.storeId = storeId;
+            int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
+            ViewBag.storeId = StoreId;
             return View();
         }
         public IActionResult AddUnit(int storeId)//添加单位页面

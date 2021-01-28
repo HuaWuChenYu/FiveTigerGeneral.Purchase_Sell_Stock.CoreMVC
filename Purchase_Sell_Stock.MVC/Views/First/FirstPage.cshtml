@@ -53,7 +53,7 @@
                 </tr>
                 <tr>
                     <td style="color:deepskyblue"><span id="storeState"></span></td>
-                    <td style="color:deepskyblue">&nbsp;&nbsp;&nbsp;<a href="#" style="color:deepskyblue" onclick="">去设置>></a></td>
+                    <td style="color:deepskyblue">&nbsp;&nbsp;&nbsp;<a href="#" style="color:deepskyblue" onclick="Set()">去设置>></a></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -204,6 +204,9 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="dispose_Procurement" style="background-color:pink">去处理>></a>
 </script>
 <script>
+    function Set() {
+        location.href = '/Setting/StoreSetAdd';
+    }
     function help() {
         location.href = '/First/Help?storeId='+@ViewBag.StoreId;
     }
@@ -232,6 +235,7 @@
                 break;
             case "Money":
                 location.href = '/Property/Balance';
+                break;
             case "Data":
                 location.href = '/Property/Billing';
                 break;

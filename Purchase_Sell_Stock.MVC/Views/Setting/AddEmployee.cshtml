@@ -13,6 +13,7 @@
     <script src="~/layui/layui.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/JWT.js"></script>
+    <script src="~/HttpURLPart.js"></script>
 </head>
 <body>
     <form class="layui-form  layui-form-pane" action="" lay-filter="example">
@@ -105,7 +106,7 @@
             }
 
             $.ajax({
-                url: "http://localhost:49760/api/Setting/AddEmployee",
+                url: HttpUrlPart+"/api/Setting/AddEmployee",
                 contentType: "application/json",
                 type: "post",
                 data: JSON.stringify(data.field),
@@ -127,7 +128,7 @@
     });
     function LoadDept() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetDepartments",
+            url: HttpUrlPart+"/api/Setting/GetDepartments",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -141,7 +142,7 @@
     }
     function LoadRole() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetRolesForSelect",
+            url: HttpUrlPart+"/api/Setting/GetRolesForSelect",
             contentType: "application/json",
             async: false,
             success: function (d) {
