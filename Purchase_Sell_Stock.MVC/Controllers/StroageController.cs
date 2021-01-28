@@ -15,6 +15,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         public static string httpPart = "49.234.34.192:8022";
         public IActionResult Index()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         #region 出库
@@ -24,6 +25,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult OutboundorderCombineShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -33,6 +35,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult OutboundorderCombinebackfillPage(int outboundorderId)
         {
+            ViewBag.Url = httpPart;
             ViewBag.outboundorderId = outboundorderId;
             return View();
         }
@@ -43,6 +46,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult PressOutboundorderCombineShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -51,6 +55,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult PressOutboundorderCombinebackfillPage(int outboundorderId)
         {
+            ViewBag.Url = httpPart;
             ViewBag.outboundorderId = outboundorderId;
             return View();
         }
@@ -63,6 +68,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult IncomingorderShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -72,6 +78,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult IncomingordermodityDetailPage(int incomingorderid)
         {
+            ViewBag.Url = httpPart;
             ViewBag.incomingorderid = incomingorderid;
             return View();
         }
@@ -81,6 +88,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult PressIncomingorderShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -90,6 +98,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult PressIncomingordermodityDetailPage(int incomingorderid)
         {
+            ViewBag.Url = httpPart;
             ViewBag.incomingorderid = incomingorderid;
             return View();
         }
@@ -102,6 +111,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult commodityStocksandGoodsShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -110,6 +120,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult GoodsflowingWater(int goodsId) //传商品的编号
         {
+            ViewBag.Url = httpPart;
             ViewBag.goodsId = goodsId;
             return View();
         }
@@ -119,6 +130,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult goodRunningWaterShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -127,6 +139,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult DifferencesShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         #endregion
@@ -138,6 +151,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult WarehouseShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -146,6 +160,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult AddWarehouse()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -154,6 +169,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult EditWarehouse(int warehouseId)
         {
+            ViewBag.Url = httpPart;
             ViewBag.warehouseId = warehouseId;
             return View();
         }

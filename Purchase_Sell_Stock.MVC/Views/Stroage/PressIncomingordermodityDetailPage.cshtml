@@ -115,7 +115,7 @@
 
             };
             $.ajax({                                                                                            //来源单号                   //出库的数量 /*'/' + arr3.toString() +*/
-                url: 'http://192.168.252.151:8022/api/Storage/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#procurementNum").val() + '/' + @ViewBag.incomingorderid+'/' + $("#providerName").val() + '/' + $("#warehouseName").val(),   //出库订单id
+                url: 'http://@ViewBag.Url/api/Storage/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#procurementNum").val() + '/' + @ViewBag.incomingorderid+'/' + $("#providerName").val() + '/' + $("#warehouseName").val(),   //出库订单id
                 type: 'get',
                 contentType: 'application/json',
                 success:
@@ -132,7 +132,7 @@
             })
         })
         $.ajax({
-            url: 'http://192.168.252.151:8022/api/IncomingordermodityDetail/'+@ViewBag.incomingorderid,
+            url: 'http://@ViewBag.Url/api/IncomingordermodityDetail/'+@ViewBag.incomingorderid,
             contentType: 'application/json',
             type:'get',
             success:
@@ -152,7 +152,7 @@
         })
         table.render({
             elem: '#test'
-            , url: 'http://192.168.252.151:8022/api/IncomingordermodityGoods/'+@ViewBag.incomingorderid,
+            , url: 'http://@ViewBag.Url/api/IncomingordermodityGoods/'+@ViewBag.incomingorderid,
               cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
                 { field: 'goodsId', width: 80, title: '商品编号', sort: true }

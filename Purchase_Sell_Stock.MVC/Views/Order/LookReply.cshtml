@@ -44,7 +44,7 @@
             obj.CommentId =Number( $("#commentId-Hid").val());
             obj.CommentContent = $("#content").val();
             $.ajax({
-                url: 'http://192.168.252.151:8022/api/ReplyComment',
+                url: 'http://@ViewBag.Url/api/ReplyComment',
                 data: JSON.stringify(obj),
                 type: 'post',
                 contentType: 'application/json',

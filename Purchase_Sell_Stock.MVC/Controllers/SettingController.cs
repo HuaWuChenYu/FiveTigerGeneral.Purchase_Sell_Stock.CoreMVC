@@ -16,6 +16,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         //店铺信息
         public IActionResult StoreInfo()
         {
+            ViewBag.Url = httpPart;
             var sid = HttpContext.Session.GetInt32("storeId");
             ViewBag.sid = sid;
             return View();
@@ -23,11 +24,13 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         //店铺设置
         public IActionResult StoreSetAdd()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         //主体认证
         public IActionResult CompanyAdd()
         {
+            ViewBag.Url = httpPart;
             var sid= HttpContext.Session.GetInt32("storeId");
             ViewBag.sid = sid;
             return View();
@@ -35,43 +38,51 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         //角色权限
         public IActionResult UpdateRolesPowers()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         //显示员工
         public IActionResult EmployeeShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         //添加员工
         public IActionResult AddEmployee()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         //修改员工
         public IActionResult UpdateEmployee(int id)
         {
+            ViewBag.Url = httpPart;
             ViewBag.id = id;
             return View();
         }
         //部门显示
         public IActionResult DepartmentShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         //创建部门
         public IActionResult AddDepartment(int id=-1)
         {
+            ViewBag.Url = httpPart;
             ViewBag.adid = id;
             return View();
         }
         //修改员工
         public IActionResult UpdateDepartment(int id)
         {
+            ViewBag.Url = httpPart;
             ViewBag.did = id;
             return View();
         }
         public IActionResult Test()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         //图片上传
