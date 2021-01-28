@@ -47,15 +47,14 @@
                 , { field: 'DenominationMoney', title: '充值金额', width: 120, }
                 , { field: 'ActuallyMoney', title: '实付金额', width: 120,  }
                 , { field: 'GivenMoney', title: '赠送金额', width: 120, }
-                , { field: 'username', title: '说明', width: 120, }
                 , { field: 'Recgargenumber', title: '已充值数量', width: 100, sort: true }
                 , { field: 'PeriodValidity', title: '有效期', width: 120 }
                 , { field: 'WhetherEnable', title: '是否启用', width: 120, templet: '#switchTpl', unresize: true }
                
             ]]
             , page: true
-            , limit: 5
-            , limits: [5, 10, 50]
+            , limit: 10
+            , limits: [10, 20, 50]
             , request: {
                 limitName: 'pageSize',
                 pageName: 'pageIndex',

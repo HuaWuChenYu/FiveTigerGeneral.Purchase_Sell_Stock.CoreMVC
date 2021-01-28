@@ -29,7 +29,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">验证日期</label>
             <div class="layui-input-inline">
-                <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                <input type="text" name="date" id="date"   class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
@@ -80,8 +80,8 @@
                 , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
             ]]
             , page: true
-            , limit: 5
-            , limits: [5, 10, 50]
+            , limit: 10
+            , limits: [10, 20, 50]
             , request: {
                 limitName: 'pageSize',
                 pageName: 'pageIndex',

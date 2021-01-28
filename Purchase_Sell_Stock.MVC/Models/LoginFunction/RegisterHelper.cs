@@ -26,8 +26,8 @@ namespace Purchase_Sell_Stock.MVC.Models.LoginFunction
         //短信帮助类 返回值为发送验证码的四位数字  返回0为发送失败
         public int Page_Load(string mobile)
         {
-            string account = "C80876908";//查看用户名 登录用户中心->验证码通知短信>产品总览->API接口信息->APIID
-            string password = "577b706c5d64d011f675260e87e24936"; //查看密码 登录用户中心->验证码通知短信>产品总览->API接口信息->APIKEY       
+            string account = "C98282239";//查看用户名 登录用户中心->验证码通知短信>产品总览->API接口信息->APIID
+            string password = "ee3fa89eda14d0aef1b32c1ba18a8630"; //查看密码 登录用户中心->验证码通知短信>产品总览->API接口信息->APIKEY       
             Random rad = new Random();
             int mobile_code = rad.Next(1000, 10000);
             string content = "您的验证码是：" + mobile_code + " 。请不要把验证码泄露给其他人。";

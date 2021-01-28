@@ -32,7 +32,6 @@
                         <ul id="option">
                             <li class="active login_left">密码登录</li>
                             <li class="login_right">短信登录</li>
-
                         </ul>
                         <ul id="card">
                             <li class="active">
@@ -45,7 +44,7 @@
                                 <div class="login_bot_count">
                                     @*<img src="img/tubiao-06.png" alt="" />*@
                                     <img src="~/jquerylogin/img/tubiao-06.png" />
-                                    <input type="text" name="pwd" id="pwd" placeholder="请输入密码" />
+                                    <input type="password" name="pwd" id="pwd" placeholder="请输入密码" />
                                 </div>
                                 <div class="login_bot">
                                     <a class=" layui-btn-xs" lay-event="edit" onclick="location.href='/Login/ForgetPwd'">忘记密码</a>
@@ -76,7 +75,8 @@
                                     <input class="account_code" type="button" id="btn" value="获取验证码" />
                                 </div>
                                 <!--登录按钮-->
-                                <button class="login_account_button" lay-filter="Deng1">登录</button>
+                                
+                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="Deng1">登录</button>
                             </li>
                         </ul>
                     </div>
@@ -129,20 +129,6 @@
                 contentType: 'application/json',
                 success: function (d) {
                     if (d > 0) {
-                        //获取token令牌
-                        $.ajax({
-                            url: 'http://@ViewBag.Url/api/Login/GetToken',
-                            type: 'post',
-                            data: JSON.stringify({ UserPhone: $("#phone").val(), UserPassword: $("#pwd").val() }),
-                            contentType: 'application/json',
-                            success: function (data) {
-                                if (data == null) {
-                                    alert('获取令牌失败');
-                                    return;
-                                }
-                                Setcookie("token", data);
-                            }
-                        });
                         layer.alert("登录成功", { icon: 6, time: 2000 });
 
                         if (d == 20000) {
@@ -163,6 +149,13 @@
             })
             return false;
         });
+    })
+</script>
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form
+            , layer = layui.layer;
+        var $ = layui.$;
         form.on('submit(Deng1)', function (data) {
             var obj = {};
             obj.UserPhone = $("#usersphone").val();
@@ -173,20 +166,6 @@
                 contentType: 'application/json',
                 success: function (d) {
                     if (d > 0) {
-                        //获取token令牌
-                        $.ajax({
-                            url: 'http://@ViewBag.Url/api/Login/GetToken',
-                            type: 'post',
-                            data: JSON.stringify({ UserPhone: $("#phone").val(), UserPassword: $("#pwd").val() }),
-                            contentType: 'application/json',
-                            success: function (data) {
-                                if (data == null) {
-                                    alert('获取令牌失败');
-                                    return;
-                                }
-                                Setcookie("token", data);
-                            }
-                        });
                         layer.alert("登录成功", { icon: 6, time: 2000 });
                         if (d == 20000) {
                             location.href = '/Model/ChoseStore?phone=' + $("#usersphone").val();
@@ -207,24 +186,24 @@
         });
         var YZM;
         //倒计时按钮
-        $('#find').click(function () {
+        $('#btn').click(function () {
             var pone = $("#usersphone").val();
             let count = 59;
             const countDown = setInterval(() => {
                 if (count === 0) {
-                    $('#find').val('重新发送').removeAttr('disabled');
-                    $('#find').css({
+                    $('#btn').val('重新发送').removeAttr('disabled');
+                    $('#btn').css({
                         background: '#ff9400',
                         color: '#fff',
                     });
                     clearInterval(countDown);
                 } else {
-                    $('#find').attr('disabled', true);
-                    $('#find').css({
+                    $('#btn').attr('disabled', true);
+                    $('#btn').css({
                         background: '#d8d8d8',
                         color: '#707070',
                     });
-                    $('#find').val(count + '秒后可重新获取');
+                    $('#btn').val(count + '秒后可重新获取');
                 }
                 count--;
             }, 1000);
@@ -242,26 +221,4 @@
             })
         });
     })
-    function Setcookie(name, value) {
-        //设置名称为name,值为value的Cookie
-        var expdate = new Date();   //初始化时间
-        expdate.setTime(expdate.getTime() +60* 60 * 1000);   //时间单位毫秒
-        document.cookie = name + "=" + value + ";expires=" + expdate.toGMTString() + ";path=/";
-
-        //即document.cookie= name+"="+value+";path=/";  时间默认为当前会话可以不要，但路径要填写，因为JS的默认路径是当前页，如果不填，此cookie只在当前页面生效！
-    }
-    function getCookie(c_name) {
-        //判断document.cookie对象里面是否存有cookie
-        if (document.cookie.length > 0) {
-            c_start = document.cookie.indexOf(c_name + "=")
-            //如果document.cookie对象里面有cookie则查找是否有指定的cookie，如果有则返回指定的cookie值，如果没有则返回空字符串
-            if (c_start != -1) {
-                c_start = c_start + c_name.length + 1
-                c_end = document.cookie.indexOf(";", c_start)
-                if (c_end == -1) c_end = document.cookie.length
-                return unescape(document.cookie.substring(c_start, c_end))
-            }
-        }
-        return ""
-    }
 </script>

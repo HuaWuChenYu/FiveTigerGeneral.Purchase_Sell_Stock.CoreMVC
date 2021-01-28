@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
-@using Microsoft.AspNetCore.Mvc;
+﻿
 @{
     Layout = null;
 }
@@ -13,8 +12,6 @@
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script src="~/JWT.js"></script>
-    <script src="~/HttpURLPart.js"></script>
 </head>
 <body class="layui-layout-body " onbeforeunload="return beforClose()">
     <div class="layui-layout layui-layout-admin">
@@ -61,7 +58,7 @@
                     <dl class="layui-nav-child">
                         <dd><a onclick="location.href='/Model/Model'">返回首页</a></dd>
                         <dd><a onclick="GoChangeStore()">切换店铺</a></dd>
-                        <dd><a href="/Login/Show">退出登录</a></dd>
+                        <dd><a href="/Login/LoginIndex">退出登录</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -248,7 +245,6 @@
         });
     }
     function beforClose() {
-        Remove("token");
         return "我在这写点东西...";
     }
 

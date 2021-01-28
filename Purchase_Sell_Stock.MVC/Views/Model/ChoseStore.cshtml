@@ -12,7 +12,6 @@
     <script src="~/layui/layui.js"></script>
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script src="~/JWT.js"></script>
     <style>
         .bigdiv {
             padding-left: 100px;
@@ -82,7 +81,7 @@
                         <label id="username"></label>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/Login/Show">退出登录</a></dd>
+                        <dd><a href="/Login/LoginIndex">退出登录</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -118,7 +117,6 @@
         $.ajax({
             url: "http://192.168.252.151:8022/api/Setting/GetStoresFromLogin?userPhone=" + @ViewBag.phone,
             contentType: "application/json",
-            //headers: { 'Authorization': "Bearer " + getCookie("token") },
             success: function (d) {
                 $(d).each(function () {
                     eid = this.employeeId;
