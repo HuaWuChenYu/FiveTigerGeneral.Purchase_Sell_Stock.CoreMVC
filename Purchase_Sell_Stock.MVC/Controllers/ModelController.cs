@@ -37,7 +37,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             return View();
         }
-        public IActionResult ChoseStore(string phone="18312345671")
+        public IActionResult ChoseStore(string phone="12345678999")
         {
             ViewBag.Url = httpPart;
             ViewBag.phone = phone;
