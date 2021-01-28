@@ -13,7 +13,6 @@
     <script src="~/layui/layui.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/JWT.js"></script>
-    <script src="~/HttpURLPart.js"></script>
 </head>
 <body>
     <form class="layui-form  layui-form-pane" action="" lay-filter="example">
@@ -52,7 +51,7 @@
 
         LoadDept();
         $.ajax({
-            url: ""+HttpUrlPart+"/api/Setting/GetDepartmentById?id="+@ViewBag.did,
+            url: "http://localhost:49760/api/Setting/GetDepartmentById?id="+@ViewBag.did,
             contentType: "application/json",
             success: function (d) {
                 form.val('example', {
@@ -68,7 +67,7 @@
             data.field.departmentId = @ViewBag.did;
             data.field.departmentParentId = Number(data.field.departmentParentId);
             $.ajax({
-                url: ""+HttpUrlPart+"/api/Setting/UpdateDepartment",
+                url: "http://localhost:49760/api/Setting/UpdateDepartment",
                 contentType: "application/json",
                 type: "post",
                 data: JSON.stringify(data.field),
@@ -90,7 +89,7 @@
     });
     function LoadDept() {
         $.ajax({
-            url: ""+HttpUrlPart+"/api/Setting/GetDepartmentByShow",
+            url: "http://localhost:49760/api/Setting/GetDepartmentByShow",
             contentType: "application/json",
             async: false,
             success: function (d) {

@@ -14,7 +14,6 @@
     <link href="~/css/css/bootstrap.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/JWT.js"></script>
-    <script src="~/HttpURLPart.js"></script>
 </head>
 <body>
     <div style="float:left;width:340px;margin-left:10px;margin-top:10px">
@@ -50,7 +49,7 @@
         var data;
         //$("#setrow").attr("rowspan",11);
         $.ajax({
-            url: ""+HttpUrlPart+"/api/Setting/GetRoleTypes",
+            url: "http://localhost:49760/api/Setting/GetRoleTypes",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -84,7 +83,7 @@
         
         $("#setPower").empty();
         $.ajax({
-            url: ""+HttpUrlPart+"/api/Setting/GetPowersBySet?powerParentId=0&rolesId=1",
+            url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=0&rolesId=1",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -97,7 +96,7 @@
                     $("#setPower").append(str);
                     count = 0;
                     $.ajax({
-                        url: ""+HttpUrlPart+"/api/Setting/GetPowersBySet?powerParentId=" + this.powersId + "&rolesId=1",
+                        url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=" + this.powersId + "&rolesId=1",
                         contentType: "application/json",
                         async: false,
                         success: function (d2) {
@@ -109,7 +108,7 @@
                                     + '</tr>';
                                 $("#setPower").append(str2);
                                 $.ajax({
-                                    url: ""+HttpUrlPart+"/api/Setting/GetPowersBySet?powerParentId=" + this.powersId + "&rolesId=1",
+                                    url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=" + this.powersId + "&rolesId=1",
                                     contentType: "application/json",
                                     async: false,
                                     success: function (d3) {
@@ -136,7 +135,7 @@
         });
         //选择
         $.ajax({
-            url: ""+HttpUrlPart+"/api/Setting/GetPowersByShowId?roleId="+rid,
+            url: "http://localhost:49760/api/Setting/GetPowersByShowId?roleId="+rid,
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -277,7 +276,7 @@
     //添加权限方法
     function AddPower(pid, rid) {
         $.ajax({
-            url: ""+HttpUrlPart+"/api/Setting/AddPowersAndRoles?powerId=" + pid + "&roleId=" + rid,
+            url: "http://localhost:49760/api/Setting/AddPowersAndRoles?powerId=" + pid + "&roleId=" + rid,
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -293,7 +292,7 @@
     //删除权限方法
     function DeletePower(pid, rid) {
         $.ajax({
-            url: ""+HttpUrlPart+"/api/Setting/DeletePowersAndRoles?powerId=" + pid + "&roleId=" + rid,
+            url: "http://localhost:49760/api/Setting/DeletePowersAndRoles?powerId=" + pid + "&roleId=" + rid,
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -310,7 +309,7 @@
     function SelRoles() {
         var name = $("#roleName").val();
         $.ajax({
-            url: ""+HttpUrlPart+"/api/Setting/GetRoleId?name=" + name,
+            url: "http://localhost:49760/api/Setting/GetRoleId?name=" + name,
             contentType: "application/json",
             async: false,
             success: function (d) {
