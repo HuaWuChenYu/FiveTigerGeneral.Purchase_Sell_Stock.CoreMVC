@@ -12,6 +12,7 @@
     <link href="~/layui/css/layui.css" rel="stylesheet" />
     <script src="~/layui/layui.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/HttpURLPart.js"></script>
 </head>
 <body>
     <form class="layui-form  layui-form-pane" action="" lay-filter="example">
@@ -53,7 +54,7 @@
         var id = @ViewBag.adid;
         if (id>0) {
              $.ajax({
-            url: "http://localhost:49760/api/Setting/GetDepartmentById?id="+id,
+            url: ""+HttpUrlPart+"/api/Setting/GetDepartmentById?id="+id,
             contentType: "application/json",
             success: function (d) {
                 form.val('example', {
@@ -74,7 +75,7 @@
                 return;
             }
             $.ajax({
-                url: "http://localhost:49760/api/Setting/AddDepartment",
+                url: ""+HttpUrlPart+"/api/Setting/AddDepartment",
                 contentType: "application/json",
                 type: "post",
                 data: JSON.stringify(data.field),
@@ -96,7 +97,7 @@
     });
     function LoadDept() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetDepartmentByShow",
+            url: ""+HttpUrlPart+"/api/Setting/GetDepartmentByShow",
             contentType: "application/json",
             async: false,
             success: function (d) {

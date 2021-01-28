@@ -13,6 +13,7 @@
     <script src="~/layui/layui.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/JWT.js"></script>
+    <script src="~/HttpURLPart.js"></script>
     <style>
         .logodiv {
             width: 126px;
@@ -159,7 +160,7 @@
         var storeid = 2;
         //反填
         //$.ajax({
-        //    url: "http://localhost:49760/api/Setting/IsHaveCompany?storeid=" + storeid,
+        //    url: HttpUrlPart+"/api/Setting/IsHaveCompany?storeid=" + storeid,
         //    contentType: "application/json",
         //    success: function (d) {
         //        if (d.length > 0) {
@@ -267,7 +268,7 @@
             //    title: '最终的提交信息'
             //})
             $.ajax({
-                url: "http://localhost:49760/api/Setting/AddStoreSet",
+                url: ""+HttpUrlPart+"/api/Setting/AddStoreSet",
                 contentType: "application/json",
                 data: JSON.stringify(data.field),
                 type: "post",
