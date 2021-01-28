@@ -82,7 +82,7 @@
                         <label id="username"></label>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/Login/Show">退出登录</a></dd>
+                        <dd><a href="/Login/LoginIndex">退出登录</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -118,7 +118,6 @@
         $.ajax({
             url: "http://localhost:49760/api/Setting/GetStoresFromLogin?userPhone=" + @ViewBag.phone,
             contentType: "application/json",
-            //headers: { 'Authorization': "Bearer " + getCookie("token") },
             success: function (d) {
                 $(d).each(function () {
                     eid = this.employeeId;

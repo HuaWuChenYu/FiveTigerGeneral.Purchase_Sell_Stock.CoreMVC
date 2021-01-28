@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
-@using Microsoft.AspNetCore.Mvc;
+﻿
 @{
     Layout = null;
 }
@@ -60,7 +59,7 @@
                     <dl class="layui-nav-child">
                         <dd><a onclick="location.href='/Model/Model'">返回首页</a></dd>
                         <dd><a onclick="GoChangeStore()">切换店铺</a></dd>
-                        <dd><a href="/Login/Show">退出登录</a></dd>
+                        <dd><a href="/Login/LoginIndex">退出登录</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -213,7 +212,9 @@
             url: "http://localhost:49760/api/Setting/GetPhoneByEId?eid="+id ,
             contentType: "application/json",
             success: function (d) {
+                var token = getCookie("token");
                 location.href = '/Model/ChoseStore?phone=' + d;
+                Setcookie("token",token);
             }
         });
     }
