@@ -122,7 +122,7 @@
         id = @ViewBag.id;
 
         $.ajax({
-            url: 'http://192.168.252.151:8022/api/Setting/GetEmployeeById?id='+id,
+            url: 'http://@ViewBag.Url/api/Setting/GetEmployeeById?id='+id,
             contentType: "application/json",
             success: function (d) {
                 $("#empName").append(d.employeeName);
@@ -132,7 +132,7 @@
             id = 1;
         }
         $.ajax({
-            url: 'http://192.168.252.151:8022/api/Setting/GetPowers?employeeId='+id+"&powersParentId=0",
+            url: 'http://@ViewBag.Url/api/Setting/GetPowers?employeeId='+id+"&powersParentId=0",
             contentType: "application/json",
             success: function (d) {
                 $(d).each(function () {
@@ -161,7 +161,7 @@
         }
 
         $.ajax({
-            url: 'http://192.168.252.151:8022/api/Setting/GetPowers?employeeId=' + eid + "&powersParentId=" + pid,
+            url: 'http://@ViewBag.Url/api/Setting/GetPowers?employeeId=' + eid + "&powersParentId=" + pid,
             contentType: "application/json",
             success: function (d) {
                 $("#LeftNavigation").empty();
@@ -171,7 +171,7 @@
                     $("#LeftNavigation").append(str);
                     var idstr = "#DownNavigation" + this.powersId;
                     $.ajax({
-                        url: 'http://192.168.252.151:8022/api/Setting/GetPowers?employeeId=' + eid + "&powersParentId=" + this.powersId,
+                        url: 'http://@ViewBag.Url/api/Setting/GetPowers?employeeId=' + eid + "&powersParentId=" + this.powersId,
                         contentType: "application/json",
                         success: function (d) {
                             $(d).each(function () {
@@ -208,7 +208,7 @@
     });
     function GoChangeStore() {
         $.ajax({
-            url: 'http://192.168.252.151:8022/api/Setting/GetPhoneByEId?eid='+id ,
+            url: 'http://@ViewBag.Url/api/Setting/GetPhoneByEId?eid='+id ,
             contentType: "application/json",
             success: function (d) {
                 location.href = '/Model/ChoseStore?phone=' + d;
@@ -218,7 +218,7 @@
     function Sel() {
         var name = $("#textSel").val();
         $.ajax({
-            url:'http://192.168.252.151:8022/api/Setting/GetPowersBySel?name=' + name + "&empId="+id,
+            url:'http://@ViewBag.Url/api/Setting/GetPowersBySel?name=' + name + "&empId="+id,
             contentType: "application/json",
             success: function (d) {
                 if (d.powersParentId == 0) {
@@ -231,7 +231,7 @@
                 }
                 else {
                     $.ajax({
-                        url:'http://192.168.252.151:8022/api/Setting/GetPowerIdForBig?pid=' + d.powersParentId,
+                        url:'http://@ViewBag.Url/api/Setting/GetPowerIdForBig?pid=' + d.powersParentId,
                         contentType: "application/json",
                         success: function (data) {
                             ChangeLeft(data, id);

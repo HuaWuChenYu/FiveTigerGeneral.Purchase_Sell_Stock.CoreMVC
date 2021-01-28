@@ -107,7 +107,7 @@
 </html>
 <script>
     document.getElementById("Body").style.left = 0;
-    
+
     //JavaScript代码区域
         layui.use(['element', 'layer'], function () {
             var layer = layui.layer;
@@ -115,7 +115,7 @@
         var $ = layui.$;
         var eid = 0;
         $.ajax({
-            url: "http://192.168.252.151:8022/api/Setting/GetStoresFromLogin?userPhone=" + @ViewBag.phone,
+            url: "http://@ViewBag.Url/api/Setting/GetStoresFromLogin?userPhone=" + @ViewBag.phone,
             contentType: "application/json",
             success: function (d) {
                 $(d).each(function () {
@@ -170,14 +170,14 @@
 
             });
         });
-            
+
         });
     //var count = Conf.get('COUNT');
-    
+
     //var count = Conf.get('COUNT');
     //alert(count);
     function choseStore(id, sid) {
         location.href = '/Model/Model?eid=' + id + '&sid=' + sid;
     }
-    
+
 </script>

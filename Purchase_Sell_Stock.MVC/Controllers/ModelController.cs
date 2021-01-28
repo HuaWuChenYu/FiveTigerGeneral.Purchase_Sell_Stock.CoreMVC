@@ -15,12 +15,14 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         {
             ViewBag.id = eid;
             HttpContext.Session.SetInt32("storeId",sid);
+            ViewBag.Url = httpPart;
             ViewBag.sid = sid;
             return View();
         }
         public IActionResult CreateStore(int id=1)
         {
             ViewBag.empid = id;
+            ViewBag.Url = httpPart;
             return View();
         }
         public IActionResult Test()
@@ -37,6 +39,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         }
         public IActionResult ChoseStore(string phone="18312345671")
         {
+            ViewBag.Url = httpPart;
             ViewBag.phone = phone;
             return View();
         }

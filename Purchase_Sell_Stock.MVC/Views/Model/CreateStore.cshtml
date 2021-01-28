@@ -166,14 +166,14 @@
             //    title: '最终的提交信息'
             //})
             $.ajax({
-                url: "http://192.168.252.151:8022/api/Setting/AddStore",
+                url: "http://@ViewBag.Url/api/Setting/AddStore",
                 contentType: "application/json",
                 data: JSON.stringify(data.field),
                 type: "post",
                 success: function (d) {
                     if (d > 0) {
                         //layer.alert("保存成功");
-                        //location.href = 'http://localhost:57736/Model/ChoseStore?phone=12345678999';
+                        //location.href = 'http://@ViewBag.Url/Model/ChoseStore?phone=12345678999';
                         alert('保存成功');
                         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                         parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
@@ -190,7 +190,7 @@
     });
     function LoadClassify() {
         $.ajax({
-            url: "http://192.168.252.151:8022/api/Setting/GetClassifiesForShow",
+            url: "http://@ViewBag.Url/api/Setting/GetClassifiesForShow",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -204,7 +204,7 @@
     }
     function LoadIndustry() {
         $.ajax({
-            url: "http://192.168.252.151:8022/api/Setting/GetIndustriesForShow",
+            url: "http://@ViewBag.Url2/api/Setting/GetIndustriesForShow",
             contentType: "application/json",
             async: false,
             success: function (d) {
