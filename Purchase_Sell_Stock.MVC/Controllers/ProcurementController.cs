@@ -11,6 +11,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         public static string httpPart = "49.234.34.192:8022";
         public IActionResult Index()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -19,6 +20,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult GetProcurementsShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -27,6 +29,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult GetGoodsShow()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -35,6 +38,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult AddProcurements(string goodsid="0")
         {
+            ViewBag.Url = httpPart;
             ViewBag.goodsid = goodsid;
             return View();
         }

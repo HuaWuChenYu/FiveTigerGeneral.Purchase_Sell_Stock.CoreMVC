@@ -83,7 +83,7 @@
         //详见：https://www.layui.com/doc/modules/table.html#totalRow
         table.render({
             elem: '#test'
-            , url: 'http://192.168.252.151:8022/api/IncomingorderShow'
+            , url: 'http://@ViewBag.Url/api/IncomingorderShow'
             , toolbar: '#toolbarDemo'
             , title: '用户数据表'
             , totalRow: true
@@ -131,7 +131,7 @@
         })
         //全部仓库（收货方）
         $.ajax({
-            url: 'http://192.168.252.151:8022/api/GetWarehousesShowed',
+            url: 'http://@ViewBag.Url/api/GetWarehousesShowed',
             type: 'get',
             contentType: 'application/json',
             success:

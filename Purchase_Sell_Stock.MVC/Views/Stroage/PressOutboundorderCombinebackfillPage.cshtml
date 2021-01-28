@@ -119,7 +119,7 @@
                 arr4.push(pname[i].value)
             };
             $.ajax({                                                                                            //来源单号  //出库的数量 /*'/' + arr3.toString() +*/  //出库订单id//发货方                    //收货方
-                url: 'http://192.168.252.151:8022/api/GoodsAmend/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#OrdersNum").val() + '/' + @ViewBag.outboundorderId+'/' + $("#WarehouseName").val() + '/' + $("#CustomerName").val(), 
+                url: 'http://@ViewBag.Url/api/GoodsAmend/' + arr2.toString() + '/' + arr4.toString() + '/' + $("#OrdersNum").val() + '/' + @ViewBag.outboundorderId+'/' + $("#WarehouseName").val() + '/' + $("#CustomerName").val(), 
                 type: 'get',
                 contentType: 'application/json',
                 success:
@@ -135,7 +135,7 @@
             })
         })
         $.ajax({
-            url: 'http://192.168.252.151:8022/api/OutboundorderCombinebackfill/'+@ViewBag.outboundorderId,
+            url: 'http://@ViewBag.Url/api/OutboundorderCombinebackfill/'+@ViewBag.outboundorderId,
             contentType: 'application/json',
             type:'post',
             success:
@@ -155,7 +155,7 @@
         })
         table.render({
             elem: '#test'
-            , url: 'http://192.168.252.151:8022/api/Outboundordercommoditybackfill/'+@ViewBag.outboundorderId,
+            , url: 'http://@ViewBag.Url/api/Outboundordercommoditybackfill/'+@ViewBag.outboundorderId,
               cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
                 { field: 'goodsId', width: 80, title: '商品编号', sort: true }

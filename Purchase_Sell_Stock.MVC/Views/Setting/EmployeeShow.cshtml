@@ -76,7 +76,7 @@
 
         table.render({
             elem: '#test'
-            , url: 'http://192.168.252.151:8022/api/Setting/GetEmployeesForShow'
+            , url: 'http://@ViewBag.Url/api/Setting/GetEmployeesForShow'
             , method: 'get'
             , toolbar: '#toolbarDemo'
             , title: '用户数据表'
@@ -166,7 +166,7 @@
     });
     function LoadDept() {
         $.ajax({
-            url: "http://192.168.252.151:8022/api/Setting/GetDepartments",
+            url: "http://@ViewBag.Url/api/Setting/GetDepartments",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -180,7 +180,7 @@
     }
     function LoadRole() {
         $.ajax({
-            url: "http://192.168.252.151:8022/api/Setting/GetRolesForSelect",
+            url: "http://@ViewBag.Url/api/Setting/GetRolesForSelect",
             contentType: "application/json",
             async: false,
             success: function (d) {

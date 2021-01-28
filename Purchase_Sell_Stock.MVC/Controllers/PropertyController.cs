@@ -20,7 +20,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         public static string httpPart = "49.234.34.192:8022";
         public IActionResult Index()
         {
-
+            ViewBag.Url = httpPart;
             return View();
         }
 
@@ -48,6 +48,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         //充值视图
         public IActionResult Recharge()
         {
+            ViewBag.Url = httpPart;
             return View();
           
         }
@@ -147,6 +148,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         //资金管理视图
         public IActionResult Balance()
         {
+            ViewBag.Url = httpPart;
             return View();
 
         }
@@ -154,6 +156,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         //对账详细视图
         public IActionResult Billing()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
 
@@ -184,6 +187,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 
         public IActionResult Amount_settled()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
 

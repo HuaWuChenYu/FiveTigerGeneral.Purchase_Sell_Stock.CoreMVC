@@ -151,7 +151,7 @@
         var storeId = @ViewBag.sid;
         //反填
         $.ajax({
-            url: "http://192.168.252.151:8022/api/Setting/GetStoresForUpdate?storeId="+storeId,
+            url: "http://@ViewBag.Url/api/Setting/GetStoresForUpdate?storeId="+storeId,
             contentType: "application/json",
             success: function (d) {
                 $(d).each(function () {
@@ -223,7 +223,7 @@
             //    title: '最终的提交信息'
             //})
             $.ajax({
-                url: "http://192.168.252.151:8022/api/Setting/UpdateStore",
+                url: "http://@ViewBag.Url/api/Setting/UpdateStore",
                 contentType: "application/json",
                 data: JSON.stringify(data.field),
                 type:"post",

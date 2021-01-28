@@ -82,7 +82,7 @@
         //表格加载
         table.render({
             elem: '#test'
-            , url: 'http://192.168.252.151:8022/api/CancelOrderList/' + $("#storeId-Hid").val()
+            , url: 'http://@ViewBag.Url/api/CancelOrderList/' + $("#storeId-Hid").val()
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , cols: [[
                 { type: 'checkbox', fixed: 'left' }
