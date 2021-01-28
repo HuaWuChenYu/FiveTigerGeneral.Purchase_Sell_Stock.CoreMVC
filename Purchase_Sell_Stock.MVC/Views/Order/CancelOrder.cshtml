@@ -82,7 +82,7 @@
         //表格加载
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/CancelOrderList/' + $("#storeId-Hid").val()
+            , url: 'http://192.168.252.151:8022/api/CancelOrderList/' + $("#storeId-Hid").val()
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , cols: [[
                 { type: 'checkbox', fixed: 'left' }
@@ -199,7 +199,7 @@
                     , area: ['1300px', '700px']
                     , shade: 0
                     , anim: 2
-                    , offset: 'rb'
+                    , offset: 'rt'
                     , id: 'LAY_layuipro' //设定一个id，防止重复弹出
                     , maxmin: false
                     , content: '/Order/CancelOrderOne?orderId=' + data.OrdersId

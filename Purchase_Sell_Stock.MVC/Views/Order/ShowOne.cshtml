@@ -95,7 +95,7 @@
         //商品表格
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/GetOrderById_2/' + $("#orderId").val()
+            , url: 'http://192.168.252.151:8022/api/GetOrderById_2/' + $("#orderId").val()
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
                 { field: 'GoodsId', width: 200, title: '商品编号' }
@@ -116,7 +116,7 @@
 
         //明细
         $.ajax({
-            url: 'http://localhost:49760/api/GetOrderById_1/' + $("#orderId").val(),
+            url: 'http://192.168.252.151:8022/api/GetOrderById_1/' + $("#orderId").val(),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -147,7 +147,7 @@
 
         $("#send").on('click', function () {//api/ModifyOrderState/
             $.ajax({
-                url: 'http://localhost:49760/api/ModifyOrderState/' + $("#orderId").val(),
+                url: 'http://192.168.252.151:8022/api/ModifyOrderState/' + $("#orderId").val(),
                 type: 'post',
                 contentType: 'application/json',
                 success: function (d) {

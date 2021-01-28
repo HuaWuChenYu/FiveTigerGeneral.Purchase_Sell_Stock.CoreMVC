@@ -44,7 +44,7 @@
             }
             obj.StoreId = Number($("#storeId").val());
             $.ajax({
-                url: 'http://localhost:49760/api/AddGoodsBrand',
+                url: 'http://@ViewBag.Url/api/AddGoodsBrand',
                 type: 'post',
                 data: JSON.stringify(obj),
                 contentType: 'application/json',

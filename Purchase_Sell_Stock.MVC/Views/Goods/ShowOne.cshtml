@@ -66,7 +66,7 @@
             , $ = layui.$;
         //反填信息
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsById/'+@ViewBag.Id,
+            url: 'http://@ViewBag.Url/api/GetGoodsById/'+@ViewBag.Id,
             type: 'get',
             contentType: 'application/json',
             success: function (d) {

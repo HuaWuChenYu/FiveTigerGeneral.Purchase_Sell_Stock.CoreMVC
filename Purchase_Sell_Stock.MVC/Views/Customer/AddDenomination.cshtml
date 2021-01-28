@@ -67,7 +67,7 @@
             obj.PeriodValidity = data.field.periodValidity;
             console.log(obj);
             $.ajax({
-                url: 'http://localhost:49760/api/AddDenomination',
+                url: 'http://49.234.34.192:8022/api/AddDenomination',
                 type: 'post',
                 data: JSON.stringify(obj),
                 contentType: 'application/json',

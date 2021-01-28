@@ -47,7 +47,7 @@
         var data;
         //$("#setrow").attr("rowspan",11);
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetRoleTypes",
+            url: "http://192.168.252.151:8022/api/Setting/GetRoleTypes",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -56,7 +56,7 @@
         });
         //加载右边表
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=0&rolesId=1",
+            url: "http://192.168.252.151:8022/api/Setting/GetPowersBySet?powerParentId=0&rolesId=1",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -69,7 +69,7 @@
                     $("#setPower").append(str);
                     count = 0;
                     $.ajax({
-                        url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=" + this.powersId+"&rolesId=1",
+                        url: "http://192.168.252.151:8022/api/Setting/GetPowersBySet?powerParentId=" + this.powersId+"&rolesId=1",
                         contentType: "application/json",
                         async: false,
                         success: function (d2) {
@@ -81,7 +81,7 @@
                                     + '</tr>';
                                 $("#setPower").append(str2);
                                 $.ajax({
-                                    url: "http://localhost:49760/api/Setting/GetPowersBySet?powerParentId=" + this.powersId + "&rolesId=1",
+                                    url: "http://192.168.252.151:8022/api/Setting/GetPowersBySet?powerParentId=" + this.powersId + "&rolesId=1",
                                     contentType: "application/json",
                                     async: false,
                                     success: function (d3) {
@@ -107,7 +107,7 @@
             }
         });
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetPowersByShowId?roleId=2",
+            url: "http://192.168.252.151:8022/api/Setting/GetPowersByShowId?roleId=2",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -230,7 +230,7 @@
     //添加权限方法
     function AddPower(pid,rid) {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/AddPowersAndRoles?powerId=" + pid + "&roleId=" + rid,
+            url: "http://192.168.252.151:8022/api/Setting/AddPowersAndRoles?powerId=" + pid + "&roleId=" + rid,
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -246,7 +246,7 @@
     //删除权限方法
     function DeletePower(pid,rid) {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/DeletePowersAndRoles?powerId=" + pid + "&roleId=" + rid,
+            url: "http://192.168.252.151:8022/api/Setting/DeletePowersAndRoles?powerId=" + pid + "&roleId=" + rid,
             contentType: "application/json",
             async: false,
             success: function (d) {

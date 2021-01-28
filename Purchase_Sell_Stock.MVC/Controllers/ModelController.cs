@@ -10,6 +10,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class ModelController : Controller
     {
+        public static string httpPart = "49.234.34.192:8022";
         public IActionResult Model(int eid=1,int sid=1)
         {
             ViewBag.id = eid;

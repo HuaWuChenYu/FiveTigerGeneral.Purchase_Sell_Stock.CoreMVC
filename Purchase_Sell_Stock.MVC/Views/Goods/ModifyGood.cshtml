@@ -36,8 +36,9 @@
             <div class="layui-input-block" style="width:400px">
                 <select id="goodsclassify" name="goodsclassify">
                     <option value="">全部</option>
-                    <option value="成品">成品</option>
-                    <option value="原料">原料</option>
+                    <option value="食品">食品</option>
+                    <option value="生鲜">生鲜</option>
+                    <option value="日用品">日用品</option>
                 </select>
             </div>
         </div>
@@ -101,7 +102,7 @@
 
         //商品分类
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsTypeList/0' + '/' + " " + '/' + Number($("#storeId").val()),
+            url: 'http://@ViewBag.Url/api/GetGoodsTypeList/0' + '/' + " " + '/' + Number($("#storeId").val()),
             type: 'get',
             async: false,
             contentType: 'application/json',
@@ -117,7 +118,7 @@
         })
         //商品品牌
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsBrandList/' + $("#storeId").val()+'?brandId=0&brandName=',
+            url: 'http://@ViewBag.Url/api/GetGoodsBrandList/' + $("#storeId").val()+'?brandId=0&brandName=',
             type: 'get',
             async: false,
             contentType: 'application/json',
@@ -133,7 +134,7 @@
         })
         //商品单位
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsUnitList/'+Number($("#storeId").val()),
+            url: 'http://@ViewBag.Url/api/GetGoodsUnitList/'+Number($("#storeId").val()),
             type: 'get',
             async: false,
             contentType: 'application/json',
@@ -150,7 +151,7 @@
 
         //反填信息
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsById/'+@ViewBag.Id,
+            url: 'http://@ViewBag.Url/api/GetGoodsById/'+@ViewBag.Id,
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -236,7 +237,7 @@
                 return layer.msg("请填写完整信息");
             }
             $.ajax({
-                url: 'http://localhost:49760/api/ModifyGoods',
+                url: 'http://@ViewBag.Url/api/ModifyGoods',
                 type: 'post',
                 data: JSON.stringify(obj),
                 contentType: "application/json",

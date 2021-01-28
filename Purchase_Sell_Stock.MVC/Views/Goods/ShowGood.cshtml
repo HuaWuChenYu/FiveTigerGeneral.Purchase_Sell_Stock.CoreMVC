@@ -32,13 +32,15 @@
                 </select>
             </div>
         </div>
+        
         <div class="layui-form-item">
             <label class="layui-form-label">商品类型</label>
-            <div class="layui-input-block" style="width:200px">
-                <select id="classify" lay-filter="aihao" style="width:200px">
+            <div class="layui-input-block" style="width:400px">
+                <select id="classify" name="classify">
                     <option value="">全部</option>
-                    <option value="成品">成品</option>
-                    <option value="原料">原料</option>
+                    <option value="食品">食品</option>
+                    <option value="生鲜">生鲜</option>
+                    <option value="日用品">日用品</option>
                 </select>
             </div>
         </div>
@@ -99,7 +101,7 @@
 
         //商品分类
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsTypeList/0' + '/' + " " + '/' + Number( $("#storeId-Hid").val()),
+            url: 'http://@ViewBag.Url/api/GetGoodsTypeList/0' + '/' + " " + '/' + Number( $("#storeId-Hid").val()),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -116,7 +118,7 @@
         //表格加载
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/GetGoodsList/' + Number($("#storeId-Hid").val())
+            , url: 'http://@ViewBag.Url/api/GetGoodsList/' + Number($("#storeId-Hid").val())
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , title: '用户数据表'
             , cols: [[
@@ -183,7 +185,7 @@
                     });
                     break;
             };
-            
+
         });
 
         //监听行工具事件
@@ -195,7 +197,7 @@
                 layer.confirm('真的删除咩?~~~', function (index) {
                     layer.close(index);
                     $.ajax({
-                        url: 'http://localhost:49760/api/DeleteGoods/' + data.GoodsId,
+                        url: 'http://@ViewBag.Url/api/DeleteGoods/' + data.GoodsId,
                         type: 'post',
                         contentType: 'application/json',
                         success: function (d) {
@@ -238,7 +240,7 @@
             }
             else if (obj.event === 'up') {  //上下架
                 $.ajax({
-                    url: 'http://localhost:49760/api/ModifyState/' + data.GoodsId,
+                    url: 'http://@ViewBag.Url/api/ModifyState/' + data.GoodsId,
                     type: 'post',
                     contentType: 'application/json',
                     success: function (d) {

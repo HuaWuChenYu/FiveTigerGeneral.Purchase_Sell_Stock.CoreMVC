@@ -61,7 +61,7 @@
             var obj = {};
             obj.UserPhone = $("#usersphone").val();
             $.ajax({
-                url: 'http://localhost:49760/api/Logins',
+                url: 'http://@ViewBag.Url/api/Logins',
                 data: JSON.stringify(obj),
                 type: 'post',
                 contentType: 'application/json',
@@ -69,7 +69,7 @@
                     if (d > 0) {
                         //获取token令牌
                         $.ajax({
-                            url: 'http://localhost:49760/api/Login/GetToken',
+                            url: 'http://@ViewBag.Url/api/Login/GetToken',
                             type: 'post',
                             data: JSON.stringify({ UserPhone: $("#phone").val(), UserPassword: $("#pwd").val() }),
                             contentType: 'application/json',

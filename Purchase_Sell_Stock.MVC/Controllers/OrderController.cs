@@ -9,6 +9,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class OrderController : Controller
     {
+        public static string httpPart = "49.234.34.192:8022";
         public IActionResult ShowOrder()//显示订单
         {
             int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));

@@ -40,7 +40,7 @@
         //消息中心
         table.render({
             elem: '#testMess'
-            , url: 'http://localhost:49760/api/GetStoreMessage/' + $("#hid-StoreId").val()
+            , url: 'http://@ViewBag.Url/api/GetStoreMessage/' + $("#hid-StoreId").val()
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
                 { field: 'StoreMessageId', width:1 , title: '', sort: true, hide: true }

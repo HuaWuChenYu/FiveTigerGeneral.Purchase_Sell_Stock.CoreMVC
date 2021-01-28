@@ -10,16 +10,19 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class CustomerController : Controller
     {
+        public static string httpPart = "49.234.34.192:8022";
         /// <summary>
         /// 全部用户页面
         /// </summary>
         /// <returns></returns>
         public IActionResult Allusers()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         public IActionResult ShowGet()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
        /// <summary>
@@ -28,6 +31,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
        /// <returns></returns>
         public IActionResult GetLableIndex()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -36,10 +40,12 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult AddLable()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         public IActionResult Modify(int Id)
         {
+            ViewBag.Url = httpPart;
             ViewBag.id = Id;
             return View();
         }
@@ -49,6 +55,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult GetDenomination()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -57,6 +64,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult AddDenomination()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -65,6 +73,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult GetRechargeRecordIndex()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -73,6 +82,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult Getwallet()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
         /// <summary>
@@ -81,6 +91,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
         /// <returns></returns>
         public IActionResult GetWater()
         {
+            ViewBag.Url = httpPart;
             return View();
         }
     }

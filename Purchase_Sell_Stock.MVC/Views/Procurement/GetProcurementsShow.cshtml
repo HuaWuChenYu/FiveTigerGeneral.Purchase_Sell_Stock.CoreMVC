@@ -33,7 +33,7 @@
         //详见：https://www.layui.com/doc/modules/table.html#totalRow
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/GetProcurementsShow'
+            , url: 'http://192.168.252.151:8022/api/GetProcurementsShow'
             , toolbar: '#toolbarDemo'
             , title: '用户数据表'
             , totalRow: true
@@ -56,7 +56,7 @@
             //console.log(obj)
             if (obj.event === 'pass') {
                 $.ajax({
-                    url: 'http://localhost:49760/api/UptProviders/' + data.procurementId,
+                    url: 'http://192.168.252.151:8022/api/UptProviders/' + data.procurementId,
                     type: 'get',
                     contentType:'application/json',
                     success:

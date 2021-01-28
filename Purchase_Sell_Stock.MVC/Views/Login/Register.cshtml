@@ -50,7 +50,7 @@
             obj.UserPassword = data.field.pwd;
             console.log(obj);
             $.ajax({
-                url: 'http://localhost:49760/api/Register',
+                url: 'http://@ViewBag.Url/api/Register',
                 type: 'post',
                 data: JSON.stringify(obj),
                 contentType: 'application/json',

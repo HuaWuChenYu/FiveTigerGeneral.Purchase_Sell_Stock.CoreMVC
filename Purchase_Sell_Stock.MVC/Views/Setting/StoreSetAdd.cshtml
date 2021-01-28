@@ -159,7 +159,7 @@
         var storeid = 2;
         //反填
         //$.ajax({
-        //    url: "http://localhost:49760/api/Setting/IsHaveCompany?storeid=" + storeid,
+        //    url: "http://192.168.252.151:8022/api/Setting/IsHaveCompany?storeid=" + storeid,
         //    contentType: "application/json",
         //    success: function (d) {
         //        if (d.length > 0) {
@@ -267,7 +267,7 @@
             //    title: '最终的提交信息'
             //})
             $.ajax({
-                url: "http://localhost:49760/api/Setting/AddStoreSet",
+                url: "http://192.168.252.151:8022/api/Setting/AddStoreSet",
                 contentType: "application/json",
                 data: JSON.stringify(data.field),
                 type: "post",

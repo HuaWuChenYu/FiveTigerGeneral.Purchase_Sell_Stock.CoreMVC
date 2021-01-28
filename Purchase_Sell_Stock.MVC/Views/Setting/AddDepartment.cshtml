@@ -53,7 +53,7 @@
         var id = @ViewBag.adid;
         if (id>0) {
              $.ajax({
-            url: "http://localhost:49760/api/Setting/GetDepartmentById?id="+id,
+            url: "http://192.168.252.151:8022/api/Setting/GetDepartmentById?id="+id,
             contentType: "application/json",
             success: function (d) {
                 form.val('example', {
@@ -74,7 +74,7 @@
                 return;
             }
             $.ajax({
-                url: "http://localhost:49760/api/Setting/AddDepartment",
+                url: "http://192.168.252.151:8022/api/Setting/AddDepartment",
                 contentType: "application/json",
                 type: "post",
                 data: JSON.stringify(data.field),
@@ -96,7 +96,7 @@
     });
     function LoadDept() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetDepartmentByShow",
+            url: "http://192.168.252.151:8022/api/Setting/GetDepartmentByShow",
             contentType: "application/json",
             async: false,
             success: function (d) {

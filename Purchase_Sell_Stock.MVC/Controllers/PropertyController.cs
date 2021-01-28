@@ -17,6 +17,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class PropertyController : Controller
     {
+        public static string httpPart = "49.234.34.192:8022";
         public IActionResult Index()
         {
 
@@ -65,7 +66,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 
             IAopClient client = new DefaultAopClient("https://openapi.alipaydev.com/gateway.do", appId, pirvateKey, "json", "1.0", "RSA2", publicKey, "utf-8", false);
             System.Net.Http.HttpClient clients = new HttpClient();
-            clients.BaseAddress = new Uri("http://localhost:49760/");
+            clients.BaseAddress = new Uri($"http://{httpPart}/");
             clients.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             var responses = clients.GetAsync("api/AddBilling_detailsInfos?UserId=" + 1 + "&Account_Type=" + "店铺收益" + "&Account_Money=" + Money + "&InorOut=" + 1 + "&Order_type=" + "支付宝充值" + "&Order_NUm=" + OutTradeNo).Result;
             if (responses.IsSuccessStatusCode)  //判断请求返回的是否为200
@@ -84,7 +85,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
             AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
             // 设置同步回调地址
             // 支付成功之后要跳转的页面
-            request.SetReturnUrl(" http://localhost:57736/Property/Balance");
+            request.SetReturnUrl(" /Property/Balance");
 
             // 设置异步通知接收地址
             request.SetNotifyUrl("");

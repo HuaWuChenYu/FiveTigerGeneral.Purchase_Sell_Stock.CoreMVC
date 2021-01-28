@@ -240,7 +240,7 @@
                 location.href = '/Property/Billing';
                 break;
             case "Customer":
-                location.href = '/Customer/GetCustomerShow';
+                location.href = '/Customer/Allusers';
                 break;
             case "Store":
                 location.href = '/Setting/StoreInfo';
@@ -257,7 +257,7 @@
         //订单/仓储/采购切换
         table.render({
             elem: '#three'
-            , url: 'http://localhost:49760/api/ChangeOrder/' + $("#storeId-Hid").val()
+            , url: 'http://@ViewBag.Url/api/ChangeOrder/' + $("#storeId-Hid").val()
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
                 { field: '', width: 400, title: '', templet: '#show_Order' }
@@ -275,7 +275,7 @@
         $('#order').on('click', function () {
             table.render({
                 elem: '#three'
-                , url: 'http://localhost:49760/api/ChangeOrder/' + $("#storeId-Hid").val()
+                , url: 'http://@ViewBag.Url/api/ChangeOrder/' + $("#storeId-Hid").val()
                 , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 , cols: [[
                     { field: '', width: 400, title: '', templet: '#show_Order' }
@@ -294,7 +294,7 @@
         $('#storage').on('click', function () {
             table.render({
                 elem: '#three'
-                , url: 'http://localhost:49760/api/ChangeIncomingorder/' + $("#storeId-Hid").val()
+                , url: 'http://@ViewBag.Url/api/ChangeIncomingorder/' + $("#storeId-Hid").val()
                 , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 , cols: [[
                     { field: '', width: 400, title: '', templet: '#show_Incomingorder' }
@@ -313,7 +313,7 @@
         $('#buy').on('click', function () {
             table.render({
                 elem: '#three'
-                , url: 'http://localhost:49760/api/ChangeProcurement/' + $("#storeId-Hid").val()
+                , url: 'http://@ViewBag.Url/api/ChangeProcurement/' + $("#storeId-Hid").val()
                 , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 , cols: [[
                     { field: '', width: 400, title: '', templet: '#show_Procurement' }
@@ -348,7 +348,7 @@
         table.render({
             elem: '#testMessage'
             , toolbar: '#mess' //开启头部工具栏，并为其绑定左侧模板
-            , url: 'http://localhost:49760/api/GetStoreMessage/' + $("#storeId-Hid").val()
+            , url: 'http://@ViewBag.Url/api/GetStoreMessage/' + $("#storeId-Hid").val()
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
                 { field: 'StoreMessageId', width: 20, title: '', sort: true, hide: true }
@@ -361,7 +361,7 @@
         table.render({
             elem: '#testHelp'
             , toolbar: '#help' //开启头部工具栏，并为其绑定左侧模板
-            , url: 'http://localhost:49760/api/GetHelp/' + $("#storeId-Hid").val()
+            , url: 'http://@ViewBag.Url/api/GetHelp/' + $("#storeId-Hid").val()
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
                 { field: 'HelpsId', width: 20, title: '', sort: true, hide: true }
@@ -371,7 +371,7 @@
 
         //店铺信息
         $.ajax({
-            url: 'http://localhost:49760/api/GetStore/' + $("#storeId-Hid").val(),
+            url: 'http://@ViewBag.Url/api/GetStore/' + $("#storeId-Hid").val(),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -400,7 +400,7 @@
 
         //初次加载30天内新增订单数
         $.ajax({
-            url: 'http://localhost:49760/api/NewOrders/' + $("#storeId-Hid").val() + '/30',
+            url: 'http://@ViewBag.Url/api/NewOrders/' + $("#storeId-Hid").val() + '/30',
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -410,7 +410,7 @@
 
         //初次加载30天内支付金额
         $.ajax({
-            url: 'http://localhost:49760/api/orderMoney/' + $("#storeId-Hid").val() + '/30',
+            url: 'http://@ViewBag.Url/api/orderMoney/' + $("#storeId-Hid").val() + '/30',
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -420,7 +420,7 @@
 
         //初次加载30天内下单客户数
         $.ajax({
-            url: 'http://localhost:49760/api/orderUser/' + $("#storeId-Hid").val() + '/30',
+            url: 'http://@ViewBag.Url/api/orderUser/' + $("#storeId-Hid").val() + '/30',
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -430,7 +430,7 @@
 
         //初次加载30天内新增用户数
         $.ajax({
-            url: 'http://localhost:49760/api/newUser/' + $("#storeId-Hid").val() + '/30',
+            url: 'http://@ViewBag.Url/api/newUser/' + $("#storeId-Hid").val() + '/30',
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -440,7 +440,7 @@
 
         //初次加载30天内老用户活跃数
         $.ajax({
-            url: 'http://localhost:49760/api/activeUser/' + $("#storeId-Hid").val() + '/30',
+            url: 'http://@ViewBag.Url/api/activeUser/' + $("#storeId-Hid").val() + '/30',
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -453,7 +453,7 @@
             elem: '#goodsSum'
             , toolbar: '#gSum' //开启头部工具栏，并为其绑定左侧模板
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            , url: 'http://localhost:49760/api/SellSum/' + $("#storeId-Hid").val()
+            , url: 'http://@ViewBag.Url/api/SellSum/' + $("#storeId-Hid").val()
             , cols: [[
                 { field: 'Num', width: 60, title: '排行' }
                 , { field: 'GoodsName', width: 300, title: '商品' }
@@ -465,7 +465,7 @@
     function newAdd(d) {//normal
         if (d == "今日") {
             $.ajax({    //加粗/新增订单数
-                url: 'http://localhost:49760/api/NewOrders/' + $("#storeId-Hid").val() + '/1',
+                url: 'http://@ViewBag.Url/api/NewOrders/' + $("#storeId-Hid").val() + '/1',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -476,7 +476,7 @@
                 }
             })
             $.ajax({//金额
-                url: 'http://localhost:49760/api/orderMoney/' + $("#storeId-Hid").val() + '/1',
+                url: 'http://@ViewBag.Url/api/orderMoney/' + $("#storeId-Hid").val() + '/1',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -484,7 +484,7 @@
                 }
             })
             $.ajax({//下单客户数
-                url: 'http://localhost:49760/api/orderUser/' + $("#storeId-Hid").val() + '/1',
+                url: 'http://@ViewBag.Url/api/orderUser/' + $("#storeId-Hid").val() + '/1',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -492,7 +492,7 @@
                 }
             })
             $.ajax({//新增用户数
-                url: 'http://localhost:49760/api/newUser/' + $("#storeId-Hid").val() + '/1',
+                url: 'http://@ViewBag.Url/api/newUser/' + $("#storeId-Hid").val() + '/1',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -500,7 +500,7 @@
                 }
             })
             $.ajax({//老用户活跃数
-                url: 'http://localhost:49760/api/activeUser/' + $("#storeId-Hid").val() + '/1',
+                url: 'http://@ViewBag.Url/api/activeUser/' + $("#storeId-Hid").val() + '/1',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -513,7 +513,7 @@
 
         if (d == "本周") {
             $.ajax({//加粗
-                url: 'http://localhost:49760/api/NewOrders/' + $("#storeId-Hid").val() + '/7',
+                url: 'http://@ViewBag.Url/api/NewOrders/' + $("#storeId-Hid").val() + '/7',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -524,7 +524,7 @@
                 }
             })
             $.ajax({//金额
-                url: 'http://localhost:49760/api/orderMoney/' + $("#storeId-Hid").val() + '/7',
+                url: 'http://@ViewBag.Url/api/orderMoney/' + $("#storeId-Hid").val() + '/7',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -532,7 +532,7 @@
                 }
             })
             $.ajax({//下单客户数
-                url: 'http://localhost:49760/api/orderUser/' + $("#storeId-Hid").val() + '/7',
+                url: 'http://@ViewBag.Url/api/orderUser/' + $("#storeId-Hid").val() + '/7',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -540,7 +540,7 @@
                 }
             })
             $.ajax({//新增用户数
-                url: 'http://localhost:49760/api/newUser/' + $("#storeId-Hid").val() + '/7',
+                url: 'http://@ViewBag.Url/api/newUser/' + $("#storeId-Hid").val() + '/7',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -548,7 +548,7 @@
                 }
             })
             $.ajax({//老用户活跃数
-                url: 'http://localhost:49760/api/activeUser/' + $("#storeId-Hid").val() + '/7',
+                url: 'http://@ViewBag.Url/api/activeUser/' + $("#storeId-Hid").val() + '/7',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -561,7 +561,7 @@
 
         if (d == "本月") {
             $.ajax({//加粗
-                url: 'http://localhost:49760/api/NewOrders/' + $("#storeId-Hid").val() + '/30',
+                url: 'http://@ViewBag.Url/api/NewOrders/' + $("#storeId-Hid").val() + '/30',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -572,7 +572,7 @@
                 }
             })
             $.ajax({//金额
-                url: 'http://localhost:49760/api/orderMoney/' + $("#storeId-Hid").val() + '/30',
+                url: 'http://@ViewBag.Url/api/orderMoney/' + $("#storeId-Hid").val() + '/30',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -580,7 +580,7 @@
                 }
             })
             $.ajax({//下单客户数
-                url: 'http://localhost:49760/api/orderUser/' + $("#storeId-Hid").val() + '/30',
+                url: 'http://@ViewBag.Url/api/orderUser/' + $("#storeId-Hid").val() + '/30',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -588,7 +588,7 @@
                 }
             })
             $.ajax({//新增用户数
-                url: 'http://localhost:49760/api/newUser/' + $("#storeId-Hid").val() + '/30',
+                url: 'http://@ViewBag.Url/api/newUser/' + $("#storeId-Hid").val() + '/30',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -596,7 +596,7 @@
                 }
             })
             $.ajax({//老用户活跃数
-                url: 'http://localhost:49760/api/activeUser/' + $("#storeId-Hid").val() + '/30',
+                url: 'http://@ViewBag.Url/api/activeUser/' + $("#storeId-Hid").val() + '/30',
                 type: 'get',
                 contentType: 'application/json',
                 success: function (d) {
@@ -612,7 +612,7 @@
     var myChart = echarts.init(chartDom);
     var option;
     $.ajax({
-        url: 'http://localhost:49760/api/Cake/' + $("#storeId-Hid").val(),
+        url: 'http://@ViewBag.Url/api/Cake/' + $("#storeId-Hid").val(),
         type: 'get',
         contentType: 'application/json',
         success: function (d) {

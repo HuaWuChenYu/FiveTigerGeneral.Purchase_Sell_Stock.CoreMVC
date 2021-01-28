@@ -375,7 +375,7 @@
         sale();
         function sale(begin, end)
         {
-            $.post('http://localhost:49760/api/tim', { beginDate: begin, endDate: end }, function (date) {
+            $.post('http://192.168.252.151:8022/api/tim', { beginDate: begin, endDate: end }, function (date) {
                 console.log(date);
                 option.xAxis[0].data = date.arrtime;
                 option.series[0].data = date.list;
@@ -390,7 +390,7 @@
         table.render({
             
             elem: '#test'
-            , url: 'http://localhost:49760/api/ShowBilling_details'
+            , url: 'http://192.168.252.151:8022/api/ShowBilling_details'
             , width:1300
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[

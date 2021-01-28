@@ -61,7 +61,7 @@
         var $ = layui.$;
         //仓库类型
         $.ajax({
-            url: 'http://localhost:49760/api/GetWarehouseTypesShow',
+            url: 'http://192.168.252.151:8022/api/GetWarehouseTypesShow',
             type: 'get',
             contentType: 'application/json',
             success:
@@ -76,7 +76,7 @@
                 }
         })
         $.ajax({
-            url: 'http://localhost:49760/api/BackfillWarehouse/' +@ViewBag.warehouseId,
+            url: 'http://192.168.252.151:8022/api/BackfillWarehouse/' +@ViewBag.warehouseId,
             type: 'get',
             contentType: 'application/json',
             success:
@@ -102,7 +102,7 @@
             model.warehouselocation= $("#Warehouselocation").val();
             model.warehouseRemark= $("#WarehouseRemark").val();
             $.ajax({
-                url:'http://localhost:49760/api/ModifyWarehouse',
+                url:'http://192.168.252.151:8022/api/ModifyWarehouse',
                 type: 'post',
                 data: JSON.stringify(model),
                 contentType:'application/json',

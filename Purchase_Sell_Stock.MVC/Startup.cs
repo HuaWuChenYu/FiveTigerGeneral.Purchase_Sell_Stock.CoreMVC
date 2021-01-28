@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Purchase_Sell_Stock.MVC.Controllers;
 
 namespace Purchase_Sell_Stock.MVC
 {
@@ -33,6 +34,16 @@ namespace Purchase_Sell_Stock.MVC
                 .AllowAnyOrigin(); //允许任何来源的主机访问
                 });
             });
+            CustomerController.httpPart = Configuration["ConnectionStrings:httpPart"];
+            FirstController.httpPart = Configuration["ConnectionStrings:httpPart"];
+            GoodsController.httpPart = Configuration["ConnectionStrings:httpPart"];
+            HomeController.httpPart = Configuration["ConnectionStrings:httpPart"];
+            LoginController.httpPart = Configuration["ConnectionStrings:httpPart"];
+            ModelController.httpPart = Configuration["ConnectionStrings:httpPart"];
+            OrderController.httpPart = Configuration["ConnectionStrings:httpPart"];
+            ProcurementController.httpPart = Configuration["ConnectionStrings:httpPart"];
+            SettingController.httpPart = Configuration["ConnectionStrings:httpPart"];
+            StroageController.httpPart = Configuration["ConnectionStrings:httpPart"];
             services.AddControllersWithViews();
         }
 

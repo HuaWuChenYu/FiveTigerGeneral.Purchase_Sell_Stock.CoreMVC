@@ -56,7 +56,7 @@
             obj.UserPasswork = data.field.pwd;
             console.log(obj);
             $.ajax({
-                url: 'http://localhost:49760/api/Forgers',
+                url: 'http://@ViewBag.Url/api/Forgers',
                 type: 'post',
                 data: JSON.stringify({ UserPhone: $("#phone").val(), UserPassword: $("#pwd").val() }),
                 contentType: 'application/json',

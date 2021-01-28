@@ -51,7 +51,7 @@
 
         LoadDept();
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetDepartmentById?id="+@ViewBag.did,
+            url: "http://192.168.252.151:8022/api/Setting/GetDepartmentById?id="+@ViewBag.did,
             contentType: "application/json",
             success: function (d) {
                 form.val('example', {
@@ -67,7 +67,7 @@
             data.field.departmentId = @ViewBag.did;
             data.field.departmentParentId = Number(data.field.departmentParentId);
             $.ajax({
-                url: "http://localhost:49760/api/Setting/UpdateDepartment",
+                url: "http://192.168.252.151:8022/api/Setting/UpdateDepartment",
                 contentType: "application/json",
                 type: "post",
                 data: JSON.stringify(data.field),
@@ -89,7 +89,7 @@
     });
     function LoadDept() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetDepartmentByShow",
+            url: "http://192.168.252.151:8022/api/Setting/GetDepartmentByShow",
             contentType: "application/json",
             async: false,
             success: function (d) {

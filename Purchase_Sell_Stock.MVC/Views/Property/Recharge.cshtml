@@ -57,13 +57,13 @@
         var $ = layui.$;
         //监听提交
         form.on('submit(formDemo)', function (data) {
-            $.post('/Property/alipay', { Money: data.field.RMB }, function (date) {
+            $.post('http://localhost:57736/Property/alipay', { Money: data.field.RMB }, function (date) {
                 $('body').append(date);
             });
             return false;
         });
 
-        $.post('http://localhost:49760/api/Reset', { UserId: 1 }, function (date) {
+        $.post('http://192.168.252.151:8022/api/Reset', { UserId: 1 }, function (date) {
             var str = JSON.parse(date)
 
             $("#StoreCode").text(str[0].StoreCoding);

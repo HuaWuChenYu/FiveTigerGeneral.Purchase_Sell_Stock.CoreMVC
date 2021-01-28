@@ -52,13 +52,8 @@
         var $ = layui.$;
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/GetGoodsBrandListShow/' + $("#storeId").val()
+            , url: 'http://@ViewBag.Url/api/GetGoodsBrandListShow/' + $("#storeId").val()
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-            , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
-                title: '提示'
-                , layEvent: 'LAYTABLE_TIPS'
-                , icon: 'layui-icon-tips'
-            }]
             , title: '用户数据表'
             , cols: [[
                 { type: 'checkbox', fixed: 'left' }
@@ -78,10 +73,8 @@
             }
             //执行重载
             table.reload('testReload', {
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                }
-                , where: {
+                
+                where: {
                     brandName: $("#brandName").val(),
                     brandId: id == "" ? 0 : $("#id").val()
                 }
@@ -123,7 +116,7 @@
                 layer.confirm('真的删除行么', function (index) {
                     layer.close(index);
                     $.ajax({
-                        url: 'http://localhost:49760/api/DelBrand?brandId=' + data.GoodsBrandId,
+                        url: 'http://@ViewBag.Url/api/DelBrand?brandId=' + data.GoodsBrandId,
                         type: 'get',
                         contentType: 'application/json',
                         success: function (d) {
@@ -131,9 +124,7 @@
                                 alert("删除成功");
                                 //执行重载
                                 table.reload('testReload', {
-                                    page: {
-                                        curr: 1 //重新从第 1 页开始
-                                    }
+                                    
                                 }, 'data');
                             }
                             else {

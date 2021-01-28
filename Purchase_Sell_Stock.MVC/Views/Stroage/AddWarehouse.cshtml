@@ -61,7 +61,7 @@
 
         var $ = layui.$;
         $.ajax({
-            url: 'http://localhost:49760/api/GetWarehouseTypesShow',
+            url: 'http://192.168.252.151:8022/api/GetWarehouseTypesShow',
             type: 'get',
             contentType: 'application/json',
             success:
@@ -87,7 +87,7 @@
             model.warehouseRemark = $("#WarehouseRemark").val();
 
             $.ajax({
-                url: 'http://localhost:49760/api/AddWarehouses',
+                url: 'http://192.168.252.151:8022/api/AddWarehouses',
                 data: JSON.stringify(model),
                 type: 'post',
                 contentType: 'application/json',

@@ -46,7 +46,7 @@
             obj.LableExplain = data.field.lableExplain;
             console.log(obj);
             $.ajax({
-                url: 'http://localhost:49760/api/GetLable',
+                url: 'http://@ViewBag.Url/api/GetLable',
                 type: 'post',
                 data: JSON.stringify(obj),
                 contentType:'application/json',

@@ -14,48 +14,57 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class GoodsController : Controller
     {
+        public static string httpPart= "49.234.34.192:8022";
         #region 商品模块页面
         public IActionResult ShowGood()//商品页面
         {
+            ViewBag.Url = httpPart;
             int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
             ViewBag.StoreId = StoreId;
             return View();
         }
         public IActionResult AddGood(int storeId)//添加商品页面
         {
+            ViewBag.Url = httpPart;
             ViewBag.StoreId = storeId;
             return View();
         }
         public IActionResult ModifyGood(int id,int storeId)//编辑商品页面
         {
+            ViewBag.Url = httpPart;
             ViewBag.StoreId = storeId;
             ViewBag.Id = id;
             return View();
         }
         public IActionResult ShowOne(int id)//明细页面
         {
+            ViewBag.Url = httpPart;
             ViewBag.Id = id;
             return View();
         }
         public IActionResult Brand()//商品品牌页面
         {
+            ViewBag.Url = httpPart;
             int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
             ViewBag.storeId = StoreId;
             return View();
         }
         public IActionResult AddBrand(int storeId)//添加品牌页面
         {
+            ViewBag.Url = httpPart;
             ViewBag.storeId = storeId;
             return View();
         }
         public IActionResult Unit()//单位页面
         {
+            ViewBag.Url = httpPart;
             int StoreId = Convert.ToInt32(HttpContext.Session.GetInt32("storeId"));
             ViewBag.storeId = StoreId;
             return View();
         }
         public IActionResult AddUnit(int storeId)//添加单位页面
         {
+            ViewBag.Url = httpPart;
             ViewBag.storeId = storeId;
             return View();
         }

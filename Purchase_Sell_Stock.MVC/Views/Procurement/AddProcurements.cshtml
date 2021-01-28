@@ -60,7 +60,7 @@
         //详见：https://www.layui.com/doc/modules/table.html#totalRow
         table.render({
             elem: '#test'
-            , url: 'http://localhost:49760/api/GetGoodsbuyersShow/' + gooid,
+            , url: 'http://192.168.252.151:8022/api/GetGoodsbuyersShow/' + gooid,
             toolbar: '#toolbarDemo'
             , title: '用户数据表'
             , totalRow: true
@@ -83,7 +83,7 @@
         })
         //供应商
         $.ajax({
-            url: 'http://localhost:49760/api/GetProvidersShow',
+            url: 'http://192.168.252.151:8022/api/GetProvidersShow',
             type: 'get',
             contentType: 'application/json',
             success:
@@ -99,7 +99,7 @@
         })
         //采购方
         $.ajax({
-            url: 'http://localhost:49760/api/WarehousesShow',
+            url: 'http://192.168.252.151:8022/api/WarehousesShow',
             type: 'get',
             contentType: 'application/json',
             success:
@@ -132,7 +132,7 @@
             model.procurementGoodsNumed = arr2.toString();
 
             $.ajax({
-                url: 'http://localhost:49760/api/AddProcurements',
+                url: 'http://192.168.252.151:8022/api/AddProcurements',
                 data: JSON.stringify(model),
                 type: 'post',
                 contentType: 'application/json',

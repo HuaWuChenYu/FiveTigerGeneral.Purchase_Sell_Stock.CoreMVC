@@ -142,7 +142,7 @@
 
         //加载信息
         $.ajax({
-            url: 'http://localhost:49760/api/GetCancelOneById/' + $("#orderId").val(),
+            url: 'http://192.168.252.151:8022/api/GetCancelOneById/' + $("#orderId").val(),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -195,7 +195,7 @@
         //同意退款
         $('#yes').on('click', function () {
             $.ajax({
-                url: 'http://localhost:49760/api/ModifyCancelState/' + $("#orderId").val(),
+                url: 'http://192.168.252.151:8022/api/ModifyCancelState/' + $("#orderId").val(),
                 type: 'post',
                 contentType: 'application/json',
                 success: function (d) {
@@ -215,7 +215,7 @@
         //拒绝退款
         $('#no').on('click', function () {
             $.ajax({
-                url: 'http://localhost:49760/api/ModifyCancelState/' + $("#orderId").val(),
+                url: 'http://192.168.252.151:8022/api/ModifyCancelState/' + $("#orderId").val(),
                 type: 'post',
                 contentType: 'application/json',
                 success: function (d) {

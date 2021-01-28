@@ -11,6 +11,7 @@ namespace Purchase_Sell_Stock.MVC.Controllers
 {
     public class HomeController : Controller
     {
+        public static string httpPart = "49.234.34.192:8022";
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)

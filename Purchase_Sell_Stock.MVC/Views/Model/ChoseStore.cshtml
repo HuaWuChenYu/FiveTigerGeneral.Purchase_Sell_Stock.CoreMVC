@@ -116,7 +116,7 @@
         var $ = layui.$;
         var eid = 0;
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetStoresFromLogin?userPhone=" + @ViewBag.phone,
+            url: "http://192.168.252.151:8022/api/Setting/GetStoresFromLogin?userPhone=" + @ViewBag.phone,
             contentType: "application/json",
             //headers: { 'Authorization': "Bearer " + getCookie("token") },
             success: function (d) {

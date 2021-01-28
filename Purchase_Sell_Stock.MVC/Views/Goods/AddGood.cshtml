@@ -35,8 +35,9 @@
             <div class="layui-input-block" style="width:400px">
                 <select id="goodsclassify" name="goodsclassify">
                     <option value="">全部</option>
-                    <option value="成品">成品</option>
-                    <option value="原料">原料</option>
+                    <option value="食品">食品</option>
+                    <option value="生鲜">生鲜</option>
+                    <option value="日用品">日用品</option>
                 </select>
             </div>
         </div>
@@ -103,7 +104,7 @@
 
         //商品分类
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsTypeList/0' + '/' + " " + '/' + Number($("#storeId").val()),
+            url: 'http://@ViewBag.Url/api/GetGoodsTypeList/0' + '/' + " " + '/' + Number($("#storeId").val()),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -118,7 +119,7 @@
         })
         //商品品牌
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsBrandList/'+ Number( $("#storeId").val()),
+            url: 'http://@ViewBag.Url/api/GetGoodsBrandList/'+ Number( $("#storeId").val()),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -133,7 +134,7 @@
         })
         //商品单位
         $.ajax({
-            url: 'http://localhost:49760/api/GetGoodsUnitList/'+ Number($("#storeId").val()),
+            url: 'http://@ViewBag.Url/api/GetGoodsUnitList/'+ Number($("#storeId").val()),
             type: 'get',
             contentType: 'application/json',
             success: function (d) {
@@ -195,7 +196,7 @@
                 return layer.msg("请填写完整信息");
             }
             $.ajax({
-                url: 'http://localhost:49760/api/AddGoods',
+                url: 'http://@ViewBag.Url/api/AddGoods',
                 type: 'post',
                 data: JSON.stringify(obj),
                 contentType: "application/json",

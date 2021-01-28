@@ -105,7 +105,7 @@
             }
 
             $.ajax({
-                url: "http://localhost:49760/api/Setting/AddEmployee",
+                url: "http://192.168.252.151:8022/api/Setting/AddEmployee",
                 contentType: "application/json",
                 type: "post",
                 data: JSON.stringify(data.field),
@@ -127,7 +127,7 @@
     });
     function LoadDept() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetDepartments",
+            url: "http://192.168.252.151:8022/api/Setting/GetDepartments",
             contentType: "application/json",
             async: false,
             success: function (d) {
@@ -141,7 +141,7 @@
     }
     function LoadRole() {
         $.ajax({
-            url: "http://localhost:49760/api/Setting/GetRolesForSelect",
+            url: "http://192.168.252.151:8022/api/Setting/GetRolesForSelect",
             contentType: "application/json",
             async: false,
             success: function (d) {
